@@ -36,6 +36,7 @@ BDD:
 	- Event(id,journal_id)
 	- Monthly_Task (id,journal_id)
 	- Daily_Task (id,journal_id)
+	- Categorie(id,account_id)
 	- Budget(id,account_id)
 	- WishList(id,account_id)
 	- Wishes(id,account_id)
