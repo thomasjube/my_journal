@@ -1,0 +1,43 @@
+my-journal : 
+	
+	Appli:
+	- login
+	- vue quotidienne, mensuelle, annuelle
+	- dashboard
+	
+	
+	Perso et pro: (2 onglets)
+	- tâches mensuelles (ce que j'ai à faire ce mois ci) --> 3 states : à faire , fait, reporté 
+	- événements
+	- agenda quotidien (ce qu'il s'est passé aujourd'hui par catégorie (ménage,sport,lecture,jeux,dessin,travail))
+	- on peut rajouter des catégories spécialisé par utilisateur
+	
+	Budget:
+	- mensuel défini au début, puis décompté en relation avec les trucs qui se sont passés le jour 
+	
+	Routine:
+	- tâches quotidiennes récurrentes à effectuer tous les X jours
+	
+	- objectifs (lire une liste de livre, ...)
+	- wish list (liste de livre à acheter, de pops, de jeux, ...)
+	
+	
+	
+	
+	
+	
+	
+	
+	
+BDD:
+
+	- Account (id,email,password(md5))
+	- Journal (id,account_id)
+	- Event(id,journal_id)
+	- Monthly_Task (id,journal_id)
+	- Daily_Task (id,journal_id)
+	- Budget(id,account_id)
+	- WishList(id,account_id)
+	- Wishes(id,account_id)
+	- Objective(id,account_id)
+	
