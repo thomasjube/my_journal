@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 import com.tjube.model.Account;
-import com.tjube.model.DuplicatingAccountEmailException;
+import com.tjube.model.exceptions.DuplicatingAccountEmailException;
 
 public interface AccountService
 {

@@ -1,4 +1,4 @@
-package com.tjube.model;
+package com.tjube.model.exceptions;
 
 public class DuplicatingAccountEmailException
 	extends Exception

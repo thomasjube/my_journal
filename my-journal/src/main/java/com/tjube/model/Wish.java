@@ -1,6 +1,6 @@
 package com.tjube.model;
 
-public class Wishes
+public class Wish
 {
 
 }

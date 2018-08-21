@@ -18,7 +18,7 @@ import com.tjube.controller.security.SecurityContext;
 import com.tjube.controller.utils.LoginUtils;
 import com.tjube.controller.utils.ModelUtils;
 import com.tjube.model.Account;
-import com.tjube.model.DuplicatingAccountEmailException;
+import com.tjube.model.exceptions.DuplicatingAccountEmailException;
 import com.tjube.service.AccountService;
 
 @Controller

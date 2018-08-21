@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tjube.dao.AccountDao;
 import com.tjube.model.Account;
-import com.tjube.model.DuplicatingAccountEmailException;
+import com.tjube.model.exceptions.DuplicatingAccountEmailException;
 
 @Service
 @Transactional
