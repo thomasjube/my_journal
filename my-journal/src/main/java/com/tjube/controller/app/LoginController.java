@@ -15,6 +15,7 @@ import com.tjube.controller.app.form.LoginForm;
 import com.tjube.controller.security.SecurityContext;
 import com.tjube.controller.security.SessionAttributes;
 import com.tjube.controller.utils.LoginUtils;
+import com.tjube.controller.utils.ModelUtils;
 import com.tjube.model.Account;
 import com.tjube.service.AccountService;
 
@@ -22,10 +23,6 @@ import com.tjube.service.AccountService;
 @RequestMapping(value = { "/login" })
 public class LoginController
 {
-	private static final String REDIRECT_HOME = "redirect:/home";
-	private static final String REDIRECT_LOGIN = "redirect:/login";
-	private static final String MODEL_LOGIN = "login";
-
 	@Autowired
 	AccountService accountService = null;
 
@@ -34,12 +31,12 @@ public class LoginController
 	@RequestMapping(value = { "" }, method = { RequestMethod.GET })
 	public ModelAndView journlaLoginGet(HttpServletRequest request, ModelAndView model)
 	{
-		model.setViewName(REDIRECT_HOME);
+		model.setViewName(ModelUtils.REDIRECT_HOME);
 		String result = LoginUtils.login();
 		if (result == null)
 			return model;
 
-		model.setViewName(MODEL_LOGIN);
+		model.setViewName(ModelUtils.MODEL_LOGIN);
 		model.addObject("loginForm", new LoginForm());
 		return model;
 	}
@@ -50,21 +47,21 @@ public class LoginController
 	public ModelAndView journalLoginPost(HttpServletRequest request, ModelAndView model,
 			@Valid @ModelAttribute("loginForm") LoginForm form, BindingResult validationResult)
 	{
-		model.setViewName(REDIRECT_HOME);
+		model.setViewName(ModelUtils.REDIRECT_HOME);
 		String result = LoginUtils.login();
 		if (result == null)
 			return model;
 
 		if (validationResult.hasErrors())
 		{
-			model.setViewName(MODEL_LOGIN);
+			model.setViewName(ModelUtils.MODEL_LOGIN);
 			return model;
 		}
 
 		Account account = accountService.retrieveAccount(form.getEmail(), form.getPassword());
 		if (account == null)
 		{
-			model.setViewName(MODEL_LOGIN);
+			model.setViewName(ModelUtils.MODEL_LOGIN);
 			model.addObject("accountNotFound", true);
 			return model;
 		}
@@ -80,7 +77,7 @@ public class LoginController
 	@RequestMapping(value = { "/logout" }, method = { RequestMethod.GET })
 	public ModelAndView journlaLoginLogoutGet(HttpServletRequest request, ModelAndView model)
 	{
-		model.setViewName(REDIRECT_LOGIN);
+		model.setViewName(ModelUtils.REDIRECT_LOGIN);
 		String result = LoginUtils.login();
 		if (result != null)
 			return model;

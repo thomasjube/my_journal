@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tjube.controller.app.form.AccountCreationForm;
 import com.tjube.controller.security.SecurityContext;
 import com.tjube.controller.utils.LoginUtils;
+import com.tjube.controller.utils.ModelUtils;
 import com.tjube.model.Account;
 import com.tjube.model.DuplicatingAccountEmailException;
 import com.tjube.service.AccountService;
@@ -24,10 +25,6 @@ import com.tjube.service.AccountService;
 @RequestMapping(value = { "/account" })
 public class AccountController
 {
-	private static final String REDIRECT_HOME = "redirect:/home";
-	private static final String MODEL_LOGIN = "login";
-	private static final String MODEL_CREATION = "account/creation";
-
 	@Autowired
 	AccountService accountService = null;
 
@@ -36,12 +33,12 @@ public class AccountController
 	@RequestMapping(value = { "", "/" }, method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView journalAccountBase(HttpServletRequest request, ModelAndView model)
 	{
-		model.setViewName(REDIRECT_HOME);
+		model.setViewName(ModelUtils.REDIRECT_HOME);
 		String result = LoginUtils.login();
 		if (result == null)
 			return model;
 
-		model.setViewName(MODEL_LOGIN);
+		model.setViewName(ModelUtils.MODEL_LOGIN);
 		return model;
 	}
 
@@ -50,12 +47,12 @@ public class AccountController
 	@RequestMapping(value = { "/creation" }, method = { RequestMethod.GET })
 	public ModelAndView journalAccountCreationGet(HttpServletRequest request, ModelAndView model)
 	{
-		model.setViewName(REDIRECT_HOME);
+		model.setViewName(ModelUtils.REDIRECT_HOME);
 		String result = LoginUtils.login();
 		if (result == null)
 			return model;
 
-		model.setViewName(MODEL_CREATION);
+		model.setViewName(ModelUtils.MODEL_CREATION);
 		model.addObject("creationForm", new AccountCreationForm());
 
 		return model;
@@ -67,14 +64,14 @@ public class AccountController
 	public ModelAndView journalAccountPost(HttpServletRequest request, ModelAndView model,
 			@Valid @ModelAttribute("creationForm") AccountCreationForm form, BindingResult validationResult)
 	{
-		model.setViewName(REDIRECT_HOME);
+		model.setViewName(ModelUtils.REDIRECT_HOME);
 		String result = LoginUtils.login();
 		if (result == null)
 			return model;
 
 		if (validationResult.hasErrors())
 		{
-			model.setViewName(MODEL_CREATION);
+			model.setViewName(ModelUtils.MODEL_CREATION);
 			return model;
 		}
 
@@ -87,7 +84,7 @@ public class AccountController
 		}
 		catch (DuplicatingAccountEmailException e)
 		{
-			model.setViewName(MODEL_CREATION);
+			model.setViewName(ModelUtils.MODEL_CREATION);
 			model.addObject("accountEmailAlreadyExist", true);
 			return model;
 		}

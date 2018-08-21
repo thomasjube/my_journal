@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tjube.controller.utils.LoginUtils;
+import com.tjube.controller.utils.ModelUtils;
 
 @Controller
 @RequestMapping("/")
@@ -20,14 +21,14 @@ public class HomeController
 {
 	//---------------------------------------------------------------------------------------------------------------------
 
-	@RequestMapping(value = { "" }, method = { RequestMethod.GET })
+	@RequestMapping(value = { "", "/" }, method = { RequestMethod.GET })
 	public String journalIndex()
 	{
 		String result = LoginUtils.login();
 		if (result != null)
 			return result;
 
-		return "redirect:/home";
+		return ModelUtils.REDIRECT_HOME;
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -35,12 +36,12 @@ public class HomeController
 	@RequestMapping(value = "home", method = { RequestMethod.GET })
 	public ModelAndView journalHome(ModelAndView model)
 	{
-		model.setViewName("redirect:/login");
+		model.setViewName(ModelUtils.REDIRECT_LOGIN);
 		String result = LoginUtils.login();
 		if (result != null)
 			return model;
 
-		model.setViewName("home");
+		model.setViewName(ModelUtils.MODEL_HOME);
 		return model;
 	}
 

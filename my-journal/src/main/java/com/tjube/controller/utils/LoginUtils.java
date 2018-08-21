@@ -14,11 +14,11 @@ public class LoginUtils
 	{
 		SecurityContext context = SecurityContext.getInstance();
 		if (context == null)
-			return "redirect:/login";
+			return ModelUtils.REDIRECT_LOGIN;
 
 		Account acc = SecurityContext.getInstance().getCurrentUser();
 		if (acc == null)
-			return "redirect:/login";
+			return ModelUtils.REDIRECT_LOGIN;
 
 		return null;
 	}
