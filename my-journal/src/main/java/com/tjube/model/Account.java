@@ -18,6 +18,8 @@ import com.tjube.controller.utils.LoginUtils;
 @NamedQueries({
 		@NamedQuery(name = Account.QN.RETRIEVE_ACCOUNT_WITH_UUID,
 				query = "SELECT account from Account account where account.uuid=:uuid"),
+		@NamedQuery(name = Account.QN.RETRIEVE_ACCOUNT_WITH_EMAIL,
+				query = "SELECT account from Account account where account.email=:email AND account.valid is TRUE"),
 		@NamedQuery(name = Account.QN.RETRIEVE_ACCOUNT_WITH_EMAIL_AND_PASSWORD,
 				query = "SELECT account from Account account where account.email=:email and account.password=:password and account.valid is TRUE") })
 @Entity
@@ -35,8 +37,9 @@ public class Account
 
 	public static class QN
 	{
-		public static final String RETRIEVE_ACCOUNT_WITH_UUID = "Game.retrieveAccountWithUuid";
-		public static final String RETRIEVE_ACCOUNT_WITH_EMAIL_AND_PASSWORD = "Game.retrieveAccountWithEmailAndPassword";
+		public static final String RETRIEVE_ACCOUNT_WITH_UUID = "Account.retrieveAccountWithUuid";
+		public static final String RETRIEVE_ACCOUNT_WITH_EMAIL = "Account.retrieveAccountWithEmail";
+		public static final String RETRIEVE_ACCOUNT_WITH_EMAIL_AND_PASSWORD = "Account.retrieveAccountWithEmailAndPassword";
 
 		private QN()
 		{
@@ -48,28 +51,28 @@ public class Account
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	@Column(name = "uuid")
+	@Column(name = "uuid", unique = true)
 	private UUID uuid;
 
-	@Column(name = "email")
+	@Column(name = "email", nullable = false)
 	private String email;
 
-	@Column(name = "password")
+	@Column(name = "password", nullable = false)
 	private String password;
 
-	@Column(name = "valid")
-	private boolean valid;
+	@Column(name = "valid", nullable = false)
+	private boolean valid = true;
 
-	@Column(name = "first_name")
+	@Column(name = "first_name", nullable = false)
 	private String firstName;
 
-	@Column(name = "last_name")
+	@Column(name = "last_name", nullable = false)
 	private String lastName;
 
-	@Column(name = "alias")
+	@Column(name = "alias", nullable = true)
 	private String alias;
 
-	@Column(name = "birth_date")
+	@Column(name = "birth_date", nullable = true)
 	private LocalDate birthDate = null;
 
 	public Account()

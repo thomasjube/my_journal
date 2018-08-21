@@ -34,5 +34,14 @@
 	    <filter-name>SpringOpenEntityManagerInViewFilter</filter-name>
 	    <url-pattern>/*</url-pattern>
 	</filter-mapping>
- 
+
+	<filter>
+		<filter-name>journalSecurityFilter</filter-name>
+		<filter-class>com.tjube.controller.security.SecurityContextFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>journalSecurityFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
 </web-app>

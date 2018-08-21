@@ -7,7 +7,7 @@
 	    <meta name="author" content="Hau Nguyen">
 	    <meta name="keywords" content="au theme template">
 	
-	    <title>Login</title>
+	    <title>Création</title>
 	
 	    <link href="<%=request.getContextPath()%>/resources/css/font-face.css" rel="stylesheet" media="all">
 	    <link href="<%=request.getContextPath()%>/resources/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
@@ -37,6 +37,26 @@
 	                        </div>
 	                        <div class="login-form">
 	                            <form action="" method="post">
+									<div class="form-group">
+	                                    <label>Nom</label>
+	                                    <input class="au-input au-input--full" type="text" name="lastName" placeholder="Nom">
+	                                </div>
+	                            	
+	                            	<div class="form-group">
+	                                    <label>Prénom</label>
+	                                    <input class="au-input au-input--full" type="text" name="firstName" placeholder="Prénom">
+	                                </div>
+	                                
+	                                <div class="form-group">
+	                                    <label>Pseudo</label>
+	                                    <input class="au-input au-input--full" type="text" name="alias" placeholder="pseudo">
+	                                </div>
+	                                
+	                                <div class="form-group">
+	                                    <label>Date de naissance</label>
+	                                    <input class="au-input au-input--full" type="date" name="birthDate" placeholder="Date de naissance">
+	                                </div>
+	                                
 	                                <div class="form-group">
 	                                    <label>Adresse mail</label>
 	                                    <input class="au-input au-input--full" type="email" name="email" placeholder="Email">
@@ -45,19 +65,8 @@
 	                                    <label>Mot de passe</label>
 	                                    <input class="au-input au-input--full" type="password" name="password" placeholder="Password">
 	                                </div>
-	                                <div class="login-checkbox">
-	                                    <label>
-	                                        <a href="password/forgotten">Mot de passe oublié ?</a>
-	                                    </label>
-	                                </div>
-	                                <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">Connexion</button>
+	                                <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">Enregistrer</button>
 	                            </form>
-	                            <div class="register-link">
-	                                <p>
-	                                    Pas de compte ?
-	                                    <a href="account/creation">Créer un compte</a>
-	                                </p>
-	                            </div>
 	                        </div>
 	                    </div>
 	                </div>
