@@ -192,4 +192,23 @@ public class JournalEvent
 		this.journal = journal;
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@Override
+	public int hashCode()
+	{
+		return new Long(getId()).hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj == null)
+			return false;
+
+		if (!(obj instanceof JournalEvent))
+			return false;
+
+		return getId() == ((JournalEvent) obj).getId();
+	}
 }
