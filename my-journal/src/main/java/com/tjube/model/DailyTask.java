@@ -1,6 +1,7 @@
 package com.tjube.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -78,7 +79,7 @@ public class DailyTask
 	private LocalDate date = null;
 
 	@Column(name = "price", nullable = true)
-	private Float price;
+	private BigDecimal price;
 
 	@Column(nullable = true)
 	@Enumerated(EnumType.STRING)
@@ -98,6 +99,9 @@ public class DailyTask
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Wish wish;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Budget budget;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Objective objective;
@@ -162,12 +166,12 @@ public class DailyTask
 		this.date = date;
 	}
 
-	public Float getPrice()
+	public BigDecimal getPrice()
 	{
 		return price;
 	}
 
-	public void setPrice(Float price)
+	public void setPrice(BigDecimal price)
 	{
 		this.price = price;
 	}
@@ -240,6 +244,16 @@ public class DailyTask
 	public void setObjective(Objective objective)
 	{
 		this.objective = objective;
+	}
+
+	public Budget getBudget()
+	{
+		return budget;
+	}
+
+	public void setBudget(Budget budget)
+	{
+		this.budget = budget;
 	}
 
 }

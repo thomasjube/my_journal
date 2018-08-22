@@ -23,9 +23,9 @@ import com.tjube.controller.utils.LoginUtils;
 @NamedQueries({
 		@NamedQuery(name = Account.QN.RETRIEVE_ACCOUNT_WITH_UUID, query = "SELECT a from Account a where a.uuid=:uuid"),
 		@NamedQuery(name = Account.QN.RETRIEVE_ACCOUNT_WITH_EMAIL,
-				query = "SELECT a from Account a where a.email=:email AND a.valid is TRUE"),
+				query = "SELECT a from Account a where a.email=:email AND a.valid = TRUE"),
 		@NamedQuery(name = Account.QN.RETRIEVE_ACCOUNT_WITH_EMAIL_AND_PASSWORD,
-				query = "SELECT a from Account a where a.email=:email and a.password=:password and a.valid is TRUE") })
+				query = "SELECT a from Account a where a.email=:email and a.password=:password and a.valid = TRUE") })
 @Entity
 @Table(name = "ACCOUNT")
 public class Account
