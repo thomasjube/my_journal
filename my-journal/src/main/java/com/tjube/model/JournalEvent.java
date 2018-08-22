@@ -23,7 +23,9 @@ import com.tjube.controller.utils.converter.UUIDAttributeConverter;
 		@NamedQuery(name = JournalEvent.QN.RETRIEVE_JOURNAL_EVENT_WITH_UUID,
 				query = "SELECT je from JournalEvent je where je.uuid=:uuid"),
 		@NamedQuery(name = JournalEvent.QN.RETRIEVE_JOURNAL_EVENTS_WITH_JOURNAL,
-				query = "SELECT je from JournalEvent je where je.journal=:journal"), })
+				query = "SELECT je from JournalEvent je where je.journal=:journal"),
+		@NamedQuery(name = JournalEvent.QN.RETRIEVE_JOURNAL_EVENTS_WITH_JOURNAL_AND_DATETIME,
+				query = "SELECT je from JournalEvent je where je.journal=:journal and je.dateTime=:dateTime"), })
 @Entity
 @Table(name = "JOURNAL_EVENT")
 public class JournalEvent
@@ -42,6 +44,7 @@ public class JournalEvent
 	{
 		public static final String RETRIEVE_JOURNAL_EVENT_WITH_UUID = "JournalEvent.retrieveJournalEventWithUuid";
 		public static final String RETRIEVE_JOURNAL_EVENTS_WITH_JOURNAL = "JournalEvent.retrieveJournalEventsWithJournal";
+		public static final String RETRIEVE_JOURNAL_EVENTS_WITH_JOURNAL_AND_DATETIME = "JournalEvent.retrieveJournalEventsWithJournalAndDateTime";
 
 		private QN()
 		{

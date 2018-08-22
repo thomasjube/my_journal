@@ -26,7 +26,9 @@ import com.tjube.controller.utils.converter.UUIDAttributeConverter;
 @NamedQueries({
 		@NamedQuery(name = Journal.QN.RETRIEVE_JOURNAL_WITH_UUID, query = "SELECT j from Journal j where j.uuid=:uuid"),
 		@NamedQuery(name = Journal.QN.RETRIEVE_JOURNAL_WITH_ACCOUNT,
-				query = "SELECT j from Journal j where j.account=:account"), })
+				query = "SELECT j from Journal j where j.account=:account"),
+		@NamedQuery(name = Journal.QN.RETRIEVE_JOURNAL_WITH_ACCOUNT_AND_DATE,
+				query = "SELECT j from Journal j where j.account=:account and j.beginDate <=:date and j.endDate >=:date"), })
 @Entity
 @Table(name = "JOURNAL")
 public class Journal
@@ -44,6 +46,7 @@ public class Journal
 	{
 		public static final String RETRIEVE_JOURNAL_WITH_UUID = "Journal.retrieveJournalWithUuid";
 		public static final String RETRIEVE_JOURNAL_WITH_ACCOUNT = "Journal.retrieveJournalWithAccount";
+		public static final String RETRIEVE_JOURNAL_WITH_ACCOUNT_AND_DATE = "Journal.retrieveJournalWithAccountAndDate";
 
 		private QN()
 		{
