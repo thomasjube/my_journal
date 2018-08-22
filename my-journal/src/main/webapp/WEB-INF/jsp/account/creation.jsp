@@ -54,7 +54,7 @@
 	                                
 	                                <div class="form-group">
 	                                    <label>Date de naissance</label>
-	                                    <input class="au-input au-input--full" type="date" name="birthDate" placeholder="Date de naissance">
+	                                    <input class="au-input au-input--full" type="date" name="birthDate" id="birthDateInput">
 	                                </div>
 	                                
 	                                <div class="form-group">

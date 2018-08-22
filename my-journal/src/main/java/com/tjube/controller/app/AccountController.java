@@ -1,7 +1,5 @@
 package com.tjube.controller.app;
 
-import java.time.LocalDate;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -14,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tjube.controller.app.form.AccountCreationForm;
-import com.tjube.controller.security.SecurityContext;
+import com.tjube.controller.security.SessionAttributes;
 import com.tjube.controller.utils.LoginUtils;
 import com.tjube.controller.utils.ModelUtils;
 import com.tjube.model.Account;
@@ -61,7 +59,7 @@ public class AccountController
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@RequestMapping(value = { "/creation" }, method = { RequestMethod.POST })
-	public ModelAndView journalAccountPost(HttpServletRequest request, ModelAndView model,
+	public ModelAndView journalAccountCreationPost(HttpServletRequest request, ModelAndView model,
 			@Valid @ModelAttribute("creationForm") AccountCreationForm form, BindingResult validationResult)
 	{
 		model.setViewName(ModelUtils.REDIRECT_HOME);
@@ -72,15 +70,15 @@ public class AccountController
 		if (validationResult.hasErrors())
 		{
 			model.setViewName(ModelUtils.MODEL_CREATION);
+			model.addObject("creationForm", form);
 			return model;
 		}
 
 		Account account = null;
-		LocalDate birthDate = form.getBirthDate() != null ? LocalDate.parse(form.getBirthDate()) : null;
 		try
 		{
 			account = accountService.createAccount(form.getEmail(), form.getPassword(), form.getFirstName(),
-					form.getLastName(), form.getAlias(), birthDate);
+					form.getLastName(), form.getAlias(), form.getBirthDate());
 		}
 		catch (DuplicatingAccountEmailException e)
 		{
@@ -89,8 +87,7 @@ public class AccountController
 			return model;
 		}
 
-		SecurityContext.setup();
-		SecurityContext.getInstance().setCurrentUser(account);
+		SessionAttributes.setLoggedAccount(request, account);
 
 		return model;
 	}

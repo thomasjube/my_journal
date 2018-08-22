@@ -1,6 +1,10 @@
 package com.tjube.controller.app.form;
 
+import java.time.LocalDate;
+
 import javax.validation.constraints.NotBlank;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class AccountCreationForm
 {
@@ -18,8 +22,8 @@ public class AccountCreationForm
 
 	private String alias;
 
-	//	@LocalDateFormat(code = "format.short.date")
-	private String birthDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate birthDate;
 
 	public AccountCreationForm()
 	{
@@ -76,12 +80,12 @@ public class AccountCreationForm
 		this.alias = alias;
 	}
 
-	public String getBirthDate()
+	public LocalDate getBirthDate()
 	{
 		return birthDate;
 	}
 
-	public void setBirthDate(String birthDate)
+	public void setBirthDate(LocalDate birthDate)
 	{
 		this.birthDate = birthDate;
 	}
