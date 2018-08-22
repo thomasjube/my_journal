@@ -2,26 +2,30 @@ package com.tjube.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.tjube.controller.utils.LoginUtils;
 
 @NamedQueries({
-		@NamedQuery(name = Account.QN.RETRIEVE_ACCOUNT_WITH_UUID,
-				query = "SELECT account from Account account where account.uuid=:uuid"),
+		@NamedQuery(name = Account.QN.RETRIEVE_ACCOUNT_WITH_UUID, query = "SELECT a from Account a where a.uuid=:uuid"),
 		@NamedQuery(name = Account.QN.RETRIEVE_ACCOUNT_WITH_EMAIL,
-				query = "SELECT account from Account account where account.email=:email AND account.valid is TRUE"),
+				query = "SELECT a from Account a where a.email=:email AND a.valid is TRUE"),
 		@NamedQuery(name = Account.QN.RETRIEVE_ACCOUNT_WITH_EMAIL_AND_PASSWORD,
-				query = "SELECT account from Account account where account.email=:email and account.password=:password and account.valid is TRUE") })
+				query = "SELECT a from Account a where a.email=:email and a.password=:password and a.valid is TRUE") })
 @Entity
 @Table(name = "ACCOUNT")
 public class Account
@@ -74,6 +78,9 @@ public class Account
 
 	@Column(name = "birth_date", nullable = true)
 	private LocalDate birthDate = null;
+
+	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Collection<Journal> journals = new ArrayList<>();
 
 	public Account()
 	{
@@ -172,5 +179,15 @@ public class Account
 	public void setUuid(UUID uuid)
 	{
 		this.uuid = uuid;
+	}
+
+	public Collection<Journal> getJournals()
+	{
+		return journals;
+	}
+
+	public void setJournals(Collection<Journal> journals)
+	{
+		this.journals = journals;
 	}
 }

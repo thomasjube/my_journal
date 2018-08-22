@@ -1,9 +1,153 @@
 package com.tjube.model;
 
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.UUID;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@NamedQueries({
+		@NamedQuery(name = Journal.QN.RETRIEVE_JOURNAL_WITH_UUID, query = "SELECT j from Journal j where j.uuid=:uuid"),
+		@NamedQuery(name = Journal.QN.RETRIEVE_JOURNAL_WITH_ACCOUNT,
+				query = "SELECT j from Journal j where j.account=:account"), })
+@Entity
+@Table(name = "JOURNAL")
 public class Journal
+	implements Serializable
 {
-	// Account
-	// UUID
-	// Date de début
-	// Date de fin
+	private static final long serialVersionUID = -7895428505511560082L;
+
+	//==================================================================================================================================================================================================
+	//
+	// Query names
+	//
+	//==================================================================================================================================================================================================
+
+	public static class QN
+	{
+		public static final String RETRIEVE_JOURNAL_WITH_UUID = "Journal.retrieveJournalWithUuid";
+		public static final String RETRIEVE_JOURNAL_WITH_ACCOUNT = "Journal.retrieveJournalWithAccount";
+
+		private QN()
+		{
+
+		}
+	}
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
+
+	@Column(name = "uuid", unique = true)
+	private UUID uuid;
+
+	@Column(name = "begin_date", nullable = false)
+	private LocalDate beginDate = null;
+
+	@Column(name = "end_date", nullable = true)
+	private LocalDate endDate = null;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Account account;
+
+	@OneToMany(mappedBy = "journal", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Collection<JournalEvent> journalEvents = new ArrayList<>();
+
+	@OneToMany(mappedBy = "journal", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Collection<Budget> budgets = new ArrayList<>();
+
+	public Journal()
+	{
+		// TODO Auto-generated constructor stub
+	}
+
+	public Journal(Account account, LocalDate beginDate, LocalDate endDate)
+	{
+		this.account = account;
+		this.beginDate = beginDate;
+		this.endDate = endDate;
+	}
+
+	public int getId()
+	{
+		return id;
+	}
+
+	public void setId(int id)
+	{
+		this.id = id;
+	}
+
+	public UUID getUuid()
+	{
+		return uuid;
+	}
+
+	public void setUuid(UUID uuid)
+	{
+		this.uuid = uuid;
+	}
+
+	public LocalDate getBeginDate()
+	{
+		return beginDate;
+	}
+
+	public void setBeginDate(LocalDate beginDate)
+	{
+		this.beginDate = beginDate;
+	}
+
+	public LocalDate getEndDate()
+	{
+		return endDate;
+	}
+
+	public void setEndDate(LocalDate endDate)
+	{
+		this.endDate = endDate;
+	}
+
+	public Account getAccount()
+	{
+		return account;
+	}
+
+	public void setAccount(Account account)
+	{
+		this.account = account;
+	}
+
+	public Collection<JournalEvent> getJournalEvents()
+	{
+		return journalEvents;
+	}
+
+	public void setJournalEvents(Collection<JournalEvent> journalEvents)
+	{
+		this.journalEvents = journalEvents;
+	}
+
+	public Collection<Budget> getBudgets()
+	{
+		return budgets;
+	}
+
+	public void setBudgets(Collection<Budget> budgets)
+	{
+		this.budgets = budgets;
+	}
 }
