@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -19,6 +20,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.tjube.controller.utils.LoginUtils;
+import com.tjube.controller.utils.converter.LocalDateAttributeConverter;
+import com.tjube.controller.utils.converter.UUIDAttributeConverter;
 
 @NamedQueries({
 		@NamedQuery(name = Account.QN.RETRIEVE_ACCOUNT_WITH_UUID, query = "SELECT a from Account a where a.uuid=:uuid"),
@@ -55,7 +58,8 @@ public class Account
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	@Column(name = "uuid", unique = true)
+	@Convert(converter = UUIDAttributeConverter.class)
+	@Column(name = "uuid", unique = true, nullable = false)
 	private UUID uuid;
 
 	@Column(name = "email", nullable = false)
@@ -76,6 +80,7 @@ public class Account
 	@Column(name = "alias", nullable = true)
 	private String alias;
 
+	@Convert(converter = LocalDateAttributeConverter.class)
 	@Column(name = "birth_date", nullable = true)
 	private LocalDate birthDate = null;
 

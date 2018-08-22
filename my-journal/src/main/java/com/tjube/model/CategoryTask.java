@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+
+import com.tjube.controller.utils.converter.UUIDAttributeConverter;
 
 @NamedQueries({
 		@NamedQuery(name = CategoryTask.QN.RETRIEVE_CATEGORY_TASK_WITH_UUID,
@@ -49,14 +52,15 @@ public class CategoryTask
 
 	public CategoryTask()
 	{
-		// TODO Auto-generated constructor stub
+		// Default constructor
 	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	@Column(name = "uuid", unique = true)
+	@Convert(converter = UUIDAttributeConverter.class)
+	@Column(name = "uuid", unique = true, nullable = false)
 	private UUID uuid;
 
 	@Column(name = "description", nullable = false)

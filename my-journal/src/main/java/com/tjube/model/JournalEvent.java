@@ -16,7 +16,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import com.tjube.controller.utils.LocalDateTimeAttributeConverter;
+import com.tjube.controller.utils.converter.LocalDateTimeAttributeConverter;
+import com.tjube.controller.utils.converter.UUIDAttributeConverter;
 
 @NamedQueries({
 		@NamedQuery(name = JournalEvent.QN.RETRIEVE_JOURNAL_EVENT_WITH_UUID,
@@ -52,7 +53,8 @@ public class JournalEvent
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	@Column(name = "uuid", unique = true)
+	@Convert(converter = UUIDAttributeConverter.class)
+	@Column(name = "uuid", unique = true, nullable = false)
 	private UUID uuid;
 
 	@Column

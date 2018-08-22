@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -17,6 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import com.tjube.controller.utils.converter.UUIDAttributeConverter;
 import com.tjube.model.enums.TaskStateEvent;
 
 @NamedQueries({
@@ -50,7 +52,8 @@ public class Wish
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	@Column(name = "uuid", unique = true)
+	@Convert(converter = UUIDAttributeConverter.class)
+	@Column(name = "uuid", unique = true, nullable = false)
 	private UUID uuid;
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)

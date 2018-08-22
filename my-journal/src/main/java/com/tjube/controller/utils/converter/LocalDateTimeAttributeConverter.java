@@ -1,4 +1,4 @@
-package com.tjube.controller.utils;
+package com.tjube.controller.utils.converter;
 
 import java.sql.Date;
 import java.sql.Timestamp;

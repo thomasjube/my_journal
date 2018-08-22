@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -18,6 +19,9 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.tjube.controller.utils.converter.LocalDateAttributeConverter;
+import com.tjube.controller.utils.converter.UUIDAttributeConverter;
 
 @NamedQueries({
 		@NamedQuery(name = Journal.QN.RETRIEVE_JOURNAL_WITH_UUID, query = "SELECT j from Journal j where j.uuid=:uuid"),
@@ -51,12 +55,15 @@ public class Journal
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	@Column(name = "uuid", unique = true)
+	@Convert(converter = UUIDAttributeConverter.class)
+	@Column(name = "uuid", unique = true, nullable = false)
 	private UUID uuid;
 
+	@Convert(converter = LocalDateAttributeConverter.class)
 	@Column(name = "begin_date", nullable = false)
 	private LocalDate beginDate = null;
 
+	@Convert(converter = LocalDateAttributeConverter.class)
 	@Column(name = "end_date", nullable = true)
 	private LocalDate endDate = null;
 
@@ -71,7 +78,7 @@ public class Journal
 
 	public Journal()
 	{
-		// TODO Auto-generated constructor stub
+		// Default constructor
 	}
 
 	public Journal(Account account, LocalDate beginDate, LocalDate endDate)
