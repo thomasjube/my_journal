@@ -56,10 +56,7 @@ public class DailyTask
 		}
 	}
 
-	public DailyTask()
-	{
-		// Default constructor
-	}
+	//---------------------------------------------------------------------------------------------------------------------
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -74,7 +71,7 @@ public class DailyTask
 
 	@Column
 	@Enumerated(EnumType.STRING)
-	private TaskStateEvent state;
+	private TaskStateEvent state = TaskStateEvent.TO_DO;
 
 	@Column(name = "professional", nullable = true)
 	private boolean professional;
@@ -111,6 +108,34 @@ public class DailyTask
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Objective objective;
 
+	//---------------------------------------------------------------------------------------------------------------------
+
+	public DailyTask()
+	{
+		// Default constructor
+	}
+
+	public DailyTask(String description, boolean professional, LocalDate date, BigDecimal price, TaskUnit unit,
+			Integer value, Journal journal, CategoryTask categoryTask, MonthlyTask monthlyTask, Wish wish,
+			Budget budget, Objective objective)
+	{
+		super();
+		this.description = description;
+		this.professional = professional;
+		this.date = date;
+		this.price = price;
+		this.unit = unit;
+		this.value = value;
+		this.journal = journal;
+		this.categoryTask = categoryTask;
+		this.monthlyTask = monthlyTask;
+		this.wish = wish;
+		this.budget = budget;
+		this.objective = objective;
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public int getId()
 	{
 		return id;
@@ -120,6 +145,8 @@ public class DailyTask
 	{
 		this.id = id;
 	}
+
+	//---------------------------------------------------------------------------------------------------------------------
 
 	public UUID getUuid()
 	{
@@ -131,6 +158,8 @@ public class DailyTask
 		this.uuid = uuid;
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public String getDescription()
 	{
 		return description;
@@ -140,6 +169,8 @@ public class DailyTask
 	{
 		this.description = description;
 	}
+
+	//---------------------------------------------------------------------------------------------------------------------
 
 	public TaskStateEvent getState()
 	{
@@ -151,6 +182,8 @@ public class DailyTask
 		this.state = state;
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public boolean isProfessional()
 	{
 		return professional;
@@ -160,6 +193,8 @@ public class DailyTask
 	{
 		this.professional = professional;
 	}
+
+	//---------------------------------------------------------------------------------------------------------------------
 
 	public LocalDate getDate()
 	{
@@ -171,6 +206,8 @@ public class DailyTask
 		this.date = date;
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public BigDecimal getPrice()
 	{
 		return price;
@@ -180,6 +217,8 @@ public class DailyTask
 	{
 		this.price = price;
 	}
+
+	//---------------------------------------------------------------------------------------------------------------------
 
 	public TaskUnit getUnit()
 	{
@@ -191,6 +230,8 @@ public class DailyTask
 		this.unit = unit;
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public Integer getValue()
 	{
 		return value;
@@ -200,6 +241,8 @@ public class DailyTask
 	{
 		this.value = value;
 	}
+
+	//---------------------------------------------------------------------------------------------------------------------
 
 	public Journal getJournal()
 	{
@@ -211,6 +254,8 @@ public class DailyTask
 		this.journal = journal;
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public CategoryTask getCategoryTask()
 	{
 		return categoryTask;
@@ -220,6 +265,8 @@ public class DailyTask
 	{
 		this.categoryTask = categoryTask;
 	}
+
+	//---------------------------------------------------------------------------------------------------------------------
 
 	public MonthlyTask getMonthlyTask()
 	{
@@ -231,6 +278,8 @@ public class DailyTask
 		this.monthlyTask = monthlyTask;
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public Wish getWish()
 	{
 		return wish;
@@ -240,6 +289,8 @@ public class DailyTask
 	{
 		this.wish = wish;
 	}
+
+	//---------------------------------------------------------------------------------------------------------------------
 
 	public Objective getObjective()
 	{
@@ -251,6 +302,8 @@ public class DailyTask
 		this.objective = objective;
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public Budget getBudget()
 	{
 		return budget;
@@ -261,4 +314,23 @@ public class DailyTask
 		this.budget = budget;
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@Override
+	public int hashCode()
+	{
+		return new Long(getId()).hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj == null)
+			return false;
+
+		if (!(obj instanceof DailyTask))
+			return false;
+
+		return getId() == ((DailyTask) obj).getId();
+	}
 }

@@ -49,6 +49,8 @@ public class JournalEvent
 		}
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
@@ -76,6 +78,8 @@ public class JournalEvent
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Journal journal;
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public JournalEvent()
 	{
 		// TODO Auto-generated constructor stub
@@ -92,6 +96,8 @@ public class JournalEvent
 		this.annually = isAnnually;
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public int getId()
 	{
 		return id;
@@ -101,6 +107,8 @@ public class JournalEvent
 	{
 		this.id = id;
 	}
+
+	//---------------------------------------------------------------------------------------------------------------------
 
 	public UUID getUuid()
 	{
@@ -112,6 +120,8 @@ public class JournalEvent
 		this.uuid = uuid;
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public LocalDateTime getDateTime()
 	{
 		return dateTime;
@@ -121,6 +131,8 @@ public class JournalEvent
 	{
 		this.dateTime = dateTime;
 	}
+
+	//---------------------------------------------------------------------------------------------------------------------
 
 	public String getDescription()
 	{
@@ -132,6 +144,8 @@ public class JournalEvent
 		this.description = description;
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public String getPlace()
 	{
 		return place;
@@ -141,6 +155,8 @@ public class JournalEvent
 	{
 		this.place = place;
 	}
+
+	//---------------------------------------------------------------------------------------------------------------------
 
 	public String getComments()
 	{
@@ -152,6 +168,8 @@ public class JournalEvent
 		this.comments = comments;
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public boolean isAnnually()
 	{
 		return annually;
@@ -161,6 +179,8 @@ public class JournalEvent
 	{
 		this.annually = annually;
 	}
+
+	//---------------------------------------------------------------------------------------------------------------------
 
 	public Journal getJournal()
 	{

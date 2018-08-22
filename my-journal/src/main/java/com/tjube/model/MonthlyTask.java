@@ -55,6 +55,8 @@ public class MonthlyTask
 		}
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
@@ -87,10 +89,14 @@ public class MonthlyTask
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Journal journal;
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public MonthlyTask()
 	{
 		// TODO Auto-generated constructor stub
 	}
+
+	//---------------------------------------------------------------------------------------------------------------------
 
 	public int getId()
 	{
@@ -102,6 +108,8 @@ public class MonthlyTask
 		this.id = id;
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public UUID getUuid()
 	{
 		return uuid;
@@ -111,6 +119,8 @@ public class MonthlyTask
 	{
 		this.uuid = uuid;
 	}
+
+	//---------------------------------------------------------------------------------------------------------------------
 
 	public String getDescription()
 	{
@@ -122,6 +132,8 @@ public class MonthlyTask
 		this.description = description;
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public TaskStateEvent getState()
 	{
 		return state;
@@ -131,6 +143,8 @@ public class MonthlyTask
 	{
 		this.state = state;
 	}
+
+	//---------------------------------------------------------------------------------------------------------------------
 
 	public boolean isProfessional()
 	{
@@ -142,6 +156,8 @@ public class MonthlyTask
 		this.professional = professional;
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public LocalDate getDate()
 	{
 		return date;
@@ -151,6 +167,8 @@ public class MonthlyTask
 	{
 		this.date = date;
 	}
+
+	//---------------------------------------------------------------------------------------------------------------------
 
 	public TaskUnit getUnit()
 	{
@@ -162,6 +180,8 @@ public class MonthlyTask
 		this.unit = unit;
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public Integer getValue()
 	{
 		return value;
@@ -172,6 +192,8 @@ public class MonthlyTask
 		this.value = value;
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public Journal getJournal()
 	{
 		return journal;
@@ -180,6 +202,26 @@ public class MonthlyTask
 	public void setJournal(Journal journal)
 	{
 		this.journal = journal;
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@Override
+	public int hashCode()
+	{
+		return new Long(getId()).hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj == null)
+			return false;
+
+		if (!(obj instanceof MonthlyTask))
+			return false;
+
+		return getId() == ((MonthlyTask) obj).getId();
 	}
 
 }

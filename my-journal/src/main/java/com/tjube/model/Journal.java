@@ -51,6 +51,8 @@ public class Journal
 		}
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
@@ -76,6 +78,8 @@ public class Journal
 	@OneToMany(mappedBy = "journal", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Collection<Budget> budgets = new ArrayList<>();
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public Journal()
 	{
 		// Default constructor
@@ -88,6 +92,8 @@ public class Journal
 		this.endDate = endDate;
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public int getId()
 	{
 		return id;
@@ -97,6 +103,8 @@ public class Journal
 	{
 		this.id = id;
 	}
+
+	//---------------------------------------------------------------------------------------------------------------------
 
 	public UUID getUuid()
 	{
@@ -108,6 +116,8 @@ public class Journal
 		this.uuid = uuid;
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public LocalDate getBeginDate()
 	{
 		return beginDate;
@@ -117,6 +127,8 @@ public class Journal
 	{
 		this.beginDate = beginDate;
 	}
+
+	//---------------------------------------------------------------------------------------------------------------------
 
 	public LocalDate getEndDate()
 	{
@@ -128,6 +140,8 @@ public class Journal
 		this.endDate = endDate;
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public Account getAccount()
 	{
 		return account;
@@ -137,6 +151,8 @@ public class Journal
 	{
 		this.account = account;
 	}
+
+	//---------------------------------------------------------------------------------------------------------------------
 
 	public Collection<JournalEvent> getJournalEvents()
 	{
@@ -148,6 +164,8 @@ public class Journal
 		this.journalEvents = journalEvents;
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public Collection<Budget> getBudgets()
 	{
 		return budgets;
@@ -156,5 +174,25 @@ public class Journal
 	public void setBudgets(Collection<Budget> budgets)
 	{
 		this.budgets = budgets;
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@Override
+	public int hashCode()
+	{
+		return new Long(getId()).hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj == null)
+			return false;
+
+		if (!(obj instanceof Journal))
+			return false;
+
+		return getId() == ((Journal) obj).getId();
 	}
 }

@@ -54,6 +54,8 @@ public class Account
 		}
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
@@ -87,6 +89,8 @@ public class Account
 	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Collection<Journal> journals = new ArrayList<>();
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public Account()
 	{
 		// Default Constructor
@@ -106,6 +110,20 @@ public class Account
 
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
+	public int getId()
+	{
+		return id;
+	}
+
+	public void setId(int id)
+	{
+		this.id = id;
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public String getEmail()
 	{
 		return email;
@@ -115,6 +133,8 @@ public class Account
 	{
 		this.email = email;
 	}
+
+	//---------------------------------------------------------------------------------------------------------------------
 
 	public String getPassword()
 	{
@@ -126,6 +146,8 @@ public class Account
 		this.password = LoginUtils.md5Password(password);
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public boolean isValid()
 	{
 		return valid;
@@ -135,6 +157,8 @@ public class Account
 	{
 		this.valid = valid;
 	}
+
+	//---------------------------------------------------------------------------------------------------------------------
 
 	public String getFirstName()
 	{
@@ -146,6 +170,8 @@ public class Account
 		this.firstName = firstName;
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public String getLastName()
 	{
 		return lastName;
@@ -155,6 +181,8 @@ public class Account
 	{
 		this.lastName = lastName;
 	}
+
+	//---------------------------------------------------------------------------------------------------------------------
 
 	public String getAlias()
 	{
@@ -166,6 +194,8 @@ public class Account
 		this.alias = alias;
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public LocalDate getBirthDate()
 	{
 		return birthDate;
@@ -175,6 +205,8 @@ public class Account
 	{
 		this.birthDate = birthDate;
 	}
+
+	//---------------------------------------------------------------------------------------------------------------------
 
 	public UUID getUuid()
 	{
@@ -186,6 +218,8 @@ public class Account
 		this.uuid = uuid;
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public Collection<Journal> getJournals()
 	{
 		return journals;
@@ -194,5 +228,25 @@ public class Account
 	public void setJournals(Collection<Journal> journals)
 	{
 		this.journals = journals;
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@Override
+	public int hashCode()
+	{
+		return new Long(getId()).hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj == null)
+			return false;
+
+		if (!(obj instanceof Account))
+			return false;
+
+		return getId() == ((Account) obj).getId();
 	}
 }

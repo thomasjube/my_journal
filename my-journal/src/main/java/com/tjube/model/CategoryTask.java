@@ -50,10 +50,7 @@ public class CategoryTask
 		}
 	}
 
-	public CategoryTask()
-	{
-		// Default constructor
-	}
+	//---------------------------------------------------------------------------------------------------------------------
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -68,6 +65,21 @@ public class CategoryTask
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Account account;
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	public CategoryTask()
+	{
+		// Default constructor
+	}
+
+	public CategoryTask(String description, Account account)
+	{
+		this.uuid = UUID.randomUUID();
+		this.description = description;
+		this.account = account;
+	}
+	//---------------------------------------------------------------------------------------------------------------------
 
 	public int getId()
 	{
@@ -109,4 +121,23 @@ public class CategoryTask
 		this.account = account;
 	}
 
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@Override
+	public int hashCode()
+	{
+		return new Long(getId()).hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj == null)
+			return false;
+
+		if (!(obj instanceof CategoryTask))
+			return false;
+
+		return getId() == ((CategoryTask) obj).getId();
+	}
 }
