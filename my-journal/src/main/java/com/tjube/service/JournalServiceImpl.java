@@ -60,6 +60,14 @@ public class JournalServiceImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
+	public Journal retrieveCurrentJournal(Account account)
+	{
+		return journalDao.retrieveCurrentJournal(account);
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@Override
 	public Journal retrieveJournal(Account account, LocalDate date)
 	{
 		return journalDao.retrieveJournal(account, date);

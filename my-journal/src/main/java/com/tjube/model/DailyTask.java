@@ -30,7 +30,9 @@ import com.tjube.model.enums.TaskUnit;
 		@NamedQuery(name = DailyTask.QN.RETRIEVE_DAILY_TASKS_WITH_JOURNAL,
 				query = "SELECT dt from DailyTask dt where dt.journal=:journal"),
 		@NamedQuery(name = DailyTask.QN.RETRIEVE_DAILY_TASKS_WITH_MONTHLY_TASK,
-				query = "SELECT dt from DailyTask dt where dt.monthlyTask=:monthlyTask"), })
+				query = "SELECT dt from DailyTask dt where dt.monthlyTask=:monthlyTask"),
+		@NamedQuery(name = DailyTask.QN.RETRIEVE_DAILY_TASKS_WITH_DATE,
+				query = "SELECT dt from DailyTask dt where dt.date=:date and dt.journal=:journal"), })
 @Entity
 @Table(name = "DAILY_TASK")
 public class DailyTask
@@ -49,6 +51,7 @@ public class DailyTask
 		public static final String RETRIEVE_DAILY_TASK_WITH_UUID = "DailyTask.retrieveDailyTaskWithUuid";
 		public static final String RETRIEVE_DAILY_TASKS_WITH_JOURNAL = "DailyTask.retrieveDailyTasksWithJournal";
 		public static final String RETRIEVE_DAILY_TASKS_WITH_MONTHLY_TASK = "DailyTask.retrieveDailyTasksWithMonthlyTask";
+		public static final String RETRIEVE_DAILY_TASKS_WITH_DATE = "DailyTask.retrieveDailyTasksWithDate";
 
 		private QN()
 		{
@@ -115,9 +118,9 @@ public class DailyTask
 		// Default constructor
 	}
 
-	public DailyTask(String description, boolean professional, LocalDate date, BigDecimal price, TaskUnit unit,
-			Integer value, Journal journal, CategoryTask categoryTask, MonthlyTask monthlyTask, Wish wish,
-			Budget budget, Objective objective)
+	public DailyTask(Journal journal, String description, boolean professional, LocalDate date, BigDecimal price,
+			TaskUnit unit, Integer value, CategoryTask categoryTask, MonthlyTask monthlyTask, Wish wish, Budget budget,
+			Objective objective)
 	{
 		super();
 		this.description = description;

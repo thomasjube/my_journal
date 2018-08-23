@@ -1,11 +1,145 @@
 package com.tjube.service;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Collection;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.tjube.dao.TaskDao;
+import com.tjube.model.Budget;
+import com.tjube.model.CategoryTask;
+import com.tjube.model.DailyTask;
+import com.tjube.model.Journal;
+import com.tjube.model.MonthlyTask;
+import com.tjube.model.Objective;
+import com.tjube.model.Wish;
+import com.tjube.model.enums.TaskUnit;
 
 @Service
 @Transactional
 public class TaskServiceImpl
 	implements TaskService
 {
+
+	@Autowired
+	TaskDao taskDao = null;
+
+	//---------------------------------------------------------------------------------------------------------------------
+	// MONTHLY OPERATIONS
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@Override
+	public MonthlyTask createMonthlyTask(Journal journal, String description, boolean professional, LocalDate date,
+			TaskUnit unit, Integer value)
+	{
+
+		date = date.withDayOfMonth(1);
+		return taskDao.createMonthlyTask(journal, description, professional, date, unit, value);
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@Override
+	public void updateMonthlyTask(MonthlyTask monthlyTask, String description, boolean professional, LocalDate date,
+			TaskUnit unit, Integer value)
+	{
+		date = date.withDayOfMonth(1);
+		taskDao.updateMonthlyTask(monthlyTask, description, professional, date, unit, value);
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@Override
+	public void removeMonthlyTask(MonthlyTask monthlyTask)
+	{
+		taskDao.removeMonthlyTask(monthlyTask);
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@Override
+	public MonthlyTask retrieveMonthlyTask(UUID uuid)
+	{
+		return taskDao.retrieveMonthlyTask(uuid);
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@Override
+	public Collection<MonthlyTask> retrieveAllMonthlyTasksByJournal(Journal journal)
+	{
+		return taskDao.retrieveAllMonthlyTasksByJournal(journal);
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@Override
+	public Collection<MonthlyTask> retrieveAllMonthlyTasksByMonth(Journal journal, LocalDate localDate)
+	{
+		localDate = localDate.withDayOfMonth(1);
+		return taskDao.retrieveAllMonthlyTasksByMonth(journal, localDate);
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+	// DAILY OPERATIONS
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@Override
+	public DailyTask createDailyTask(Journal journal, String description, boolean professional, LocalDate date,
+			BigDecimal price, TaskUnit unit, Integer value, CategoryTask category, MonthlyTask monthlyTask, Wish wish,
+			Budget budget, Objective objective)
+	{
+		return taskDao.createDailyTask(journal, description, professional, date, price, unit, value, category,
+				monthlyTask, wish, budget, objective);
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@Override
+	public void updateDailyTask(DailyTask dailyTask, String description, boolean professional, LocalDate date,
+			BigDecimal price, TaskUnit unit, Integer value, CategoryTask category, MonthlyTask monthlyTask, Wish wish,
+			Budget budget, Objective objective)
+	{
+		taskDao.updateDailyTask(dailyTask, description, professional, date, price, unit, value, category, monthlyTask,
+				wish, budget, objective);
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@Override
+	public void removeDailyTask(DailyTask dailyTask)
+	{
+		taskDao.removeDailyTask(dailyTask);
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@Override
+	public DailyTask retrieveDailyTask(UUID uuid)
+	{
+		return taskDao.retrieveDailyTask(uuid);
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@Override
+	public Collection<DailyTask> retrieveAllDailyTasksByJournal(Journal journal)
+	{
+		return taskDao.retrieveAllDailyTasksByJournal(journal);
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@Override
+	public Collection<DailyTask> retrieveAllDailyTasksByDay(Journal journal, LocalDate localDate)
+	{
+		return taskDao.retrieveAllDailyTasksByDay(journal, localDate);
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
 }

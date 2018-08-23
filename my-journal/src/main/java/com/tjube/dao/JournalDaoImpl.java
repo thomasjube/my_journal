@@ -76,6 +76,20 @@ public class JournalDaoImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
+	public Journal retrieveCurrentJournal(Account account)
+	{
+		TypedQuery<Journal> query = entityManager.createNamedQuery(Journal.QN.RETRIEVE_JOURNAL_WITH_ACCOUNT_AND_DATE,
+				Journal.class);
+
+		query.setParameter("account", account);
+		query.setParameter("date", LocalDate.now());
+
+		return JPAUtils.getSingleResult(query);
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@Override
 	public Journal retrieveJournal(Account account, LocalDate date)
 	{
 		TypedQuery<Journal> query = entityManager.createNamedQuery(Journal.QN.RETRIEVE_JOURNAL_WITH_ACCOUNT_AND_DATE,

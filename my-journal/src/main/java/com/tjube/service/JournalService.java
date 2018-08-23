@@ -25,6 +25,8 @@ public interface JournalService
 
 	Journal retrieveJournal(Account account, LocalDate date);
 
+	Journal retrieveCurrentJournal(Account account);
+
 	Collection<Journal> retrieveJournals(Account account);
 
 	//---------------------------------------------------------------------------------------------------------------------

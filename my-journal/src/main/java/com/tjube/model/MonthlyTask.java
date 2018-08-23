@@ -29,7 +29,7 @@ import com.tjube.model.enums.TaskUnit;
 		@NamedQuery(name = MonthlyTask.QN.RETRIEVE_MONTHLY_TASKS_WITH_JOURNAL,
 				query = "SELECT mt from MonthlyTask mt where mt.journal=:journal"),
 		@NamedQuery(name = MonthlyTask.QN.RETRIEVE_MONTHLY_TASKS_WITH_DATE,
-				query = "SELECT mt from MonthlyTask mt where mt.date=:date"), })
+				query = "SELECT mt from MonthlyTask mt where mt.date=:date and mt.journal=:journal"), })
 @Entity
 @Table(name = "MONTHLY_TASK")
 public class MonthlyTask
@@ -70,7 +70,7 @@ public class MonthlyTask
 
 	@Column
 	@Enumerated(EnumType.STRING)
-	private TaskStateEvent state;
+	private TaskStateEvent state = TaskStateEvent.TO_DO;
 
 	@Column(name = "professional", nullable = true)
 	private boolean professional;
@@ -94,6 +94,18 @@ public class MonthlyTask
 	public MonthlyTask()
 	{
 		// TODO Auto-generated constructor stub
+	}
+
+	public MonthlyTask(Journal journal, String description, boolean professional, LocalDate date, TaskUnit unit,
+			Integer value)
+	{
+		super();
+		this.description = description;
+		this.professional = professional;
+		this.date = date;
+		this.unit = unit;
+		this.value = value;
+		this.journal = journal;
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------

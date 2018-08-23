@@ -23,6 +23,8 @@ public interface JournalDao
 
 	Journal retrieveJournal(UUID uuid);
 
+	Journal retrieveCurrentJournal(Account account);
+
 	Journal retrieveJournal(Account account, LocalDate date);
 
 	Collection<Journal> retrieveJournals(Account account);
@@ -44,4 +46,5 @@ public interface JournalDao
 	Collection<JournalEvent> retrieveJournalEventsByDate(Journal journal, LocalDateTime dateTime);
 
 	Collection<JournalEvent> retrieveAllJournalEvents(Journal journal);
+
 }
