@@ -75,26 +75,26 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="chart.html">
-                                <i class="fas fa-chart-bar"></i>Charts</a>
+                            <a href="journal">
+                                <i class="fas fa-chart-bar"></i>Journal</a>
                         </li>
                         <li>
-                            <a href="table.html">
-                                <i class="fas fa-table"></i>Tables</a>
+                            <a href="tasks">
+                                <i class="fas fa-table"></i>Tâches</a>
                         </li>
                         <li>
-                            <a href="form.html">
-                                <i class="far fa-check-square"></i>Forms</a>
+                            <a href="budget">
+                                <i class="far fa-check-square"></i>Budget</a>
                         </li>
                         <li>
-                            <a href="#">
-                                <i class="fas fa-calendar-alt"></i>Calendar</a>
+                            <a href="objectives">
+                                <i class="fas fa-calendar-alt"></i>Objectifs</a>
                         </li>
                         <li>
-                            <a href="map.html">
-                                <i class="fas fa-map-marker-alt"></i>Maps</a>
+                            <a href="wishlist">
+                                <i class="fas fa-map-marker-alt"></i>Wishlist</a>
                         </li>
-                        <li class="has-sub">
+				<li class="has-sub"> 
                             <a class="js-arrow" href="#">
                                 <i class="fas fa-copy"></i>Pages</a>
                             <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
@@ -183,24 +183,24 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="chart.html">
-                                <i class="fas fa-chart-bar"></i>Charts</a>
+                            <a href="journal">
+                                <i class="fas fa-calendar-alt"></i>Journal</a>
                         </li>
                         <li>
-                            <a href="table.html">
-                                <i class="fas fa-table"></i>Tables</a>
+                            <a href="tasks">
+                                <i class="fas fa-check-square"></i>Tâches</a>
                         </li>
                         <li>
-                            <a href="form.html">
-                                <i class="far fa-check-square"></i>Forms</a>
+                            <a href="budget">
+                                <i class="far fa-chart-bar"></i>Budget</a>
                         </li>
                         <li>
-                            <a href="#">
-                                <i class="fas fa-calendar-alt"></i>Calendar</a>
+                            <a href="objectives">
+                                <i class="fas fa-table"></i>Objectifs</a>
                         </li>
                         <li>
-                            <a href="map.html">
-                                <i class="fas fa-map-marker-alt"></i>Maps</a>
+                            <a href="wishlist">
+                                <i class="fas fa-map-marker-alt"></i>Wishlist</a>
                         </li>
                         <li class="has-sub">
                             <a class="js-arrow" href="#">
