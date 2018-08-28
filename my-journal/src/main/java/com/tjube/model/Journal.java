@@ -90,6 +90,7 @@ public class Journal
 
 	public Journal(Account account, LocalDate beginDate, LocalDate endDate)
 	{
+		this.uuid = UUID.randomUUID();
 		this.account = account;
 		this.beginDate = beginDate;
 		this.endDate = endDate;

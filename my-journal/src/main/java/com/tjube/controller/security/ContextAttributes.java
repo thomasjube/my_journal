@@ -2,7 +2,8 @@ package com.tjube.controller.security;
 
 public enum ContextAttributes
 {
-	LOGGED_ACCOUNT("loggedAccount");
+	LOGGED_ACCOUNT("loggedAccount"),
+	TODAY_JOURNAL_EVENTS("todayJournalEvents");
 
 	private String key = null;
 

@@ -62,6 +62,9 @@ public class CategoryTask
 
 	@Column(name = "description", nullable = false)
 	private String description;
+	
+	@Column(name = "tracked", nullable = false)
+	private boolean tracked = false;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Account account;
@@ -73,11 +76,12 @@ public class CategoryTask
 		// Default constructor
 	}
 
-	public CategoryTask(String description, Account account)
+	public CategoryTask(String description, Account account, boolean tracked)
 	{
 		this.uuid = UUID.randomUUID();
 		this.description = description;
 		this.account = account;
+		this.tracked = tracked;
 	}
 	//---------------------------------------------------------------------------------------------------------------------
 
@@ -119,6 +123,14 @@ public class CategoryTask
 	public void setAccount(Account account)
 	{
 		this.account = account;
+	}
+	
+	public boolean isTracked() {
+		return tracked;
+	}
+
+	public void setTracked(boolean tracked) {
+		this.tracked = tracked;
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------

@@ -17,23 +17,26 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tjube.controller.app.form.JournalCreationForm;
+import com.tjube.controller.app.form.ObjectiveCreationForm;
 import com.tjube.controller.security.SecurityContext;
 import com.tjube.controller.utils.LoginUtils;
 import com.tjube.controller.utils.ModelUtils;
 import com.tjube.model.Account;
 import com.tjube.model.Journal;
+import com.tjube.model.Objective;
 import com.tjube.service.JournalService;
+import com.tjube.service.ObjectiveService;
 
 @Controller
-@RequestMapping("/journal")
+@RequestMapping("/objective")
 @ComponentScan("com.tjube.service")
 @Transactional
 @Configuration
-public class JournalController
+public class ObjectiveController
 {
 
 	@Autowired
-	private JournalService journalService;
+	private ObjectiveService objectiveService;
 
 	//---------------------------------------------------------------------------------------------------------------------
 
@@ -47,10 +50,10 @@ public class JournalController
 
 		Account account = SecurityContext.getInstance().getCurrentUser();
 
-		Collection<Journal> journals = journalService.retrieveJournals(account);
-		model.addObject("journals", journals);
+		Collection<Objective> objectives = objectiveService.retrieveObjectives(account);
+		model.addObject("objectives", objectives);
 		
-		model.setViewName(ModelUtils.MODEL_JOURNAL_LIST);
+		model.setViewName(ModelUtils.MODEL_OBJECTIVE_LIST);
 		return model;
 	}
 
@@ -66,9 +69,12 @@ public class JournalController
 
 		Account account = SecurityContext.getInstance().getCurrentUser();
 		model.addObject("account", account);
-
-		model.addObject("form", new JournalCreationForm());
-		model.setViewName(ModelUtils.MODEL_JOURNAL_CREATION);
+		
+		Collection<Objective> masterObjectives = objectiveService.retrieveMasterObjectives(account);
+		model.addObject("masterObjectives", masterObjectives);
+		
+		model.addObject("form", new ObjectiveCreationForm());
+		model.setViewName(ModelUtils.MODEL_OBJECTIVE_CREATION);
 		return model;
 	}
 
@@ -76,16 +82,16 @@ public class JournalController
 
 	@RequestMapping(value = { "/creation" }, method = { RequestMethod.POST })
 	public ModelAndView journalCreationPost(HttpServletRequest request, ModelAndView model,
-			@Valid @ModelAttribute("form") JournalCreationForm form, BindingResult validationResult)
+			@Valid @ModelAttribute("form") ObjectiveCreationForm form, BindingResult validationResult)
 	{
-		model.setViewName(ModelUtils.MODEL_LOGIN);
+		model.setViewName(ModelUtils.REDIRECT_LOGIN);
 		String result = LoginUtils.login();
 		if (result != null)
 			return model;
 
 		if (validationResult.hasErrors())
 		{
-			model.setViewName(ModelUtils.MODEL_JOURNAL_CREATION);
+			model.setViewName(ModelUtils.MODEL_OBJECTIVE_CREATION);
 			return model;
 		}
 
@@ -97,8 +103,8 @@ public class JournalController
 			return model;
 		}
 
-		journalService.createJournal(account, form.getBeginDate(), form.getEndDate());
-		model.setViewName(ModelUtils.REDIRECT_JOURNAL);
+		objectiveService.createObjective(account,form.getName(),form.getDescription(),form.getMasterObjective());
+
 		return model;
 	}
 

@@ -2,6 +2,7 @@ package com.tjube.dao;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -172,6 +173,21 @@ public class JournalDaoImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
+	public Collection<JournalEvent> retrieveJournalEventsByDate(Account account, LocalDateTime dateTime)
+	{
+		TypedQuery<JournalEvent> query = entityManager.createNamedQuery(
+				JournalEvent.QN.RETRIEVE_JOURNAL_EVENTS_WITH_ACCOUNT_AND_DATETIME, JournalEvent.class);
+
+		query.setParameter("account", account);
+		query.setParameter("dateTimeMin", LocalDateTime.of(dateTime.toLocalDate(), LocalTime.MIDNIGHT));
+		query.setParameter("dateTimeMax", LocalDateTime.of(dateTime.toLocalDate().plusDays(1), LocalTime.MIDNIGHT));
+
+		return query.getResultList();
+	}
+	
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@Override
 	public Collection<JournalEvent> retrieveJournalEventsByDate(Journal journal, LocalDateTime dateTime)
 	{
 		TypedQuery<JournalEvent> query = entityManager.createNamedQuery(
@@ -179,7 +195,7 @@ public class JournalDaoImpl
 
 		query.setParameter("journal", journal);
 		query.setParameter("date", dateTime);
-
+		
 		return query.getResultList();
 	}
 

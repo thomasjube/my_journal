@@ -120,10 +120,18 @@ public class JournalServiceImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public Collection<JournalEvent> retrieveJournalEventsByDate(Journal journal, LocalDateTime dateTime)
+	public Collection<JournalEvent> retrieveJournalEventsByDate(Account account, LocalDateTime dateTime)
 	{
-		return journalDao.retrieveJournalEventsByDate(journal, dateTime);
+		return journalDao.retrieveJournalEventsByDate(account, dateTime);
 	}
+	
+	//---------------------------------------------------------------------------------------------------------------------
+
+		@Override
+		public Collection<JournalEvent> retrieveJournalEventsByDate(Journal journal, LocalDateTime dateTime)
+		{
+			return journalDao.retrieveJournalEventsByDate(journal, dateTime);
+		}
 
 	//---------------------------------------------------------------------------------------------------------------------
 

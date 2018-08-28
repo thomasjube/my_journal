@@ -21,9 +21,9 @@ public class CategoryDaoImpl
 	private EntityManager entityManager = null;
 
 	@Override
-	public CategoryTask createCategory(String description, Account account)
+	public CategoryTask createCategory(String description, Account account,boolean tracked)
 	{
-		CategoryTask categoryTaskJPA = new CategoryTask(description, account);
+		CategoryTask categoryTaskJPA = new CategoryTask(description, account,tracked);
 
 		entityManager.persist(categoryTaskJPA);
 

@@ -99,7 +99,7 @@ public class MonthlyTask
 	public MonthlyTask(Journal journal, String description, boolean professional, LocalDate date, TaskUnit unit,
 			Integer value)
 	{
-		super();
+		this.uuid = UUID.randomUUID();
 		this.description = description;
 		this.professional = professional;
 		this.date = date;

@@ -1,5 +1,8 @@
 package com.tjube.controller.app;
 
+import java.time.LocalDateTime;
+import java.util.Collection;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -17,7 +20,9 @@ import com.tjube.controller.security.SessionAttributes;
 import com.tjube.controller.utils.LoginUtils;
 import com.tjube.controller.utils.ModelUtils;
 import com.tjube.model.Account;
+import com.tjube.model.JournalEvent;
 import com.tjube.service.AccountService;
+import com.tjube.service.JournalService;
 
 @Controller
 @RequestMapping(value = { "/login" })
@@ -25,6 +30,9 @@ public class LoginController
 {
 	@Autowired
 	AccountService accountService = null;
+
+	@Autowired
+	JournalService journalService = null;
 
 	//---------------------------------------------------------------------------------------------------------------------
 
@@ -68,7 +76,9 @@ public class LoginController
 
 		SecurityContext.getInstance().setCurrentUser(account);
 		SessionAttributes.setLoggedAccount(request, account);
-
+		
+		Collection<JournalEvent> journalEvents = journalService.retrieveJournalEventsByDate(account, LocalDateTime.now());
+		SessionAttributes.setTodayJournalEvents(request,journalEvents);
 		return model;
 	}
 

@@ -9,7 +9,7 @@ import com.tjube.model.CategoryTask;
 public interface CategoryService
 {
 
-	CategoryTask createCategory(String description, Account account);
+	CategoryTask createCategory(String description, Account account,boolean tracked);
 
 	void updateCategory(CategoryTask categoryTask, String description);
 

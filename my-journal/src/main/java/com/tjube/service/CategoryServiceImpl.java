@@ -20,9 +20,9 @@ public class CategoryServiceImpl
 	CategoryDao categoryDao = null;
 
 	@Override
-	public CategoryTask createCategory(String description, Account account)
+	public CategoryTask createCategory(String description, Account account,boolean tracked)
 	{
-		return categoryDao.createCategory(description, account);
+		return categoryDao.createCategory(description, account,tracked);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------

@@ -123,6 +123,7 @@ public class DailyTask
 			Objective objective)
 	{
 		super();
+		this.uuid = UUID.randomUUID();
 		this.description = description;
 		this.professional = professional;
 		this.date = date;

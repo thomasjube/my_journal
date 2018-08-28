@@ -25,7 +25,9 @@ import com.tjube.controller.utils.converter.UUIDAttributeConverter;
 		@NamedQuery(name = JournalEvent.QN.RETRIEVE_JOURNAL_EVENTS_WITH_JOURNAL,
 				query = "SELECT je from JournalEvent je where je.journal=:journal"),
 		@NamedQuery(name = JournalEvent.QN.RETRIEVE_JOURNAL_EVENTS_WITH_JOURNAL_AND_DATETIME,
-				query = "SELECT je from JournalEvent je where je.journal=:journal and je.dateTime=:dateTime"), })
+				query = "SELECT je from JournalEvent je where je.journal=:journal and je.dateTime=:dateTime"),
+		@NamedQuery(name = JournalEvent.QN.RETRIEVE_JOURNAL_EVENTS_WITH_ACCOUNT_AND_DATETIME,
+		query = "SELECT je from JournalEvent je where je.account=:account and je.dateTime>:dateTimeMin and je.dateTime<:dateTimeMax"), })
 @Entity
 @Table(name = "JOURNAL_EVENT")
 public class JournalEvent
@@ -45,6 +47,7 @@ public class JournalEvent
 		public static final String RETRIEVE_JOURNAL_EVENT_WITH_UUID = "JournalEvent.retrieveJournalEventWithUuid";
 		public static final String RETRIEVE_JOURNAL_EVENTS_WITH_JOURNAL = "JournalEvent.retrieveJournalEventsWithJournal";
 		public static final String RETRIEVE_JOURNAL_EVENTS_WITH_JOURNAL_AND_DATETIME = "JournalEvent.retrieveJournalEventsWithJournalAndDateTime";
+		public static final String RETRIEVE_JOURNAL_EVENTS_WITH_ACCOUNT_AND_DATETIME = "JournalEvent.retrieveJournalEventsWithAccountAndDateTime";
 
 		private QN()
 		{
@@ -80,6 +83,9 @@ public class JournalEvent
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Journal journal;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Account account;
 
 	//---------------------------------------------------------------------------------------------------------------------
 
@@ -91,6 +97,7 @@ public class JournalEvent
 	public JournalEvent(Journal journal, LocalDateTime dateTime, String description, String place, String comments,
 			boolean isAnnually)
 	{
+		this.uuid = UUID.randomUUID();
 		this.journal = journal;
 		this.dateTime = dateTime;
 		this.description = description;
@@ -193,6 +200,18 @@ public class JournalEvent
 	public void setJournal(Journal journal)
 	{
 		this.journal = journal;
+	}
+	
+	//---------------------------------------------------------------------------------------------------------------------
+
+	public Account getAccount()
+	{
+		return account;
+	}
+	
+	public void setAccount(Account account)
+	{
+		this.account = account;
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------

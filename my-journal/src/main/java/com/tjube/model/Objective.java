@@ -1,8 +1,11 @@
 package com.tjube.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -15,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.tjube.controller.utils.converter.UUIDAttributeConverter;
@@ -24,7 +28,11 @@ import com.tjube.model.enums.TaskStateEvent;
 		@NamedQuery(name = Objective.QN.RETRIEVE_OBJECTIVE_WITH_UUID,
 				query = "SELECT item from Objective item where item.uuid=:uuid"),
 		@NamedQuery(name = Objective.QN.RETRIEVE_OBJECTIVE_BY_MOTHLY_TASK,
-				query = "SELECT item from Objective item where item.monthlyTask=:monthlyTask") })
+				query = "SELECT item from Objective item where item.monthlyTask=:monthlyTask"),
+		@NamedQuery(name = Objective.QN.RETRIEVE_OBJECTIVE_BY_ACCOUNT,
+				query = "SELECT item from Objective item where item.account=:account"),
+		@NamedQuery(name = Objective.QN.RETRIEVE_MASTER_OBJECTIVE_BY_ACCOUNT,
+		query = "SELECT item from Objective item where item.account=:account and item.masterObjective is null")})
 @Entity
 @Table(name = "OBJECTIVE")
 public class Objective
@@ -38,6 +46,8 @@ public class Objective
 	{
 		public static final String RETRIEVE_OBJECTIVE_WITH_UUID = "Objective.retrieveObjectiveByUuid";
 		public static final String RETRIEVE_OBJECTIVE_BY_MOTHLY_TASK = "Objective.retrieveObjectiveByMonthlyTask";
+		public static final String RETRIEVE_OBJECTIVE_BY_ACCOUNT = "Objective.retrieveObjectiveByAccount";
+		public static final String RETRIEVE_MASTER_OBJECTIVE_BY_ACCOUNT = "Objective.retrieveMasterObjectiveByAccount";
 
 		private QN()
 		{
@@ -56,17 +66,26 @@ public class Objective
 	private UUID uuid;
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	private Journal journal = null;
+	private Account account = null;
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = true)
 	private MonthlyTask monthlyTask = null;
 
-	@Column(name = "description", nullable = false)
+	@Column(name = "name", nullable = false)
+	private String name = null;
+	
+	@Column(name = "description", nullable = true)
 	private String description = null;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "state", nullable = false)
 	private TaskStateEvent state = TaskStateEvent.TO_DO;
+	
+	@ManyToOne(fetch = FetchType.LAZY, optional = true)
+	private Objective masterObjective = null;
+	
+	@OneToMany(mappedBy = "masterObjective", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Collection<Objective> subObjectives = new ArrayList<>();
 
 	//---------------------------------------------------------------------------------------------------------------------
 
@@ -75,11 +94,21 @@ public class Objective
 		// Default Constructor
 	}
 
-	public Objective(Journal journal, MonthlyTask monthlyTask, String description)
+	public Objective(Account account,String name, String description, Objective masterObjective)
 	{
 		this.uuid = UUID.randomUUID();
 
-		this.journal = journal;
+		this.account = account;
+		this.name = name;
+		this.description = description;
+		this.masterObjective = masterObjective;
+	}
+	
+	public Objective(Account account, MonthlyTask monthlyTask, String description)
+	{
+		this.uuid = UUID.randomUUID();
+
+		this.account = account;
 		this.monthlyTask = monthlyTask;
 
 		this.description = description;
@@ -106,14 +135,24 @@ public class Objective
 
 	//---------------------------------------------------------------------------------------------------------------------
 
-	public Journal getJournal()
+	public Account getAccount()
 	{
-		return journal;
+		return account;
 	}
 
-	public void setJournal(Journal journal)
+	public void setAccount(Account account)
 	{
-		this.journal = journal;
+		this.account = account;
+	}
+	
+	//---------------------------------------------------------------------------------------------------------------------
+
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -153,6 +192,26 @@ public class Objective
 
 	//---------------------------------------------------------------------------------------------------------------------
 
+	public Objective getMasterObjective() {
+		return masterObjective;
+	}
+	
+	public void setMasterObjective(Objective masterObjective) {
+		this.masterObjective = masterObjective;
+	}
+	
+	//---------------------------------------------------------------------------------------------------------------------
+
+	public Collection<Objective> getSubObjectives() {
+		return subObjectives;
+	}
+	
+	public void setSubObjectives(Collection<Objective> subObjectives) {
+		this.subObjectives = subObjectives;
+	}
+	//---------------------------------------------------------------------------------------------------------------------
+
+	
 	@Override
 	public int hashCode()
 	{

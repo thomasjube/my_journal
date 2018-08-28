@@ -43,6 +43,8 @@ public interface JournalService
 
 	JournalEvent retrieveJournalEvent(UUID uuid);
 
+	Collection<JournalEvent> retrieveJournalEventsByDate(Account account, LocalDateTime dateTime);
+	
 	Collection<JournalEvent> retrieveJournalEventsByDate(Journal journal, LocalDateTime dateTime);
 
 	Collection<JournalEvent> retrieveAllJournalEvents(Journal journal);
