@@ -57,57 +57,36 @@
                                         <strong>Nouvel Objectif</strong>
                                     </div>
                                     <div class="card-body card-block">
-                                        <form action="" method="post" class="form-horizontal">
-                                            <input type="hidden" name="objectiveUuid">
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="text-input" class=" form-control-label">Nom</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <input type="text" name="name" placeholder="Objectif" class="form-control"/>
-                                                    <small class="form-text text-muted">Entrer le nom de l'objectif</small>
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="textarea-input" class=" form-control-label">Description</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <textarea name="description" rows="9" placeholder="Description de l'objectif" class="form-control"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="select" class=" form-control-label">Objectif lié</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <select name="masterObjectiveUuid" class="form-control">
-                                                    <option value="">Please select</option>
-                                                    <c:forEach items="${masterObjectives}" var="masterObjective">
-														<option value="${masterObjective.uuid}">${masterObjective.name}</option>                                                    	
-                                                    </c:forEach>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                    <div class="card-footer">
-                                        <button type="submit" class="btn btn-primary btn-sm">
-                                            <i class="fa fa-dot-circle-o"></i> Submit
-                                        </button>
-                                        <button type="reset" class="btn btn-danger btn-sm">
-                                            <i class="fa fa-ban"></i> Reset
-                                        </button>
-                                    </div>
-                                 </form>
+                                        <form action="" method="post">
+			                               <input type="hidden" name="journalUuid" value="${form.journalUuid}">
+                                            <div class="form-group">
+			                                    <label>Date de début</label>
+			                                    <input class="au-input au-input--full" type="date" name="beginDate" value="${form.beginDate}">
+			                                </div>
+			                                <div class="form-group">
+			                                    <label>Date de fin</label>
+			                                    <input class="au-input au-input--full" type="date" name="endDate" value="${form.endDate}">
+			                                </div>
+	                                    
+	                                    <div class="card-footer">
+	                                        <button type="submit" class="btn btn-primary btn-sm">
+	                                            <i class="fa fa-dot-circle-o"></i> Submit
+	                                        </button>
+	                                        <button type="reset" class="btn btn-danger btn-sm">
+	                                            <i class="fa fa-ban"></i> Reset
+	                                        </button>
+	                                    </div>
+	                           		</form>
                                 </div>
                             </div>
                             </div>
-<!--                         <div class="row"> -->
-<!--                             <div class="col-md-12"> -->
-<!--                                 <div class="copyright"> -->
-<!--                                     <p>Copyright Â© 2018 Colorlib. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p> -->
-<!--                                 </div> -->
-<!--                             </div> -->
-<!--                         </div> -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="copyright">
+                                    <p>Copyright Â© 2018 Colorlib. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -32,7 +32,9 @@ import com.tjube.model.enums.TaskUnit;
 		@NamedQuery(name = DailyTask.QN.RETRIEVE_DAILY_TASKS_WITH_MONTHLY_TASK,
 				query = "SELECT dt from DailyTask dt where dt.monthlyTask=:monthlyTask"),
 		@NamedQuery(name = DailyTask.QN.RETRIEVE_DAILY_TASKS_WITH_DATE,
-				query = "SELECT dt from DailyTask dt where dt.date=:date and dt.journal=:journal"), })
+				query = "SELECT dt from DailyTask dt where dt.date=:date and dt.journal=:journal"),
+		@NamedQuery(name = DailyTask.QN.COUNT_DAILY_TASK_BY_MONTH,
+				query = "SELECT to_char(dt.date,'Month') as mon, count(dt.id) from DailyTask dt where dt.journal=:journal group by 1"), })
 @Entity
 @Table(name = "DAILY_TASK")
 public class DailyTask
@@ -52,6 +54,7 @@ public class DailyTask
 		public static final String RETRIEVE_DAILY_TASKS_WITH_JOURNAL = "DailyTask.retrieveDailyTasksWithJournal";
 		public static final String RETRIEVE_DAILY_TASKS_WITH_MONTHLY_TASK = "DailyTask.retrieveDailyTasksWithMonthlyTask";
 		public static final String RETRIEVE_DAILY_TASKS_WITH_DATE = "DailyTask.retrieveDailyTasksWithDate";
+		public static final String COUNT_DAILY_TASK_BY_MONTH = "DailyTask.countDailyTasksByMonth";
 
 		private QN()
 		{

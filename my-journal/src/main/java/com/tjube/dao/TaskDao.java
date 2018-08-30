@@ -2,7 +2,9 @@ package com.tjube.dao;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.Collection;
+import java.util.Map;
 import java.util.UUID;
 
 import com.tjube.model.Budget;
@@ -53,4 +55,6 @@ public interface TaskDao
 	Collection<DailyTask> retrieveAllDailyTasksByJournal(Journal journal);
 
 	Collection<DailyTask> retrieveAllDailyTasksByDay(Journal journal, LocalDate localDate);
+
+	Map<Month, Integer> countDailyTaskByMonth(Journal journal);
 }

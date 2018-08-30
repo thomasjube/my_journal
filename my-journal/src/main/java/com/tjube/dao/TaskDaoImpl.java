@@ -2,7 +2,10 @@ package com.tjube.dao;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.persistence.EntityManager;
@@ -199,6 +202,28 @@ public class TaskDaoImpl
 		query.setParameter("date", localDate);
 
 		return query.getResultList();
+	}
+
+	@Override
+	public Map<Month, Integer> countDailyTaskByMonth(Journal journal)
+	{
+		TypedQuery<Object[]> query = entityManager.createNamedQuery(DailyTask.QN.COUNT_DAILY_TASK_BY_MONTH,
+				Object[].class);
+
+		query.setParameter("journal", journal);
+		//		query.setMaxResults(maxResults);
+
+		Map<Month, Integer> results = new HashMap<>();
+
+		for (Object[] values : query.getResultList())
+		{
+			Month month = values[0] != null ? Month.valueOf(values[0].toString().toUpperCase().trim()) : null;
+			Long count = values[1] != null ? (Long) values[1] : null;
+
+			results.put(month, count.intValue());
+		}
+
+		return results;
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------

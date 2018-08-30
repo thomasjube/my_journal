@@ -81,6 +81,9 @@ public class Journal
 	@OneToMany(mappedBy = "journal", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Collection<Budget> budgets = new ArrayList<>();
 
+	@OneToMany(mappedBy = "journal", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Collection<MonthlyTask> monthlyTasks = new ArrayList<>();
+
 	//---------------------------------------------------------------------------------------------------------------------
 
 	public Journal()
@@ -179,6 +182,20 @@ public class Journal
 	{
 		this.budgets = budgets;
 	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	public Collection<MonthlyTask> getMonthlyTasks()
+	{
+		return monthlyTasks;
+	}
+
+	public void setMonthlyTasks(Collection<MonthlyTask> monthlyTasks)
+	{
+		this.monthlyTasks = monthlyTasks;
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
 
 	//---------------------------------------------------------------------------------------------------------------------
 

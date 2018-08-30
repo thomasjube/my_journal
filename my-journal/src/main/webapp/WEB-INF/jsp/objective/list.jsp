@@ -73,24 +73,48 @@
 		                                        </thead>
 		                                        <tbody>
 		                                            <c:forEach items="${masterObjectives}" var="objective">
-			                                            <tr class="tr-shadow">
+			                                            <tr id="${objective.uuid }" class="tr-shadow">
 			                                                <td>
-			                                                    <span class="status--process_${objective.state }"></span>
+			                                                    <c:choose>
+				                                                    <c:when test="${objective.state == 'DONE'}">
+				                                                    	<input onchange="updateState(this)" type="checkbox" class="status--process_${objective.state }" checked/>
+				                                                    </c:when>
+				                                                    <c:otherwise>
+				                                                    	<input onchange="updateState(this)" type="checkbox" class="status--process_${objective.state }" />
+				                                                    </c:otherwise>
+			                                                    </c:choose>
 			                                                </td>
-			                                                <td>${objective.description }</td>
+			                                                <td>${objective.name}
+				                                                <c:if test="${not empty objective.subObjectives}">
+				                                                	<table>
+				                                                		<c:forEach items="${objective.subObjectives}" var="subObjective">
+				                                                			<tr id="${subObjective.uuid}">
+					                                                			<td>
+								                                                    <span class="status--process_${objective.state }"></span>
+								                                                </td>
+								                                                <td>${subObjective.name}</td>
+								                                                <td>
+								                                                    <div class="table-data-feature">
+								                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit" onclick="location.href='objective/update?uuid=${subObjective.uuid }';">
+								                                                            <i class="zmdi zmdi-edit"></i>
+								                                                        </button>
+								                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete" onclick="location.href='objective/delete?uuid=${subObjective.uuid }';">
+								                                                            <i class="zmdi zmdi-delete"></i>
+								                                                        </button>
+								                                                    </div>
+								                                                </td>
+							                                                </tr>
+				                                                		</c:forEach>
+				                                                	</table>
+				                                                </c:if>
+			                                                </td>
 			                                                <td>
 			                                                    <div class="table-data-feature">
-			                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Send">
-			                                                            <i class="zmdi zmdi-mail-send"></i>
-			                                                        </button>
-			                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
+			                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit" onclick="location.href='objective/update?uuid=${objective.uuid }';">
 			                                                            <i class="zmdi zmdi-edit"></i>
 			                                                        </button>
-			                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
+			                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete" onclick="location.href='objective/delete?uuid=${objective.uuid }';">
 			                                                            <i class="zmdi zmdi-delete"></i>
-			                                                        </button>
-			                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="More">
-			                                                            <i class="zmdi zmdi-more"></i>
 			                                                        </button>
 			                                                    </div>
 			                                                </td>
@@ -145,6 +169,33 @@
 
     <!-- Main JS-->
     <script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
+
+	<script type="text/javascript">
+
+	function updateState(objective){
+		var uuid = $(objective).closest("tr").attr("id");
+		var state = $(objective).is(':checked') ? "DONE" : "TO_DO"; 
+		var urlAjax = 'objective/updateState?uuid=' + uuid;
+		var dataAjax = {'state' : state};
+		
+		$.ajax({
+			headers: { 
+		        'Accept': 'application/json',
+		        'Content-Type': 'application/json' 
+		    },
+	    	url: urlAjax,
+	   		type: 'POST',
+	   		contentType: 'application/json',
+	   		dataType: "json",
+	   		data: JSON.stringify(dataAjax),
+	   		success: function(data, status, jqXHR) {
+	  	    },
+			error: function(jqXHR, status, errorThrown) {
+			}
+		});
+	}
+	
+	</script>
 
 </body>
 

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.tjube.model.Account;
 import com.tjube.model.JPAUtils;
 import com.tjube.model.Objective;
+import com.tjube.model.enums.TaskStateEvent;
 
 @Repository
 public class ObjectiveDaoImpl
@@ -29,6 +30,41 @@ public class ObjectiveDaoImpl
 		entityManager.persist(objective);
 
 		return objective;
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@Override
+	public void updateObjective(Objective objective, String name, String description, Objective masterObjective)
+	{
+		if (!entityManager.contains(objective))
+			objective = entityManager.merge(objective);
+
+		objective.setName(name);
+		objective.setDescription(description);
+		objective.setMasterObjective(masterObjective);
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@Override
+	public void updateState(Objective objective, TaskStateEvent state)
+	{
+		if (!entityManager.contains(objective))
+			objective = entityManager.merge(objective);
+
+		objective.setState(state);
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@Override
+	public void removeObjective(Objective objective)
+	{
+		if (!entityManager.contains(objective))
+			objective = entityManager.merge(objective);
+
+		entityManager.remove(objective);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------

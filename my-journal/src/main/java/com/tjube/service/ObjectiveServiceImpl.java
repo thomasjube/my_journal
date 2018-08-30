@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tjube.dao.ObjectiveDao;
 import com.tjube.model.Account;
 import com.tjube.model.Objective;
+import com.tjube.model.enums.TaskStateEvent;
 
 @Service
 @Transactional
@@ -23,6 +24,24 @@ public class ObjectiveServiceImpl
 	public Objective createObjective(Account account, String name, String description, Objective masterObjective)
 	{
 		return objectiveDao.createObjective(account, name, description, masterObjective);
+	}
+
+	@Override
+	public void updateObjective(Objective objective, String name, String description, Objective masterObjective)
+	{
+		objectiveDao.updateObjective(objective, name, description, masterObjective);
+	}
+
+	@Override
+	public void updateState(Objective objective, TaskStateEvent state)
+	{
+		objectiveDao.updateState(objective, state);
+	}
+
+	@Override
+	public void removeObjective(Objective objective)
+	{
+		objectiveDao.removeObjective(objective);
 	}
 
 	@Override

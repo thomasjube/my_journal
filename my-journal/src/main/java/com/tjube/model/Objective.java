@@ -32,7 +32,7 @@ import com.tjube.model.enums.TaskStateEvent;
 		@NamedQuery(name = Objective.QN.RETRIEVE_OBJECTIVE_BY_ACCOUNT,
 				query = "SELECT item from Objective item where item.account=:account"),
 		@NamedQuery(name = Objective.QN.RETRIEVE_MASTER_OBJECTIVE_BY_ACCOUNT,
-		query = "SELECT item from Objective item where item.account=:account and item.masterObjective is null")})
+				query = "SELECT item from Objective item where item.account=:account and item.masterObjective is null") })
 @Entity
 @Table(name = "OBJECTIVE")
 public class Objective
@@ -73,17 +73,17 @@ public class Objective
 
 	@Column(name = "name", nullable = false)
 	private String name = null;
-	
+
 	@Column(name = "description", nullable = true)
 	private String description = null;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "state", nullable = false)
 	private TaskStateEvent state = TaskStateEvent.TO_DO;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY, optional = true)
 	private Objective masterObjective = null;
-	
+
 	@OneToMany(mappedBy = "masterObjective", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Collection<Objective> subObjectives = new ArrayList<>();
 
@@ -94,7 +94,7 @@ public class Objective
 		// Default Constructor
 	}
 
-	public Objective(Account account,String name, String description, Objective masterObjective)
+	public Objective(Account account, String name, String description, Objective masterObjective)
 	{
 		this.uuid = UUID.randomUUID();
 
@@ -103,7 +103,7 @@ public class Objective
 		this.description = description;
 		this.masterObjective = masterObjective;
 	}
-	
+
 	public Objective(Account account, MonthlyTask monthlyTask, String description)
 	{
 		this.uuid = UUID.randomUUID();
@@ -144,14 +144,16 @@ public class Objective
 	{
 		this.account = account;
 	}
-	
+
 	//---------------------------------------------------------------------------------------------------------------------
 
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
-	
-	public void setName(String name) {
+
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 
@@ -192,26 +194,29 @@ public class Objective
 
 	//---------------------------------------------------------------------------------------------------------------------
 
-	public Objective getMasterObjective() {
+	public Objective getMasterObjective()
+	{
 		return masterObjective;
 	}
-	
-	public void setMasterObjective(Objective masterObjective) {
+
+	public void setMasterObjective(Objective masterObjective)
+	{
 		this.masterObjective = masterObjective;
 	}
-	
+
 	//---------------------------------------------------------------------------------------------------------------------
 
-	public Collection<Objective> getSubObjectives() {
+	public Collection<Objective> getSubObjectives()
+	{
 		return subObjectives;
 	}
-	
-	public void setSubObjectives(Collection<Objective> subObjectives) {
+
+	public void setSubObjectives(Collection<Objective> subObjectives)
+	{
 		this.subObjectives = subObjectives;
 	}
 	//---------------------------------------------------------------------------------------------------------------------
 
-	
 	@Override
 	public int hashCode()
 	{

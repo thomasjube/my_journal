@@ -2,7 +2,9 @@ package com.tjube.service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.Collection;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -138,6 +140,14 @@ public class TaskServiceImpl
 	public Collection<DailyTask> retrieveAllDailyTasksByDay(Journal journal, LocalDate localDate)
 	{
 		return taskDao.retrieveAllDailyTasksByDay(journal, localDate);
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@Override
+	public Map<Month, Integer> countDailyTaskByMonth(Journal journal)
+	{
+		return taskDao.countDailyTaskByMonth(journal);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------

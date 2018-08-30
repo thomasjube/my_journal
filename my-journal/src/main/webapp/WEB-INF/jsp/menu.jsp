@@ -25,28 +25,28 @@
                 <div class="container-fluid">
                     <ul class="navbar-mobile__list list-unstyled">
                         <li class="active has-sub">
-                            <a class="js-arrow" href="<%=request.getContextPath()%>">
+                            <a class="js-arrow" href="<%=request.getContextPath()%>/">
                                 <i class="fas fa-tachometer-alt"></i>Dashboard</a>
                         </li>
                         <li>
-                            <a href="journal">
+                            <a href="<%=request.getContextPath()%>/journal">
                                 <i class="fas fa-calendar-alt"></i>Journal</a>
                         </li>
                         <li>
-                            <a href="tasks">
+                            <a href="<%=request.getContextPath()%>/tasks">
                                 <i class="fas fa-check-square"></i>Tâches</a>
                         </li>
                         <li>
-                            <a href="budget">
+                            <a href="<%=request.getContextPath()%>/budget">
                                 <i class="far fa-chart-bar"></i>Budget</a>
                         </li>
                         <li>
-                            <a href="objective">
+                            <a href="<%=request.getContextPath()%>/objective">
                                 <i class="fas fa-table"></i>Objectifs</a>
                         </li>
                         <li>
-                            <a href="wishlist">
-                                <i class="fas fa-map-marker-alt"></i>Wishlist</a>
+                            <a href="<%=request.getContextPath()%>/wish">
+                                <i class="fas fa-map-marker-alt"></i>Liste d'envies</a>
                         </li>
                     </ul>
                 </div>
@@ -65,28 +65,28 @@
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li>
-                            <a class="js-arrow" href="<%=request.getContextPath()%>">
+                            <a class="js-arrow" href="<%=request.getContextPath()%>/">
                                 <i class="fas fa-tachometer-alt"></i>Dashboard</a>
                         </li>
                         <li>
-                            <a href="journal">
+                            <a href="<%=request.getContextPath()%>/journal">
                                 <i class="fas fa-calendar-alt"></i>Journal</a>
                         </li>
                         <li>
-                            <a href="tasks">
+                            <a href="<%=request.getContextPath()%>/tasks">
                                 <i class="fas fa-check-square"></i>Tâches</a>
                         </li>
                         <li>
-                            <a href="budget">
+                            <a href="<%=request.getContextPath()%>/budget">
                                 <i class="far fa-chart-bar"></i>Budget</a>
                         </li>
                         <li>
-                            <a href="objective">
+                            <a href="<%=request.getContextPath()%>/objective">
                                 <i class="fas fa-table"></i>Objectifs</a>
                         </li>
                         <li>
-                            <a href="wishlist">
-                                <i class="fas fa-map-marker-alt"></i>Wishlist</a>
+                            <a href="<%=request.getContextPath()%>/wish">
+                                <i class="fas fa-map-marker-alt"></i>Liste d'envies</a>
                         </li>
                     </ul>
                 </nav>
@@ -130,7 +130,16 @@
                                             <img src="<%=request.getContextPath()%>/resources/images/icon/avatar-01.jpg" alt="John Doe" />
                                         </div>
                                         <div class="content">
-                                            <a class="js-acc-btn" href="#">${sessionScope.loggedAccount.firstName}&nbsp;${sessionScope.loggedAccount.lastName}</a>
+                                            <a class="js-acc-btn" href="#">
+                                            	<c:choose>
+                                            		<c:when test="${not empty sessionScope.loggedAccount.alias}">
+                                            			${sessionScope.loggedAccount.alias}
+                                            		</c:when>
+                                            		<c:otherwise>
+                                            			${sessionScope.loggedAccount.firstName}&nbsp;${sessionScope.loggedAccount.lastName}
+                                            		</c:otherwise>
+                                            	</c:choose>
+                                            </a>
                                         </div>
                                         <div class="account-dropdown js-dropdown">
                                             <div class="info clearfix">

@@ -72,7 +72,7 @@
 				                                        </thead>
 				                                        <tbody>
 			                                        		<c:forEach items="${journals}" var="journal">
-					                                            <tr class="tr-shadow" id="${journal.uuid }">
+					                                            <tr style="cursor:pointer;" class="tr-shadow" id="${journal.uuid }">
 					                                                <td><tags:localDate date="${journal.beginDate }"/></td>
 					                                                <td><tags:localDate date="${journal.endDate}"/></td>
 					                                                <td>
@@ -134,6 +134,14 @@
 
     <!-- Main JS-->
     <script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
+
+	<script type="text/javascript">
+
+	$(".tr-shadow").click(function(e){
+		window.location.href = "journal/show?uuid=" + $(this).attr("id");
+	});
+	
+	</script>
 
 </body>
 

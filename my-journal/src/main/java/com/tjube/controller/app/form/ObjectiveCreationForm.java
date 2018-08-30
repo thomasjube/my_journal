@@ -4,6 +4,8 @@ import java.util.UUID;
 
 import javax.validation.constraints.NotBlank;
 
+import com.tjube.model.Objective;
+
 public class ObjectiveCreationForm
 {
 	@NotBlank
@@ -13,9 +15,20 @@ public class ObjectiveCreationForm
 
 	private UUID masterObjectiveUuid;
 
+	private UUID objectiveUuid = null;
+
 	public ObjectiveCreationForm()
 	{
 		// Default Constructor
+	}
+
+	public ObjectiveCreationForm(Objective objective)
+	{
+		this.name = objective.getName();
+		this.description = objective.getDescription();
+		this.masterObjectiveUuid = objective.getMasterObjective() != null ? objective.getMasterObjective().getUuid()
+				: null;
+		this.objectiveUuid = objective.getUuid();
 	}
 
 	public String getName()
@@ -46,6 +59,16 @@ public class ObjectiveCreationForm
 	public void setMasterObjectiveUuid(UUID masterObjectiveUUID)
 	{
 		this.masterObjectiveUuid = masterObjectiveUUID;
+	}
+
+	public UUID getObjectiveUuid()
+	{
+		return objectiveUuid;
+	}
+
+	public void setObjectiveUuid(UUID objectiveUuid)
+	{
+		this.objectiveUuid = objectiveUuid;
 	}
 
 }

@@ -1,4 +1,4 @@
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
@@ -54,17 +54,17 @@
                             <div class="col-lg-6">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong>Nouvel Objectif</strong>
+                                        <strong>Mise à jour de l'objectif</strong>
                                     </div>
                                     <div class="card-body card-block">
                                         <form action="" method="post" class="form-horizontal">
-                                            <input type="hidden" name="objectiveUuid">
+                                            <input type="hidden" name="objectiveUuid" value="${form.objectiveUuid}">
                                             <div class="row form-group">
                                                 <div class="col col-md-3">
                                                     <label for="text-input" class=" form-control-label">Nom</label>
                                                 </div>
                                                 <div class="col-12 col-md-9">
-                                                    <input type="text" name="name" placeholder="Objectif" class="form-control"/>
+                                                    <input type="text" name="name" placeholder="Objectif" class="form-control" value="${form.name}"/>
                                                     <small class="form-text text-muted">Entrer le nom de l'objectif</small>
                                                 </div>
                                             </div>
@@ -73,7 +73,7 @@
                                                     <label for="textarea-input" class=" form-control-label">Description</label>
                                                 </div>
                                                 <div class="col-12 col-md-9">
-                                                    <textarea name="description" rows="9" placeholder="Description de l'objectif" class="form-control"></textarea>
+                                                    <textarea name="description" rows="9" class="form-control" >${form.description }</textarea>
                                                 </div>
                                             </div>
                                             <div class="row form-group">
@@ -81,10 +81,18 @@
                                                     <label for="select" class=" form-control-label">Objectif lié</label>
                                                 </div>
                                                 <div class="col-12 col-md-9">
-                                                    <select name="masterObjectiveUuid" class="form-control">
+                                                    <select name="masterObjectiveUuid" class="form-control" >
                                                     <option value="">Please select</option>
                                                     <c:forEach items="${masterObjectives}" var="masterObjective">
-														<option value="${masterObjective.uuid}">${masterObjective.name}</option>                                                    	
+														<c:choose>
+															<c:when test="${masterObjective.uuid == form.masterObjectiveUuid}">
+																<option value="${masterObjective.uuid}" selected>${masterObjective.name}</option>      
+															</c:when>
+															<c:otherwise>
+																<option value="${masterObjective.uuid}">${masterObjective.name}</option>      
+															</c:otherwise>
+														</c:choose>
+														                                              	
                                                     </c:forEach>
                                                     </select>
                                                 </div>
@@ -101,13 +109,13 @@
                                 </div>
                             </div>
                             </div>
-<!--                         <div class="row"> -->
-<!--                             <div class="col-md-12"> -->
-<!--                                 <div class="copyright"> -->
-<!--                                     <p>Copyright Â© 2018 Colorlib. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p> -->
-<!--                                 </div> -->
-<!--                             </div> -->
-<!--                         </div> -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="copyright">
+                                    <p>Copyright Â© 2018 Colorlib. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -136,6 +144,7 @@
 
     <!-- Main JS-->
     <script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
+
 
 </body>
 
