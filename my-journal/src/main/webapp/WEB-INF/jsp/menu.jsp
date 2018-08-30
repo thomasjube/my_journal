@@ -29,24 +29,24 @@
                                 <i class="fas fa-tachometer-alt"></i>Dashboard</a>
                         </li>
                         <li>
-                            <a href="journal">
+                            <a href="<%=request.getContextPath()%>/journal">
                                 <i class="fas fa-calendar-alt"></i>Journal</a>
                         </li>
                         <li>
-                            <a href="tasks">
+                            <a href="<%=request.getContextPath()%>/tasks">
                                 <i class="fas fa-check-square"></i>Tâches</a>
                         </li>
                         <li>
-                            <a href="budget">
+                            <a href="<%=request.getContextPath()%>/budget">
                                 <i class="far fa-chart-bar"></i>Budget</a>
                         </li>
                         <li>
-                            <a href="objective">
+                            <a href="<%=request.getContextPath()%>/objective">
                                 <i class="fas fa-table"></i>Objectifs</a>
                         </li>
                         <li>
-                            <a href="wishlist">
-                                <i class="fas fa-map-marker-alt"></i>Wishlist</a>
+                            <a href="<%=request.getContextPath()%>/wish">
+                                <i class="fas fa-map-marker-alt"></i>Liste d'envies</a>
                         </li>
                     </ul>
                 </div>
@@ -69,24 +69,24 @@
                                 <i class="fas fa-tachometer-alt"></i>Dashboard</a>
                         </li>
                         <li>
-                            <a href="journal">
+                            <a href="<%=request.getContextPath()%>/journal">
                                 <i class="fas fa-calendar-alt"></i>Journal</a>
                         </li>
                         <li>
-                            <a href="tasks">
+                            <a href="<%=request.getContextPath()%>/tasks">
                                 <i class="fas fa-check-square"></i>Tâches</a>
                         </li>
                         <li>
-                            <a href="budget">
+                            <a href="<%=request.getContextPath()%>/budget">
                                 <i class="far fa-chart-bar"></i>Budget</a>
                         </li>
                         <li>
-                            <a href="objective">
+                            <a href="<%=request.getContextPath()%>/objective">
                                 <i class="fas fa-table"></i>Objectifs</a>
                         </li>
                         <li>
-                            <a href="wishlist">
-                                <i class="fas fa-map-marker-alt"></i>Wishlist</a>
+                            <a href="<%=request.getContextPath()%>/wish">
+                                <i class="fas fa-map-marker-alt"></i>Liste d'envies</a>
                         </li>
                     </ul>
                 </nav>

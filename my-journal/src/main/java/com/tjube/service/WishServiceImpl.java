@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tjube.dao.WishDao;
 import com.tjube.model.Account;
 import com.tjube.model.CategoryTask;
+import com.tjube.model.DailyTask;
 import com.tjube.model.Wish;
 import com.tjube.model.WishList;
 import com.tjube.model.enums.TaskStateEvent;
@@ -30,8 +31,7 @@ public class WishServiceImpl
 	@Override
 	public WishList createWishList(Account account, String description)
 	{
-		return null;
-		// return null
+		return wishDao.createWishList(account, description);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -39,8 +39,7 @@ public class WishServiceImpl
 	@Override
 	public void updateWishList(WishList wishList, String description)
 	{
-		// TODO Auto-generated method stub
-
+		wishDao.updateWishList(wishList, description);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -48,8 +47,16 @@ public class WishServiceImpl
 	@Override
 	public void removeWishList(WishList wishList)
 	{
-		// TODO Auto-generated method stub
+		for (Wish wish : wishList.getWishes())
+		{
+			if (wish.getDailyTask() != null)
+				wish.getDailyTask().setWish(null);
 
+			wishDao.removeWishToWishList(wishList, wish);
+			wishDao.removeWish(wish);
+		}
+
+		wishDao.removeWishList(wishList);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -57,8 +64,7 @@ public class WishServiceImpl
 	@Override
 	public void addWishToWishList(WishList wishList, Wish wish)
 	{
-		// TODO Auto-generated method stub
-
+		wishDao.addWishToWishList(wishList, wish);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -66,8 +72,7 @@ public class WishServiceImpl
 	@Override
 	public void removeWishToWishList(WishList wishList, Wish wish)
 	{
-		// TODO Auto-generated method stub
-
+		wishDao.removeWishToWishList(wishList, wish);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -75,8 +80,7 @@ public class WishServiceImpl
 	@Override
 	public WishList retrieveWishList(UUID uuid)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return wishDao.retrieveWishList(uuid);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -84,8 +88,7 @@ public class WishServiceImpl
 	@Override
 	public Collection<WishList> retrieveWishLists(Account account)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return wishDao.retrieveWishLists(account);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -96,8 +99,7 @@ public class WishServiceImpl
 	public Wish createWish(WishList wishList, CategoryTask categoryTask, String descritpion, BigDecimal price,
 			TaskStateEvent state)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return wishDao.createWish(wishList, categoryTask, descritpion, price, state);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -105,17 +107,15 @@ public class WishServiceImpl
 	@Override
 	public void updateWish(Wish wish, CategoryTask categoryTask, String descritpion, BigDecimal price)
 	{
-		// TODO Auto-generated method stub
-
+		wishDao.updateWish(wish, categoryTask, descritpion, price);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public void updateWishState(Wish wish, TaskStateEvent state)
+	public void updateWishState(Wish wish, DailyTask dailyTask, TaskStateEvent state)
 	{
-		// TODO Auto-generated method stub
-
+		wishDao.updateWishState(wish, dailyTask, state);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -123,8 +123,7 @@ public class WishServiceImpl
 	@Override
 	public void removeWish(Wish wish)
 	{
-		// TODO Auto-generated method stub
-
+		wishDao.removeWish(wish);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -132,8 +131,7 @@ public class WishServiceImpl
 	@Override
 	public Wish retrieveWish(UUID uuid)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return wishDao.retrieveWish(uuid);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -141,8 +139,7 @@ public class WishServiceImpl
 	@Override
 	public Collection<Wish> retrieveWishes(WishList wishList)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return wishDao.retrieveWishes(wishList);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------

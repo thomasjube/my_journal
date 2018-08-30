@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.tjube.model.Account;
 import com.tjube.model.CategoryTask;
+import com.tjube.model.DailyTask;
 import com.tjube.model.Wish;
 import com.tjube.model.WishList;
 import com.tjube.model.enums.TaskStateEvent;
@@ -34,12 +35,12 @@ public interface WishDao
 	// WISH OPERATIONS
 	//---------------------------------------------------------------------------------------------------------------------
 
-	Wish createWish(WishList wishList, CategoryTask categoryTask, String descritpion, BigDecimal price,
+	Wish createWish(WishList wishList, CategoryTask categoryTask, String description, BigDecimal price,
 			TaskStateEvent state);
 
 	void updateWish(Wish wish, CategoryTask categoryTask, String descritpion, BigDecimal price);
 
-	void updateWishState(Wish wish, TaskStateEvent state);
+	void updateWishState(Wish wish, DailyTask dailyTask, TaskStateEvent state);
 
 	void removeWish(Wish wish);
 
