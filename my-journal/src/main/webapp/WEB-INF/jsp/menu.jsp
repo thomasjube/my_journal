@@ -25,7 +25,7 @@
                 <div class="container-fluid">
                     <ul class="navbar-mobile__list list-unstyled">
                         <li class="active has-sub">
-                            <a class="js-arrow" href="<%=request.getContextPath()%>">
+                            <a class="js-arrow" href="<%=request.getContextPath()%>/">
                                 <i class="fas fa-tachometer-alt"></i>Dashboard</a>
                         </li>
                         <li>
@@ -65,7 +65,7 @@
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li>
-                            <a class="js-arrow" href="<%=request.getContextPath()%>">
+                            <a class="js-arrow" href="<%=request.getContextPath()%>/">
                                 <i class="fas fa-tachometer-alt"></i>Dashboard</a>
                         </li>
                         <li>

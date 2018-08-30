@@ -38,7 +38,7 @@ public class HomeController
 
 	@Autowired
 	private TaskService taskService;
-	
+
 	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE dd MMM YYYY");
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -49,7 +49,7 @@ public class HomeController
 		String result = LoginUtils.login();
 		if (result != null)
 			return result;
-		
+
 		return ModelUtils.REDIRECT_HOME;
 	}
 
@@ -65,7 +65,7 @@ public class HomeController
 
 		Account account = SecurityContext.getInstance().getCurrentUser();
 		model.addObject("account", account);
-		
+
 		model.addObject("today", LocalDate.now().format(formatter));
 
 		Journal journal = journalService.retrieveCurrentJournal(account);
@@ -75,12 +75,16 @@ public class HomeController
 			model.setViewName(ModelUtils.MODEL_HOME);
 		}
 		else
+		{
+			model.clear();
 			model.setViewName(ModelUtils.REDIRECT_JOURNAL);
-		
+		}
+
 		Collection<DailyTask> dailyTasks = taskService.retrieveAllDailyTasksByDay(journal, LocalDate.now());
 		model.addObject("dailyTasks", dailyTasks);
-		
-		Collection<JournalEvent> journalEvents = journalService.retrieveJournalEventsByDate(account, LocalDateTime.now());
+
+		Collection<JournalEvent> journalEvents = journalService.retrieveJournalEventsByDate(account,
+				LocalDateTime.now());
 		model.addObject("journalEvents", journalEvents);
 
 		return model;
