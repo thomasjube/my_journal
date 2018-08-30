@@ -16,15 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.tjube.controller.app.form.JournalCreationForm;
 import com.tjube.controller.app.form.ObjectiveCreationForm;
 import com.tjube.controller.security.SecurityContext;
 import com.tjube.controller.utils.LoginUtils;
 import com.tjube.controller.utils.ModelUtils;
 import com.tjube.model.Account;
-import com.tjube.model.Journal;
 import com.tjube.model.Objective;
-import com.tjube.service.JournalService;
 import com.tjube.service.ObjectiveService;
 
 @Controller
@@ -52,7 +49,10 @@ public class ObjectiveController
 
 		Collection<Objective> objectives = objectiveService.retrieveObjectives(account);
 		model.addObject("objectives", objectives);
-		
+
+		Collection<Objective> masterObjectives = objectiveService.retrieveMasterObjectives(account);
+		model.addObject("masterObjectives", masterObjectives);
+
 		model.setViewName(ModelUtils.MODEL_OBJECTIVE_LIST);
 		return model;
 	}
@@ -69,10 +69,10 @@ public class ObjectiveController
 
 		Account account = SecurityContext.getInstance().getCurrentUser();
 		model.addObject("account", account);
-		
+
 		Collection<Objective> masterObjectives = objectiveService.retrieveMasterObjectives(account);
 		model.addObject("masterObjectives", masterObjectives);
-		
+
 		model.addObject("form", new ObjectiveCreationForm());
 		model.setViewName(ModelUtils.MODEL_OBJECTIVE_CREATION);
 		return model;
@@ -103,7 +103,11 @@ public class ObjectiveController
 			return model;
 		}
 
-		objectiveService.createObjective(account,form.getName(),form.getDescription(),form.getMasterObjective());
+		Objective masterObjective = null;
+		if (form.getMasterObjectiveUuid() != null)
+			masterObjective = objectiveService.retrieveObjective(form.getMasterObjectiveUuid());
+
+		objectiveService.createObjective(account, form.getName(), form.getDescription(), masterObjective);
 
 		return model;
 	}

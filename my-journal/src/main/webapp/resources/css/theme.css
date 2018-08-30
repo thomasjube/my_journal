@@ -4651,6 +4651,14 @@ section {
     padding: 0 14px;
 }
 
+.status--process_TO_DO{
+	
+}
+
+.status--process_DONE{
+	
+}
+
 .status--process {
     color: #00ad5f;
 }

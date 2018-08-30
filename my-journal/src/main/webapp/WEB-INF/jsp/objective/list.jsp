@@ -75,7 +75,7 @@
 		                                            <c:forEach items="${masterObjectives}" var="objective">
 			                                            <tr class="tr-shadow">
 			                                                <td>
-			                                                    <span class="status--process">${objective.state }</span>
+			                                                    <span class="status--process_${objective.state }"></span>
 			                                                </td>
 			                                                <td>${objective.description }</td>
 			                                                <td>

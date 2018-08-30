@@ -1,6 +1,7 @@
 package com.tjube.service;
 
 import java.util.Collection;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,17 +20,27 @@ public class ObjectiveServiceImpl
 	ObjectiveDao objectiveDao = null;
 
 	@Override
-	public Collection<Objective> retrieveMasterObjectives(Account account) {
-		return objectiveDao.retrieveMasterObjectives(account);
-	}
-	
-	@Override
-	public Collection<Objective> retrieveObjectives(Account account) {
-		return objectiveDao.retrieveObjectives(account);
+	public Objective createObjective(Account account, String name, String description, Objective masterObjective)
+	{
+		return objectiveDao.createObjective(account, name, description, masterObjective);
 	}
 
 	@Override
-	public Objective createObjective(Account account, String name,String description, Objective masterObjective) {
-		return objectiveDao.createObjective(account,name,description,masterObjective);
+	public Objective retrieveObjective(UUID masterObjectiveUuid)
+	{
+		return objectiveDao.retrieveObjective(masterObjectiveUuid);
 	}
+
+	@Override
+	public Collection<Objective> retrieveMasterObjectives(Account account)
+	{
+		return objectiveDao.retrieveMasterObjectives(account);
+	}
+
+	@Override
+	public Collection<Objective> retrieveObjectives(Account account)
+	{
+		return objectiveDao.retrieveObjectives(account);
+	}
+
 }
