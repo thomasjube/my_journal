@@ -8,6 +8,9 @@ public class ModelUtils
 	public static final String REDIRECT_OBJECTIVE = "redirect:/objective";
 	public static final String REDIRECT_WISH_LIST = "redirect:/wish/list";
 	public static final String REDIRECT_WISH_LIST_SHOW = "redirect:/wish/list/show?uuid=";
+	public static final String REDIRECT_BUDGET_LIST = "redirect:/wish/list";
+	public static final String REDIRECT_TASK_JOURNAL_LIST = "redirect:/tasks/journalList";
+	public static final String REDIRECT_TASK_MONTH_LIST = "redirect:/tasks/monthList";
 
 	public static final String MODEL_ACCOUNT = "account";
 	public static final String MODEL_WISH_LIST_FORM = "wishListForm";
@@ -21,6 +24,12 @@ public class ModelUtils
 	public static final String MODEL_JOURNAL_CREATION = "journal/creation";
 	public static final String MODEL_JOURNAL_UPDATE = "journal/update";
 	public static final String MODEL_JOURNAL_SHOW = "journal/show";
+
+	public static final String MODEL_TASKS_JOURNAL_LIST = "tasks/journalList";
+	public static final String MODEL_TASKS_MONTH_LIST = "tasks/monthList";
+	public static final String MODEL_TASKS_SHOW = "tasks/show";
+
+	public static final String MODEL_BUDGET_LIST = "budget/list";
 
 	public static final String MODEL_OBJECTIVE_LIST = "objective/list";
 	public static final String MODEL_OBJECTIVE_CREATION = "objective/creation";

@@ -26,6 +26,7 @@ import com.tjube.controller.utils.LoginUtils;
 import com.tjube.controller.utils.ModelUtils;
 import com.tjube.model.Account;
 import com.tjube.model.Journal;
+import com.tjube.model.MonthlyStats;
 import com.tjube.service.JournalService;
 import com.tjube.service.TaskService;
 
@@ -90,7 +91,8 @@ public class JournalController
 
 		model.addObject("journal", journal);
 
-		Map<Month, Integer> mapMonthDailyTasks = taskService.countDailyTaskByMonth(journal);
+		Map<Month, MonthlyStats> mapMonthStats = taskService.getMonthlyStats(journal);
+		model.addObject("mapMonthStats", mapMonthStats);
 
 		model.setViewName(ModelUtils.MODEL_JOURNAL_SHOW);
 		return model;

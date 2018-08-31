@@ -1,7 +1,7 @@
 package com.tjube.model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.Month;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -18,7 +18,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import com.tjube.controller.utils.converter.LocalDateAttributeConverter;
 import com.tjube.controller.utils.converter.UUIDAttributeConverter;
 import com.tjube.model.enums.TaskStateEvent;
 import com.tjube.model.enums.TaskUnit;
@@ -29,7 +28,11 @@ import com.tjube.model.enums.TaskUnit;
 		@NamedQuery(name = MonthlyTask.QN.RETRIEVE_MONTHLY_TASKS_WITH_JOURNAL,
 				query = "SELECT mt from MonthlyTask mt where mt.journal=:journal"),
 		@NamedQuery(name = MonthlyTask.QN.RETRIEVE_MONTHLY_TASKS_WITH_DATE,
-				query = "SELECT mt from MonthlyTask mt where mt.date=:date and mt.journal=:journal"), })
+				query = "SELECT mt from MonthlyTask mt where mt.month=:month and mt.journal=:journal"),
+		@NamedQuery(name = MonthlyTask.QN.GET_MONTHLY_STATS_ALL_MONTHLY_TASK,
+				query = "SELECT month, count(mt.id) from MonthlyTask mt where mt.journal=:journal group by 1"),
+		@NamedQuery(name = MonthlyTask.QN.GET_MONTHLY_STATS_DONE_MONTHLY_TASK,
+				query = "SELECT month, count(mt.id) from MonthlyTask mt where mt.state = 'DONE' AND mt.journal=:journal group by 1") })
 @Entity
 @Table(name = "MONTHLY_TASK")
 public class MonthlyTask
@@ -48,6 +51,8 @@ public class MonthlyTask
 		public static final String RETRIEVE_MONTHLY_TASK_WITH_UUID = "MonthlyTask.retrieveMonthlyTaskWithUuid";
 		public static final String RETRIEVE_MONTHLY_TASKS_WITH_JOURNAL = "MonthlyTask.retrieveMonthlyTasksWithJournal";
 		public static final String RETRIEVE_MONTHLY_TASKS_WITH_DATE = "MonthlyTask.retrieveMonthlyTaskWithDate";
+		public static final String GET_MONTHLY_STATS_ALL_MONTHLY_TASK = "MonthlyTask.getMonthlyStatsAllMonthlyTask";
+		public static final String GET_MONTHLY_STATS_DONE_MONTHLY_TASK = "MonthlyTask.getMonthlyStatsDoneMonthlyTask";
 
 		private QN()
 		{
@@ -75,9 +80,9 @@ public class MonthlyTask
 	@Column(name = "professional", nullable = true)
 	private boolean professional;
 
-	@Convert(converter = LocalDateAttributeConverter.class)
-	@Column(name = "date", nullable = false)
-	private LocalDate date = null;
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private Month month = null;
 
 	@Column(nullable = true)
 	@Enumerated(EnumType.STRING)
@@ -96,13 +101,13 @@ public class MonthlyTask
 		// TODO Auto-generated constructor stub
 	}
 
-	public MonthlyTask(Journal journal, String description, boolean professional, LocalDate date, TaskUnit unit,
+	public MonthlyTask(Journal journal, String description, boolean professional, Month month, TaskUnit unit,
 			Integer value)
 	{
 		this.uuid = UUID.randomUUID();
 		this.description = description;
 		this.professional = professional;
-		this.date = date;
+		this.month = month;
 		this.unit = unit;
 		this.value = value;
 		this.journal = journal;
@@ -170,14 +175,14 @@ public class MonthlyTask
 
 	//---------------------------------------------------------------------------------------------------------------------
 
-	public LocalDate getDate()
+	public Month getMonth()
 	{
-		return date;
+		return month;
 	}
 
-	public void setDate(LocalDate date)
+	public void setMonth(Month month)
 	{
-		this.date = date;
+		this.month = month;
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------

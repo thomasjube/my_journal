@@ -16,6 +16,7 @@ import com.tjube.model.Budget;
 import com.tjube.model.CategoryTask;
 import com.tjube.model.DailyTask;
 import com.tjube.model.Journal;
+import com.tjube.model.MonthlyStats;
 import com.tjube.model.MonthlyTask;
 import com.tjube.model.Objective;
 import com.tjube.model.Wish;
@@ -35,22 +36,20 @@ public class TaskServiceImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public MonthlyTask createMonthlyTask(Journal journal, String description, boolean professional, LocalDate date,
+	public MonthlyTask createMonthlyTask(Journal journal, String description, boolean professional, Month month,
 			TaskUnit unit, Integer value)
 	{
 
-		date = date.withDayOfMonth(1);
-		return taskDao.createMonthlyTask(journal, description, professional, date, unit, value);
+		return taskDao.createMonthlyTask(journal, description, professional, month, unit, value);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public void updateMonthlyTask(MonthlyTask monthlyTask, String description, boolean professional, LocalDate date,
+	public void updateMonthlyTask(MonthlyTask monthlyTask, String description, boolean professional, Month month,
 			TaskUnit unit, Integer value)
 	{
-		date = date.withDayOfMonth(1);
-		taskDao.updateMonthlyTask(monthlyTask, description, professional, date, unit, value);
+		taskDao.updateMonthlyTask(monthlyTask, description, professional, month, unit, value);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -80,10 +79,9 @@ public class TaskServiceImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public Collection<MonthlyTask> retrieveAllMonthlyTasksByMonth(Journal journal, LocalDate localDate)
+	public Collection<MonthlyTask> retrieveAllMonthlyTasksByMonth(Journal journal, Month month)
 	{
-		localDate = localDate.withDayOfMonth(1);
-		return taskDao.retrieveAllMonthlyTasksByMonth(journal, localDate);
+		return taskDao.retrieveAllMonthlyTasksByMonth(journal, month);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -145,9 +143,9 @@ public class TaskServiceImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public Map<Month, Integer> countDailyTaskByMonth(Journal journal)
+	public Map<Month, MonthlyStats> getMonthlyStats(Journal journal)
 	{
-		return taskDao.countDailyTaskByMonth(journal);
+		return taskDao.getMonthlyStats(journal);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------

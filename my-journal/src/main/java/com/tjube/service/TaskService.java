@@ -11,6 +11,7 @@ import com.tjube.model.Budget;
 import com.tjube.model.CategoryTask;
 import com.tjube.model.DailyTask;
 import com.tjube.model.Journal;
+import com.tjube.model.MonthlyStats;
 import com.tjube.model.MonthlyTask;
 import com.tjube.model.Objective;
 import com.tjube.model.Wish;
@@ -23,10 +24,10 @@ public interface TaskService
 	// MONTHLY TASK OPERATIONS
 	//---------------------------------------------------------------------------------------------------------------------
 
-	MonthlyTask createMonthlyTask(Journal journal, String description, boolean professional, LocalDate date,
-			TaskUnit unit, Integer value);
+	MonthlyTask createMonthlyTask(Journal journal, String description, boolean professional, Month month, TaskUnit unit,
+			Integer value);
 
-	void updateMonthlyTask(MonthlyTask monthlyTask, String description, boolean professional, LocalDate date,
+	void updateMonthlyTask(MonthlyTask monthlyTask, String description, boolean professional, Month month,
 			TaskUnit unit, Integer value);
 
 	void removeMonthlyTask(MonthlyTask monthlyTask);
@@ -35,7 +36,7 @@ public interface TaskService
 
 	Collection<MonthlyTask> retrieveAllMonthlyTasksByJournal(Journal journal);
 
-	Collection<MonthlyTask> retrieveAllMonthlyTasksByMonth(Journal journal, LocalDate localDate);
+	Collection<MonthlyTask> retrieveAllMonthlyTasksByMonth(Journal journal, Month month);
 
 	//---------------------------------------------------------------------------------------------------------------------
 	// DAILY OPERATIONS
@@ -57,6 +58,6 @@ public interface TaskService
 
 	Collection<DailyTask> retrieveAllDailyTasksByDay(Journal journal, LocalDate localDate);
 
-	Map<Month, Integer> countDailyTaskByMonth(Journal journal);
+	Map<Month, MonthlyStats> getMonthlyStats(Journal journal);
 
 }

@@ -206,18 +206,12 @@
                                         <thead>
                                             <tr>
                                                 <th>date</th>
-                                                <th class="text-right">tâches quotidiennes</th>
-                                                <th class="text-right">tâches mensuelles</th>
-                                                <th class="text-right">budget</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        	<c:forEach items="${mapMonthStats}" var="monthlyStat">
-                                        		<tr>
-                                        			<td><fmt:message key="label.${monthlyStat.key}.month" bundle="${lang}"/></td>
-                                        			<td class="text-center">${monthlyStat.value.allDailyTasks}</td>
-                                        			<td class="text-center">${monthlyStat.value.finishMonthlyTasks}/${monthlyStat.value.allMonthlyTasks} (%)</td>
-                                        			<td class="text-center">${monthlyStat.value.usedBudget}/${monthlyStat.value.allbudget} (%)</td>
+                                        	<c:forEach items="${months}" var="month">
+                                        		<tr class="month" id="${month}">
+                                        			<td><fmt:message key="label.${month}.month" bundle="${lang}"/></td>
                                         		</tr>
                                         	</c:forEach>
                                         </tbody>
@@ -524,6 +518,15 @@
 
     <!-- Main JS-->
     <script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
+
+	<script type="text/javascript">
+		var journalUuid = "${journal.uuid}";
+	
+		$(".month").click(function(e){
+			window.location.href = "show?uuid="+journalUuid+"&month=" + $(this).attr("id");
+		});
+		
+	</script>
 
 </body>
 
