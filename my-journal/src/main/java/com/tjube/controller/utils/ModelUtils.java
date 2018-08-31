@@ -19,13 +19,20 @@ public class ModelUtils
 
 	public static final String MODEL_JOURNAL_LIST = "journal/list";
 	public static final String MODEL_JOURNAL_CREATION = "journal/creation";
+<<<<<<< HEAD
 	public static final String MODEL_JOURNAL_UPDATE = "journal/update";
 	public static final String MODEL_JOURNAL_SHOW = "journal/show";
+=======
+>>>>>>> branch 'master' of https://github.com/thomasjube/my_journal.git
 
 	public static final String MODEL_OBJECTIVE_LIST = "objective/list";
 	public static final String MODEL_OBJECTIVE_CREATION = "objective/creation";
+<<<<<<< HEAD
 	public static final String MODEL_OBJECTIVE_UPDATE = "objective/update";
 	
+=======
+
+>>>>>>> branch 'master' of https://github.com/thomasjube/my_journal.git
 	public static final String MODEL_WISH_LIST = "wish/home";
 	public static final String MODEL_WISH_LIST_SHOW = "wish/list/show";
 	public static final String MODEL_WISH_LIST_EDITION = "wish/list/edition";

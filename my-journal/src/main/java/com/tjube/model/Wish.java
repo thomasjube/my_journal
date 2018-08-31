@@ -62,6 +62,9 @@ public class Wish
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	private WishList wishList = null;
 
+	@ManyToOne(fetch = FetchType.LAZY, optional = true)
+	private DailyTask dailyTask = null;
+
 	@Column(name = "description", nullable = false)
 	private String description = null;
 
@@ -166,6 +169,18 @@ public class Wish
 	public void setCategory(CategoryTask category)
 	{
 		this.category = category;
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	public DailyTask getDailyTask()
+	{
+		return dailyTask;
+	}
+
+	public void setDailyTask(DailyTask dailyTask)
+	{
+		this.dailyTask = dailyTask;
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------

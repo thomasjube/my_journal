@@ -1,11 +1,12 @@
 package com.tjube.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -63,7 +64,10 @@ public class WishList
 	@Column(name = "description", nullable = false)
 	private String description;
 
-	@OneToMany(mappedBy = "wishList", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@Column(name = "price", nullable = false, scale = 2)
+	private BigDecimal price;
+
+	@OneToMany(mappedBy = "wishList", fetch = FetchType.LAZY)
 	private Collection<Wish> wishes = new ArrayList<>();
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -79,6 +83,7 @@ public class WishList
 
 		this.account = account;
 		this.description = description;
+		this.price = BigDecimal.ZERO;
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -126,24 +131,62 @@ public class WishList
 
 	//---------------------------------------------------------------------------------------------------------------------
 
+	public BigDecimal getPrice()
+	{
+		return price;
+	}
+
+	public void setPrice(BigDecimal price)
+	{
+		this.price = price;
+	}
+
+	public void updatePrice()
+	{
+		BigDecimal result = BigDecimal.ZERO;
+
+		for (Wish wish : wishes)
+			result = result.add(wish.getPrice());
+
+		setPrice(result);
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public Collection<Wish> getWishes()
 	{
 		return new ArrayList<>(wishes);
 	}
 
+	public Collection<Wish> getWishesWithDailyTask()
+	{
+		List<Wish> result = new ArrayList<>();
+
+		for (Wish wish : wishes)
+		{
+			if (wish.getDailyTask() != null)
+				result.add(wish);
+		}
+
+		return result;
+	}
+
 	public void addWish(Wish wish)
 	{
 		wishes.add(wish);
+		updatePrice();
 	}
 
 	public void removeWish(Wish wish)
 	{
 		wishes.remove(wish);
+		updatePrice();
 	}
 
 	public void clearWishes()
 	{
 		wishes.clear();
+		updatePrice();
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
