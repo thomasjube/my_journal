@@ -37,12 +37,16 @@ public class ObjectiveDaoImpl
 	@Override
 	public void updateObjective(Objective objective, String name, String description, Objective masterObjective)
 	{
-		if (!entityManager.contains(objective))
-			objective = entityManager.merge(objective);
-
-		objective.setName(name);
-		objective.setDescription(description);
-		objective.setMasterObjective(masterObjective);
+		
+		if(objective != null)
+		{
+			if (!entityManager.contains(objective))
+				objective = entityManager.merge(objective);
+	
+			objective.setName(name);
+			objective.setDescription(description);
+			objective.setMasterObjective(masterObjective);
+		}
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -50,10 +54,13 @@ public class ObjectiveDaoImpl
 	@Override
 	public void updateState(Objective objective, TaskStateEvent state)
 	{
-		if (!entityManager.contains(objective))
-			objective = entityManager.merge(objective);
-
-		objective.setState(state);
+		if(objective != null)
+		{
+			if (!entityManager.contains(objective))
+				objective = entityManager.merge(objective);
+	
+			objective.setState(state);
+		}
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -61,10 +68,13 @@ public class ObjectiveDaoImpl
 	@Override
 	public void removeObjective(Objective objective)
 	{
-		if (!entityManager.contains(objective))
-			objective = entityManager.merge(objective);
-
-		entityManager.remove(objective);
+		if(objective != null)
+		{
+			if (!entityManager.contains(objective))
+				objective = entityManager.merge(objective);
+		
+			entityManager.remove(objective);
+		}
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------

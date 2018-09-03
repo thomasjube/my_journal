@@ -143,12 +143,11 @@ public class WishDaoImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public void updateWishState(Wish wish, DailyTask dailyTask, TaskStateEvent state)
+	public void updateWishState(Wish wish, TaskStateEvent state)
 	{
 		if (!entityManager.contains(wish))
 			wish = entityManager.merge(wish);
 
-		wish.setDailyTask(dailyTask);
 		wish.setState(state);
 	}
 
@@ -161,8 +160,6 @@ public class WishDaoImpl
 			wish = entityManager.merge(wish);
 
 		wish.getWishList().removeWish(wish);
-		if (wish.getDailyTask() != null)
-			wish.getDailyTask().setWish(null);
 
 		entityManager.remove(wish);
 	}

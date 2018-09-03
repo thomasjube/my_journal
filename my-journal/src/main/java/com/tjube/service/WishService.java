@@ -40,7 +40,7 @@ public interface WishService
 
 	void updateWish(Wish wish, CategoryTask categoryTask, String description, BigDecimal price);
 
-	void updateWishState(Wish wish, DailyTask dailyTask, TaskStateEvent state);
+	void updateWishState(Wish wish, TaskStateEvent state);
 
 	void removeWish(Wish wish);
 

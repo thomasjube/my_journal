@@ -158,18 +158,6 @@ public class WishList
 		return new ArrayList<>(wishes);
 	}
 
-	public Collection<Wish> getWishesWithDailyTask()
-	{
-		List<Wish> result = new ArrayList<>();
-
-		for (Wish wish : wishes)
-		{
-			if (wish.getDailyTask() != null)
-				result.add(wish);
-		}
-
-		return result;
-	}
 
 	public void addWish(Wish wish)
 	{

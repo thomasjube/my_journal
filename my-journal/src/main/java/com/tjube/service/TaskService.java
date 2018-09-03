@@ -24,11 +24,10 @@ public interface TaskService
 	// MONTHLY TASK OPERATIONS
 	//---------------------------------------------------------------------------------------------------------------------
 
-	MonthlyTask createMonthlyTask(Journal journal, String description, boolean professional, Month month, TaskUnit unit,
-			Integer value);
+	MonthlyTask createMonthlyTask(Journal journal, String description, boolean professional, Month month, CategoryTask categoryTask,Objective objective,Wish wish);
 
-	void updateMonthlyTask(MonthlyTask monthlyTask, String description, boolean professional, Month month,
-			TaskUnit unit, Integer value);
+	void updateMonthlyTask(MonthlyTask monthlyTask, String description, boolean professional, Month month
+			,CategoryTask categoryTask,Objective objective,Wish wish);
 
 	void removeMonthlyTask(MonthlyTask monthlyTask);
 

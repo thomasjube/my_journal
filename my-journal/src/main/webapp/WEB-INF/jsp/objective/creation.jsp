@@ -2,14 +2,15 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page session="true" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <!-- Required meta tags-->
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="au theme template">
     <meta name="author" content="Hau Nguyen">
@@ -51,7 +52,7 @@
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-header">
                                         <strong>Nouvel Objectif</strong>
@@ -59,6 +60,7 @@
                                     <div class="card-body card-block">
                                         <form action="" method="post" class="form-horizontal">
                                             <input type="hidden" name="objectiveUuid">
+                                            <input type="hidden" name="description" value="">
                                             <div class="row form-group">
                                                 <div class="col col-md-3">
                                                     <label for="text-input" class=" form-control-label">Nom</label>
@@ -68,14 +70,14 @@
                                                     <small class="form-text text-muted">Entrer le nom de l'objectif</small>
                                                 </div>
                                             </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="textarea-input" class=" form-control-label">Description</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <textarea name="description" rows="9" placeholder="Description de l'objectif" class="form-control"></textarea>
-                                                </div>
-                                            </div>
+<!--                                             <div class="row form-group"> -->
+<!--                                                 <div class="col col-md-3"> -->
+<!--                                                     <label for="textarea-input" class=" form-control-label">Description</label> -->
+<!--                                                 </div> -->
+<!--                                                 <div class="col-12 col-md-9"> -->
+<!--                                                     <textarea name="description" rows="9" placeholder="Description de l'objectif" class="form-control"></textarea> -->
+<!--                                                 </div> -->
+<!--                                             </div> -->
                                             <div class="row form-group">
                                                 <div class="col col-md-3">
                                                     <label for="select" class=" form-control-label">Objectif lié</label>

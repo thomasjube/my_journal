@@ -11,11 +11,14 @@ public class ModelUtils
 	public static final String REDIRECT_BUDGET_LIST = "redirect:/wish/list";
 	public static final String REDIRECT_TASK_JOURNAL_LIST = "redirect:/tasks/journalList";
 	public static final String REDIRECT_TASK_MONTH_LIST = "redirect:/tasks/monthList";
+	public static final String REDIRECT_TASK_MONTH_SHOW = "redirect:/tasks/show";
 
 	public static final String MODEL_ACCOUNT = "account";
 	public static final String MODEL_WISH_LIST_FORM = "wishListForm";
 	public static final String MODEL_WISH_WISH_FORM = "wishWishForm";
 	public static final String MODEL_HOME = "home";
+	
+	public static final String MODEL_TASK_MONTHLY_ADD_FORM = "monthlyTaskAddForm";
 
 	public static final String MODEL_LOGIN = "login";
 	public static final String MODEL_CREATION = "account/creation";
@@ -28,6 +31,7 @@ public class ModelUtils
 	public static final String MODEL_TASKS_JOURNAL_LIST = "tasks/journalList";
 	public static final String MODEL_TASKS_MONTH_LIST = "tasks/monthList";
 	public static final String MODEL_TASKS_SHOW = "tasks/show";
+	public static final String MODEL_TASKS_MONTH_ADD = "tasks/monthly/add";
 
 	public static final String MODEL_BUDGET_LIST = "budget/list";
 

@@ -2,6 +2,8 @@ package com.tjube.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.Month;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
@@ -197,6 +199,16 @@ public class Journal
 
 	//---------------------------------------------------------------------------------------------------------------------
 
+	public Year getYear(Month month)
+	{
+		LocalDate tmp = this.beginDate;
+		
+		while(tmp.getMonth() != month || tmp.isAfter(this.endDate))
+			tmp = tmp.plusMonths(1);
+
+		return Year.from(tmp);
+	}
+	
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override

@@ -49,9 +49,6 @@ public class WishServiceImpl
 	{
 		for (Wish wish : wishList.getWishes())
 		{
-			if (wish.getDailyTask() != null)
-				wish.getDailyTask().setWish(null);
-
 			wishDao.removeWishToWishList(wishList, wish);
 			wishDao.removeWish(wish);
 		}
@@ -113,9 +110,9 @@ public class WishServiceImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public void updateWishState(Wish wish, DailyTask dailyTask, TaskStateEvent state)
+	public void updateWishState(Wish wish, TaskStateEvent state)
 	{
-		wishDao.updateWishState(wish, dailyTask, state);
+		wishDao.updateWishState(wish, state);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------

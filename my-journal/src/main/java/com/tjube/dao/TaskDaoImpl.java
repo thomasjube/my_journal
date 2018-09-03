@@ -39,9 +39,9 @@ public class TaskDaoImpl
 
 	@Override
 	public MonthlyTask createMonthlyTask(Journal journal, String description, boolean professional, Month month,
-			TaskUnit unit, Integer value)
+			CategoryTask categoryTask,Objective objective,Wish wish)
 	{
-		MonthlyTask monthlyTaskJPA = new MonthlyTask(journal, description, professional, month, unit, value);
+		MonthlyTask monthlyTaskJPA = new MonthlyTask(journal, description, professional, month, categoryTask,objective,wish);
 
 		entityManager.persist(monthlyTaskJPA);
 
@@ -52,7 +52,7 @@ public class TaskDaoImpl
 
 	@Override
 	public void updateMonthlyTask(MonthlyTask monthlyTask, String description, boolean professional, Month month,
-			TaskUnit unit, Integer value)
+			CategoryTask categoryTask,Objective objective,Wish wish)
 	{
 		if (!entityManager.contains(monthlyTask))
 			monthlyTask = entityManager.merge(monthlyTask);
@@ -60,8 +60,9 @@ public class TaskDaoImpl
 		monthlyTask.setDescription(description);
 		monthlyTask.setProfessional(professional);
 		monthlyTask.setMonth(month);
-		monthlyTask.setUnit(unit);
-		monthlyTask.setValue(value);
+		monthlyTask.setCategoryTask(categoryTask);
+		monthlyTask.setObjective(objective);
+		monthlyTask.setWish(wish);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------

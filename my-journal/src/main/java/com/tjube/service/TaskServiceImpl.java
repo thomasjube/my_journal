@@ -37,19 +37,19 @@ public class TaskServiceImpl
 
 	@Override
 	public MonthlyTask createMonthlyTask(Journal journal, String description, boolean professional, Month month,
-			TaskUnit unit, Integer value)
+			CategoryTask categoryTask,Objective objective,Wish wish)
 	{
 
-		return taskDao.createMonthlyTask(journal, description, professional, month, unit, value);
+		return taskDao.createMonthlyTask(journal, description, professional, month, categoryTask,objective,wish);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
 	public void updateMonthlyTask(MonthlyTask monthlyTask, String description, boolean professional, Month month,
-			TaskUnit unit, Integer value)
+			CategoryTask categoryTask,Objective objective,Wish wish)
 	{
-		taskDao.updateMonthlyTask(monthlyTask, description, professional, month, unit, value);
+		taskDao.updateMonthlyTask(monthlyTask, description, professional, month,categoryTask,objective,wish);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------

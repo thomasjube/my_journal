@@ -50,12 +50,6 @@
                             <div class="col-md-12">
                                 <!-- DATA TABLE -->
                                 <h3 class="title-5 m-b-35">Journals</h3>
-                                <div class="table-data__tool">
-                                    <div class="table-data__tool-right">
-                                        <button class="au-btn au-btn-icon au-btn--green au-btn--small">
-                                            <i class="zmdi zmdi-plus"></i><a style="color:white;" href="journal/creation">Ajouter</a></button>
-                                    </div>
-                                </div>
                                 <div class="table-responsive table-responsive-data2">
                                     <c:choose>
 	                                        	<c:when test="${empty journals}">

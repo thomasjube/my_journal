@@ -2,14 +2,15 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page session="true" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <!-- Required meta tags-->
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="au theme template">
     <meta name="author" content="Hau Nguyen">
@@ -74,26 +75,33 @@
 		                                        <tbody>
 		                                            <c:forEach items="${masterObjectives}" var="objective">
 			                                            <tr id="${objective.uuid }" class="tr-shadow">
-			                                                <td>
+			                                                <td style="vertical-align:top !important;">
 			                                                    <c:choose>
 				                                                    <c:when test="${objective.state == 'DONE'}">
-				                                                    	<input onchange="updateState(this)" type="checkbox" class="status--process_${objective.state }" checked/>
+				                                                    	<input onchange="updateState(this)" type="checkbox" class="status--process_${objective.state }" style="position:relative;top:0%;" checked/>
 				                                                    </c:when>
 				                                                    <c:otherwise>
-				                                                    	<input onchange="updateState(this)" type="checkbox" class="status--process_${objective.state }" />
+				                                                    	<input onchange="updateState(this)" type="checkbox" class="status--process_${objective.state }" style="position:relative;top:0%;"/>
 				                                                    </c:otherwise>
 			                                                    </c:choose>
 			                                                </td>
-			                                                <td>${objective.name}
+			                                                <td><c:out value="${objective.name}"/>
 				                                                <c:if test="${not empty objective.subObjectives}">
-				                                                	<table>
+				                                                	<table  class="table table-data2">
 				                                                		<c:forEach items="${objective.subObjectives}" var="subObjective">
 				                                                			<tr id="${subObjective.uuid}">
-					                                                			<td>
-								                                                    <span class="status--process_${objective.state }"></span>
+					                                                			<td style="vertical-align:top !important;">
+								                                                    <c:choose>
+									                                                    <c:when test="${subObjective.state == 'DONE'}">
+									                                                    	<input onchange="updateState(this)" type="checkbox" class="status--process_${subObjective.state }" style="position:relative;top:0%;" checked/>
+									                                                    </c:when>
+									                                                    <c:otherwise>
+									                                                    	<input onchange="updateState(this)" type="checkbox" class="status--process_${subObjective.state }" style="position:relative;top:0%;" />
+									                                                    </c:otherwise>
+								                                                    </c:choose>
 								                                                </td>
 								                                                <td>${subObjective.name}</td>
-								                                                <td>
+								                                                <td style="vertical-align:top !important;">
 								                                                    <div class="table-data-feature">
 								                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit" onclick="location.href='objective/update?uuid=${subObjective.uuid }';">
 								                                                            <i class="zmdi zmdi-edit"></i>
@@ -108,7 +116,7 @@
 				                                                	</table>
 				                                                </c:if>
 			                                                </td>
-			                                                <td>
+			                                                <td style="vertical-align:top !important;">
 			                                                    <div class="table-data-feature">
 			                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit" onclick="location.href='objective/update?uuid=${objective.uuid }';">
 			                                                            <i class="zmdi zmdi-edit"></i>

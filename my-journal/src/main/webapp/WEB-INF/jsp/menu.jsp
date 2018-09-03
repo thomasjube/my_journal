@@ -37,8 +37,12 @@
                                 <i class="fas fa-check-square"></i>Tâches</a>
                         </li>
                         <li>
+                            <a href="<%=request.getContextPath()%>/tracker">
+                                <i class="far fa-chart-bar"></i>Tracker</a>
+                        </li>
+                        <li>
                             <a href="<%=request.getContextPath()%>/budget">
-                                <i class="far fa-chart-bar"></i>Budget</a>
+                                <i class="fas fa-shopping-basket"></i>Budget</a>
                         </li>
                         <li>
                             <a href="<%=request.getContextPath()%>/objective">
@@ -77,8 +81,12 @@
                                 <i class="fas fa-check-square"></i>Tâches</a>
                         </li>
                         <li>
+                            <a href="<%=request.getContextPath()%>/tracker">
+                                <i class="far fa-chart-bar"></i>Tracker</a>
+                        </li>
+                        <li>
                             <a href="<%=request.getContextPath()%>/budget">
-                                <i class="far fa-chart-bar"></i>Budget</a>
+                                <i class="fas fa-shopping-basket"></i>Budget</a>
                         </li>
                         <li>
                             <a href="<%=request.getContextPath()%>/objective">

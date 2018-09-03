@@ -84,16 +84,18 @@ public class MonthlyTask
 	@Enumerated(EnumType.STRING)
 	private Month month = null;
 
-	@Column(nullable = true)
-	@Enumerated(EnumType.STRING)
-	private TaskUnit unit;
-
-	@Column(name = "value", nullable = true)
-	private Integer value;
-
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Journal journal;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	private CategoryTask categoryTask;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Objective objective;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Wish wish;
+	
 	//---------------------------------------------------------------------------------------------------------------------
 
 	public MonthlyTask()
@@ -101,16 +103,16 @@ public class MonthlyTask
 		// TODO Auto-generated constructor stub
 	}
 
-	public MonthlyTask(Journal journal, String description, boolean professional, Month month, TaskUnit unit,
-			Integer value)
+	public MonthlyTask(Journal journal, String description, boolean professional, Month month,CategoryTask categoryTask,Objective objective, Wish wish)
 	{
 		this.uuid = UUID.randomUUID();
 		this.description = description;
 		this.professional = professional;
 		this.month = month;
-		this.unit = unit;
-		this.value = value;
 		this.journal = journal;
+		this.categoryTask = categoryTask;
+		this.objective = objective;
+		this.wish = wish;
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -187,26 +189,22 @@ public class MonthlyTask
 
 	//---------------------------------------------------------------------------------------------------------------------
 
-	public TaskUnit getUnit()
-	{
-		return unit;
+	public Objective getObjective() {
+		return objective;
 	}
-
-	public void setUnit(TaskUnit unit)
-	{
-		this.unit = unit;
+	
+	public void setObjective(Objective objective) {
+		this.objective = objective;
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
 
-	public Integer getValue()
-	{
-		return value;
+	public Wish getWish() {
+		return wish;
 	}
-
-	public void setValue(Integer value)
-	{
-		this.value = value;
+	
+	public void setWish(Wish wish) {
+		this.wish = wish;
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -223,6 +221,16 @@ public class MonthlyTask
 
 	//---------------------------------------------------------------------------------------------------------------------
 
+	public CategoryTask getCategoryTask() {
+		return categoryTask;
+	}
+	
+	public void setCategoryTask(CategoryTask categoryTask) {
+		this.categoryTask = categoryTask;
+	}
+	
+	//---------------------------------------------------------------------------------------------------------------------
+	
 	@Override
 	public int hashCode()
 	{

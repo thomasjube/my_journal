@@ -21,14 +21,6 @@ my-journal :
 	- objectifs (lire une liste de livre, ...)
 	- wish list (liste de livre à acheter, de pops, de jeux, ...)
 	
-	
-	
-	
-	
-	
-	
-	
-	
 BDD:
 
 	- Account (id,email,password(md5))
@@ -41,4 +33,10 @@ BDD:
 	- WishList(id,account_id)
 	- Wishes(id,account_id)
 	- Objective(id,account_id)
+	
+	daily_task couper en deux nouveaux objets --> to_do list et  tracker 
+	
+	objectifs du mois peut être soit : monthly_task ou objectif ou wish
+	
+	ajout nouvel object tracker
 	
