@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tjube.dao.WishDao;
 import com.tjube.model.Account;
 import com.tjube.model.CategoryTask;
-import com.tjube.model.DailyTask;
 import com.tjube.model.Wish;
 import com.tjube.model.WishList;
 import com.tjube.model.enums.TaskStateEvent;
@@ -23,6 +22,9 @@ public class WishServiceImpl
 {
 	@Autowired
 	WishDao wishDao = null;
+
+	@Autowired
+	BudgetService budgetService = null;
 
 	//---------------------------------------------------------------------------------------------------------------------
 	// WISH LIST OPERATIONS
@@ -112,7 +114,19 @@ public class WishServiceImpl
 	@Override
 	public void updateWishState(Wish wish, TaskStateEvent state)
 	{
+		if (wish.getPrice() != null)
+		{
+			if (wish.getState() != TaskStateEvent.DONE && state == TaskStateEvent.DONE)
+			{
+				//enlever du budget
+			}
+			else if (wish.getState() == TaskStateEvent.DONE && state != TaskStateEvent.DONE)
+			{
+				//remettre dans le budget
+			}
+		}
 		wishDao.updateWishState(wish, state);
+
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------

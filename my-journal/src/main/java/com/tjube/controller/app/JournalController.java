@@ -1,7 +1,11 @@
 package com.tjube.controller.app;
 
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -93,6 +97,24 @@ public class JournalController
 
 		Map<Month, MonthlyStats> mapMonthStats = taskService.getMonthlyStats(journal);
 		model.addObject("mapMonthStats", mapMonthStats);
+
+		List<Month> months = new ArrayList<>();
+		for (Month month : mapMonthStats.keySet())
+			months.add(month);
+		Collections.sort(months, new Comparator<Month>() {
+			@Override
+			public int compare(Month o1, Month o2)
+			{
+				if (o1.ordinal() < o2.ordinal())
+					return -1;
+				else if (o1.ordinal() > o2.ordinal())
+					return 1;
+				else
+					return -1;
+			}
+		});
+
+		model.addObject("months", months);
 
 		model.setViewName(ModelUtils.MODEL_JOURNAL_SHOW);
 		return model;

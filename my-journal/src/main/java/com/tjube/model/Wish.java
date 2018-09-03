@@ -56,7 +56,7 @@ public class Wish
 	@Column(name = "uuid", unique = true, nullable = false)
 	private UUID uuid;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@ManyToOne(fetch = FetchType.LAZY, optional = true)
 	private CategoryTask category = null;
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -71,6 +71,9 @@ public class Wish
 	@Enumerated(EnumType.STRING)
 	@Column(name = "state", nullable = false)
 	private TaskStateEvent state = TaskStateEvent.TO_DO;
+
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	private Budget budget = null;
 
 	//---------------------------------------------------------------------------------------------------------------------
 
@@ -166,6 +169,18 @@ public class Wish
 	public void setCategory(CategoryTask category)
 	{
 		this.category = category;
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	public Budget getBudget()
+	{
+		return budget;
+	}
+
+	public void setBudget(Budget budget)
+	{
+		this.budget = budget;
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------

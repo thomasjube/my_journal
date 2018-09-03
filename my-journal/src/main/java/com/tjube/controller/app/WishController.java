@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tjube.controller.app.form.WishListForm;
 import com.tjube.controller.app.form.WishWishForm;
+import com.tjube.controller.app.json.ObjectiveChangeStateJSON;
 import com.tjube.controller.security.SecurityContext;
 import com.tjube.controller.utils.LoginUtils;
 import com.tjube.controller.utils.ModelUtils;
@@ -342,7 +344,7 @@ public class WishController
 		WishList wishList = wishService.retrieveWishList(form.getWishListUuid());
 		CategoryTask categoryTask = categoryService.retrieveCategoryTask(form.getCategoryUuid());
 
-		if (wishList == null || categoryTask == null)
+		if (wishList == null)
 		{
 			model.clear();
 			model.setViewName(ModelUtils.REDIRECT_WISH_LIST);
@@ -419,7 +421,7 @@ public class WishController
 		Wish wish = wishService.retrieveWish(form.getUuid());
 		CategoryTask categoryTask = categoryService.retrieveCategoryTask(form.getCategoryUuid());
 
-		if (wish == null || categoryTask == null)
+		if (wish == null)
 		{
 			model.clear();
 			model.setViewName(ModelUtils.REDIRECT_WISH_LIST);
@@ -470,5 +472,21 @@ public class WishController
 
 		model.setViewName(ModelUtils.REDIRECT_WISH_LIST_SHOW + wish.getWishList().getUuid());
 		return model;
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@RequestMapping(value = "/updateState", method = { RequestMethod.POST }, consumes = "application/json")
+	public void wishStatePatch(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody ObjectiveChangeStateJSON form, @RequestParam("uuid") UUID wishUuid)
+	{
+		Wish wish = wishService.retrieveWish(wishUuid);
+		if (wish == null)
+		{
+			return;
+		}
+
+		wishService.updateWishState(wish, TaskStateEvent.valueOf(form.getState()));
+
 	}
 }

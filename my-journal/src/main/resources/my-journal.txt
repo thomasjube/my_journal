@@ -34,7 +34,7 @@ BDD:
 	- Wishes(id,account_id)
 	- Objective(id,account_id)
 	
-	daily_task couper en deux nouveaux objets --> to_do list et  tracker 
+	daily_task couper en deux nouveaux objets --> tracker 
 	
 	objectifs du mois peut être soit : monthly_task ou objectif ou wish
 	

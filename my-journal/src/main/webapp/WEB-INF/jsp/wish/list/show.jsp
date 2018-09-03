@@ -40,27 +40,34 @@
                                 <h2 class="title-5 m-b-35">${wishList.description }</h2>
                                 <div class="table-responsive table-responsive-data2">
                                     <c:choose>
-										<c:when test="${empty wishLists.wishes}">Aucune envie</c:when>
+										<c:when test="${empty wishList.wishes}">Aucune envie</c:when>
 										<c:otherwise>
 		                                	<table class="table table-data2">
 				                            	<thead>
 				                                	<tr>
+				                                		<th></th>
 				                                		<th>Description</th>
 				                                		<th>Catégorie</th>
 				                                		<th>Prix</th>
-				                                		<th>Etat</th>
-				                                		<th>Taches</th>
 				                                		<th></th>
 													</tr>
 												</thead>
 												<tbody>
-			                                    	<c:forEach items="${wishLists.wishes}" var="wish">
+			                                    	<c:forEach items="${wishList.wishes}" var="wish">
 														<tr class="tr-shadow" id="${wish.uuid }">
-					                                    	<td>${wish.description }</td>
-					                                        <td>${wish.categor.description }</td>
+					                                    	<td style="vertical-align:top !important;">
+			                                                    <c:choose>
+				                                                    <c:when test="${wish.state == 'DONE'}">
+				                                                    	<input onchange="updateState(this)" type="checkbox" class="status--process_${wish.state }" style="position:relative;top:0%;" checked/>
+				                                                    </c:when>
+				                                                    <c:otherwise>
+				                                                    	<input onchange="updateState(this)" type="checkbox" class="status--process_${wish.state }" style="position:relative;top:0%;"/>
+				                                                    </c:otherwise>
+			                                                    </c:choose>
+			                                                </td>
+			                                                <td>${wish.description }</td>
+					                                        <td>${wish.category.description }</td>
 					                                        <td>${wish.price } €</td>
-					                                        <td>${wish.state }</td>
-					                                        <td>${wish.dailyTask.uuid } €</td>
 															<td>
 					                                        	<div class="table-data-feature">
 					                                            	<button class="item" data-toggle="tooltip" data-placement="top" title="Editer" onclick="location.href='list/wish/edit?uuid=${wish.uuid }';">
@@ -111,5 +118,32 @@
     <script src="<%=request.getContextPath()%>/resources/vendor/chartjs/Chart.bundle.min.js"></script>
     <script src="<%=request.getContextPath()%>/resources/vendor/select2/select2.min.js"></script>
     <script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
+    
+    	<script type="text/javascript">
+
+	function updateState(wish){
+		var uuid = $(wish).closest("tr").attr("id");
+		var state = $(wish).is(':checked') ? "DONE" : "TO_DO"; 
+		var urlAjax = 'wish/updateState?uuid=' + uuid;
+		var dataAjax = {'state' : state};
+		
+		$.ajax({
+			headers: { 
+		        'Accept': 'application/json',
+		        'Content-Type': 'application/json' 
+		    },
+	    	url: urlAjax,
+	   		type: 'POST',
+	   		contentType: 'application/json',
+	   		dataType: "json",
+	   		data: JSON.stringify(dataAjax),
+	   		success: function(data, status, jqXHR) {
+	  	    },
+			error: function(jqXHR, status, errorThrown) {
+			}
+		});
+	}
+	
+	</script>
 </body>
 </html>

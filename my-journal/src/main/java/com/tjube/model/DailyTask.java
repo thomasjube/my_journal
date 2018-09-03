@@ -34,7 +34,7 @@ import com.tjube.model.enums.TaskUnit;
 		@NamedQuery(name = DailyTask.QN.RETRIEVE_DAILY_TASKS_WITH_DATE,
 				query = "SELECT dt from DailyTask dt where dt.date=:date and dt.journal=:journal"),
 		@NamedQuery(name = DailyTask.QN.GET_MONTHLY_STATS_DAILY_TASK,
-				query = "SELECT to_char(dt.date,'Month') as mon, count(dt.id) from DailyTask dt where dt.state = 'DONE' AND dt.journal=:journal group by 1"), })
+				query = "SELECT to_char(dt.date,'Month') as mon, count(dt.id) from DailyTask dt where dt.state = 'DONE' AND dt.journal=:journal group by 1 order by 1 asc"), })
 @Entity
 @Table(name = "DAILY_TASK")
 public class DailyTask

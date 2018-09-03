@@ -48,33 +48,35 @@
                                     <div class="card-body card-block">
                                         <form action="" method="post" name="wishWishForm">
                                         	<input type="hidden" name="uuid" value="${wishWishForm.uuid }"/>
-                               				<div class="form-group">
-			                                    <label>Liste : ${wishList.description }</label>
-			                                    <input type="hidden" name="wishListUuid" value="${wishWishForm.wishListUuid }"/>
+                               				<div class="row form-group">
+			                                    <div class="col col-md-3"><label class="form-control-label">Liste : ${wishList.description }</label></div>
+			                                    <div class="col-12 col-md-9"><input type="hidden" name="wishListUuid" value="${wishWishForm.wishListUuid }"/></div>
 			                                </div>
-			                                <div class="form-group">
-			                                    <label>Nom</label>
-			                                    <input class="au-input au-input--full" type="text" name="description" required="required" value="${wishWishForm.description }">
+			                                <div class="row form-group">
+			                                    <div class="col col-md-3"><label class="form-control-label">Nom</label></div>
+			                                    <div class="col-12 col-md-9"><input  class="form-control" type="text" name="description" required="required" value="${wishWishForm.description }"></div>
 			                                </div>
-			                                <div class="form-group">
-			                                    <label>Catégorie</label>
-			                                    <select name="categoryUuid" required="required">
-			                                    	<option value ="">Sélectionnez une catégorie</option>
-			                                    	<c:forEach items="${categories}" var="category">
-<%-- 			                                    		<c:choose> --%>
-<%-- 			                                    			<c:when test="${wishWishForm.categoryUuid == category.uuid }"> --%>
-			                                    				<option ${wishWishForm.categoryUuid == category.uuid ? 'selected="selected"' : '' } selected="selected" value="${category.uuid}">${category.uuid}</option>
-<%-- 			                                    			</c:when> --%>
-<%-- 			                                    			<c:otherwise> --%>
-<%-- 			                                    				<option value="${category.uuid}">${category.uuid}</option> --%>
-<%-- 			                                    			</c:otherwise> --%>
-<%-- 			                                    		</c:choose> --%>
-			                                    	</c:forEach>
-			                                    </select>
+			                                <div class="row form-group">
+			                                    <div class="col col-md-3"><label class="form-control-label">Catégorie</label></div>
+			                                    <div class="col-12 col-md-9">
+			                                    	<select name="categoryUuid" class="form-control">
+				                                    	<option value ="">Sélectionnez une catégorie</option>
+				                                    	<c:forEach items="${categories}" var="category">
+	<%-- 			                                    		<c:choose> --%>
+	<%-- 			                                    			<c:when test="${wishWishForm.categoryUuid == category.uuid }"> --%>
+				                                    				<option ${wishWishForm.categoryUuid == category.uuid ? 'selected="selected"' : '' } selected="selected" value="${category.uuid}">${category.description}</option>
+	<%-- 			                                    			</c:when> --%>
+	<%-- 			                                    			<c:otherwise> --%>
+	<%-- 			                                    				<option value="${category.uuid}">${category.uuid}</option> --%>
+	<%-- 			                                    			</c:otherwise> --%>
+	<%-- 			                                    		</c:choose> --%>
+				                                    	</c:forEach>
+				                                    </select>
+			                                    </div>
 			                                </div>
-			                                <div class="form-group">
-			                                    <label>Prix</label>
-			                                    <input class="au-input au-input--full" type="text" name="price" required="required" value="${wishWishForm.price }">
+			                                <div class="row form-group">
+			                                   <div class="col col-md-3"><label>Prix</label></div>
+			                                   <div class="col-12 col-md-9"><input class="au-input au-input--full" type="text" name="price" required="required" value="${wishWishForm.price }"></div>
 			                                </div>
 	                                    <div class="card-footer">
 	                                        <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-dot-circle-o"></i>

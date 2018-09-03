@@ -47,7 +47,7 @@
 <body class="animsition">
     <div class="page-wrapper">
         
-			<jsp:include page="../menu.jsp"/>
+			<jsp:include page="menu.jsp"/>
 
             <!-- MAIN CONTENT-->
             <div class="main-content">
@@ -521,9 +521,10 @@
 
 	<script type="text/javascript">
 		var journalUuid = "${journal.uuid}";
+		var redirect = "${redirect}";
 	
 		$(".month").click(function(e){
-			window.location.href = "show?uuid="+journalUuid+"&month=" + $(this).attr("id");
+			window.location.href = redirect + "?uuid="+journalUuid+"&month=" + $(this).attr("id");
 		});
 		
 	</script>

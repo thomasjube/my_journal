@@ -212,12 +212,13 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        	<c:forEach items="${mapMonthStats}" var="monthlyStat">
+                                        	<c:forEach items="${months}" var="month">
+                                        	<c:set var="monthlyStat" value="${mapMonthStats[month]}"/>
                                         		<tr>
-                                        			<td><fmt:message key="label.${monthlyStat.key}.month" bundle="${lang}"/></td>
-                                        			<td class="text-center">${monthlyStat.value.allDailyTasks}</td>
-                                        			<td class="text-center">${monthlyStat.value.finishMonthlyTasks}/${monthlyStat.value.allMonthlyTasks} (%)</td>
-                                        			<td class="text-center">${monthlyStat.value.usedBudget}/${monthlyStat.value.allbudget} (%)</td>
+                                        			<td><fmt:message key="label.${month}.month" bundle="${lang}"/></td>
+                                        			<td class="text-center">${monthlyStat.allDailyTasks}</td>
+                                        			<td class="text-center">${monthlyStat.finishMonthlyTasks}/${monthlyStat.allMonthlyTasks} (%)</td>
+                                        			<td class="text-center">${monthlyStat.usedBudget}/${monthlyStat.allbudget} (%)</td>
                                         		</tr>
                                         	</c:forEach>
                                         </tbody>

@@ -2,12 +2,15 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page session="true" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="fr">
+
 <head>
     <!-- Required meta tags-->
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="au theme template">
     <meta name="author" content="Hau Nguyen">
@@ -41,7 +44,9 @@
 
 <body class="animsition">
     <div class="page-wrapper">
-        <jsp:include page="../menu.jsp"/>
+
+		<jsp:include page="../menu.jsp"/>
+		
             <!-- MAIN CONTENT-->
             <div class="main-content">
                 <div class="section__content section__content--p30">
@@ -49,33 +54,51 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <!-- DATA TABLE -->
-                                <h3 class="title-5 m-b-35">Journals</h3>
+                                <h3 class="title-5 m-b-35">Budgets</h3>
+                                <div class="table-data__tool">
+                                    <div class="table-data__tool-right">
+                                        <button class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                            <i class="zmdi zmdi-plus"></i><a style="color:white;" href="creation?uuid=${uuid}&month=${month}">Ajouter</a></button>
+                                    </div>
+                                </div>
                                 <div class="table-responsive table-responsive-data2">
                                     <c:choose>
-	                                        	<c:when test="${empty journals}">
-	                                        		Aucun Journal
-	                                        	</c:when>
-	                                        	<c:otherwise>
-		                                        	<table class="table table-data2">
-				                                        <thead>
-				                                            <tr>
-				                                                <th>du</th>
-				                                                <th>au</th>
-				                                            </tr>
-				                                        </thead>
-				                                        <tbody>
-			                                        		<c:forEach items="${journals}" var="journal">
-					                                            <tr style="cursor:pointer;" class="tr-shadow" id="${journal.uuid }">
-					                                                <td><tags:localDate date="${journal.beginDate }"/></td>
-					                                                <td><tags:localDate date="${journal.endDate}"/></td>
-					                                            </tr>
-				                                            	<tr class="spacer"></tr>
-			                                            	</c:forEach>
-			                                            	
-				                                        </tbody>
-				                                    </table>
-	                                        	</c:otherwise>
-                                        	</c:choose>
+                                        <c:when test="${not empty budgets }">
+		                                    <table class="table table-data2">
+		                                        <thead>
+		                                            <tr>
+		                                                <th>description</th>
+		                                                <th>catégorie</th>
+		                                                <th>budget</th>
+		                                                <th></th>
+		                                            </tr>
+		                                        </thead>
+		                                        <tbody>
+		                                            <c:forEach items="${budgets}" var="budget">
+			                                            <tr id="${budget.uuid }" class="tr-shadow">
+			                                                <td><c:out value="${budget.description}"/></td>
+			                                                <td><c:out value="${budget.categoryTask.description}"/></td>
+			                                                <td><c:out value="${budget.budgetTotal}€"/></td>
+			                                                <td style="vertical-align:top !important;">
+			                                                    <div class="table-data-feature">
+			                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit" onclick="location.href='objective/update?uuid=${objective.uuid }';">
+			                                                            <i class="zmdi zmdi-edit"></i>
+			                                                        </button>
+			                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete" onclick="location.href='objective/delete?uuid=${objective.uuid }';">
+			                                                            <i class="zmdi zmdi-delete"></i>
+			                                                        </button>
+			                                                    </div>
+			                                                </td>
+			                                            </tr>
+		                                            <tr class="spacer"></tr>
+		                                            </c:forEach>
+		                                        </tbody>
+		                                    </table>
+                                     	</c:when>
+                                        <c:otherwise>
+                                        	<span><c:out value="Aucun budgets"/></span>
+                                        </c:otherwise>
+                                   </c:choose>
                                 </div>
                                 <!-- END DATA TABLE -->
                             </div>
@@ -83,7 +106,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="copyright">
-                                    <p>Copyright © 2018 Thomas' project.</p>
+                                    <p>Copyright © 2018 Colorlib. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p>
                                 </div>
                             </div>
                         </div>
@@ -117,11 +140,33 @@
 
     <!-- Main JS-->
     <script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
-
 	<script type="text/javascript">
 
+	function updateState(objective){
+		var uuid = $(objective).closest("tr").attr("id");
+		var state = $(objective).is(':checked') ? "DONE" : "TO_DO"; 
+		var urlAjax = 'objective/updateState?uuid=' + uuid;
+		var dataAjax = {'state' : state};
+		
+		$.ajax({
+			headers: { 
+		        'Accept': 'application/json',
+		        'Content-Type': 'application/json' 
+		    },
+	    	url: urlAjax,
+	   		type: 'POST',
+	   		contentType: 'application/json',
+	   		dataType: "json",
+	   		data: JSON.stringify(dataAjax),
+	   		success: function(data, status, jqXHR) {
+	  	    },
+			error: function(jqXHR, status, errorThrown) {
+			}
+		});
+	}
+
 	$(".tr-shadow").click(function(e){
-		window.location.href = "monthList?uuid=" + $(this).attr("id");
+		window.location.href = "show?uuid=" + $(this).attr("id");
 	});
 	
 	</script>

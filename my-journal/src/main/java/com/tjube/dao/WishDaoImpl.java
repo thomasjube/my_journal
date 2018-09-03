@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 
 import com.tjube.model.Account;
 import com.tjube.model.CategoryTask;
-import com.tjube.model.DailyTask;
 import com.tjube.model.JPAUtils;
 import com.tjube.model.Wish;
 import com.tjube.model.WishList;

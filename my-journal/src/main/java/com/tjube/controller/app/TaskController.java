@@ -1,13 +1,10 @@
 package com.tjube.controller.app;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
 import java.util.Collection;
 import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
-import org.codehaus.jackson.map.deser.std.EnumSetDeserializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -36,7 +32,6 @@ import com.tjube.controller.utils.ModelUtils;
 import com.tjube.model.Account;
 import com.tjube.model.CategoryTask;
 import com.tjube.model.Journal;
-import com.tjube.model.JournalEvent;
 import com.tjube.model.MonthlyTask;
 import com.tjube.model.Objective;
 import com.tjube.model.Wish;
@@ -58,7 +53,7 @@ public class TaskController
 {
 	@Autowired
 	private ObjectiveService objectiveService;
-	
+
 	@Autowired
 	private WishService wishService;
 
@@ -106,7 +101,7 @@ public class TaskController
 		model.addObject("journals", journals);
 
 		model.addObject(ModelUtils.MODEL_ACCOUNT, account);
-		model.setViewName(ModelUtils.MODEL_TASKS_JOURNAL_LIST);
+		model.setViewName(ModelUtils.MODEL_GENERAL_JOURNAL_LIST);
 
 		return model;
 	}
@@ -133,20 +128,21 @@ public class TaskController
 			model.setViewName(ModelUtils.REDIRECT_TASK_JOURNAL_LIST);
 			return model;
 		}
-		
-		
+
 		EnumSet<Month> months = EnumSet.noneOf(Month.class);
 		Period period = Period.between(journal.getBeginDate(), journal.getEndDate());
-		for(int i=journal.getBeginDate().getMonthValue();i<=journal.getBeginDate().getMonthValue()+period.getMonths();i++)
+		for (int i = journal.getBeginDate().getMonthValue(); i <= journal.getBeginDate().getMonthValue()
+				+ period.getMonths(); i++)
 		{
 			months.add(Month.of(i));
 		}
 
 		model.addObject("months", months);
 		model.addObject("journal", journal);
+		model.addObject("redirect", "show");
 
 		model.addObject(ModelUtils.MODEL_ACCOUNT, account);
-		model.setViewName(ModelUtils.MODEL_TASKS_MONTH_LIST);
+		model.setViewName(ModelUtils.MODEL_GENERAL_MONTH_LIST);
 
 		return model;
 	}
@@ -174,14 +170,14 @@ public class TaskController
 			model.setViewName(ModelUtils.REDIRECT_TASK_JOURNAL_LIST);
 			return model;
 		}
-		
-//		Map<Integer, Collection<JournalEvent>> mapDayJournalEvent = journalService.retrieveJournalEventsByMonth(journal, month);
-		
+
+		//		Map<Integer, Collection<JournalEvent>> mapDayJournalEvent = journalService.retrieveJournalEventsByMonth(journal, month);
+
 		Collection<MonthlyTask> monthlyTasks = taskService.retrieveAllMonthlyTasksByMonth(journal, month);
 		model.addObject("monthlyTasks", monthlyTasks);
-		
+
 		LocalDate beginDate = LocalDate.of(journal.getYear(month).getValue(), month, 1);
-		
+
 		model.addObject("beginDate", beginDate);
 		model.addObject("endDate", beginDate.plusMonths(1).minusDays(1));
 
@@ -211,20 +207,20 @@ public class TaskController
 		Account account = SecurityContext.getInstance().getCurrentUser();
 
 		Journal journal = journalService.retrieveJournal(uuid);
-		if(journal == null)
+		if (journal == null)
 		{
 			model.clear();
 			model.setViewName(ModelUtils.REDIRECT_TASK_JOURNAL_LIST);
 			return model;
 		}
-		
+
 		model.addObject("unitValues", TaskUnit.values());
 		LocalDate beginDate = LocalDate.of(journal.getYear(month).getValue(), month, 1);
 		model.addObject("beginDate", beginDate);
 		model.addObject("endDate", beginDate.plusMonths(1).minusDays(1));
-		
+
 		model.addObject(ModelUtils.MODEL_ACCOUNT, account);
-		model.addObject(ModelUtils.MODEL_TASK_MONTHLY_ADD_FORM, new MonthlyTaskAddForm(journal,month));
+		model.addObject(ModelUtils.MODEL_TASK_MONTHLY_ADD_FORM, new MonthlyTaskAddForm(journal, month));
 		model.setViewName(ModelUtils.MODEL_TASKS_MONTH_ADD);
 
 		return model;
@@ -235,7 +231,8 @@ public class TaskController
 	//---------------------------------------------------------------------------------------------------------------------
 	@RequestMapping(value = { "/monthly/add" }, method = { RequestMethod.POST })
 	public ModelAndView monthlyTaskAddPost(HttpServletRequest request, HttpServletResponse response, ModelAndView model,
-			@Valid @ModelAttribute(ModelUtils.MODEL_TASK_MONTHLY_ADD_FORM) MonthlyTaskAddForm form, BindingResult validationResult)
+			@Valid @ModelAttribute(ModelUtils.MODEL_TASK_MONTHLY_ADD_FORM) MonthlyTaskAddForm form,
+			BindingResult validationResult)
 	{
 		model.setViewName(ModelUtils.MODEL_LOGIN);
 		String result = LoginUtils.login();
@@ -252,23 +249,25 @@ public class TaskController
 
 			return model;
 		}
-		
+
 		Journal journal = journalService.retrieveJournal(form.getJournalUuid());
-		if(journal == null)
+		if (journal == null)
 		{
 			model.clear();
 			model.setViewName(ModelUtils.REDIRECT_TASK_JOURNAL_LIST);
 			return model;
 		}
-		
+
 		CategoryTask categoryTask = categoryService.retrieveCategoryTask(form.getCategoryTaskUuid());
-		
+
 		Objective objective = objectiveService.retrieveObjective(form.getObjectiveUuid());
-		
+
 		Wish wish = wishService.retrieveWish(form.getWishUuid());
-		
-		MonthlyTask monthlyTask = taskService.createMonthlyTask(journal, form.getDescription(), form.isPro(), form.getMonth(),categoryTask,objective,wish);
-		model.setViewName(ModelUtils.REDIRECT_TASK_MONTH_SHOW + "?uuid=" + journal.getUuid()+"&month="+form.getMonth());
+
+		MonthlyTask monthlyTask = taskService.createMonthlyTask(journal, form.getDescription(), form.isPro(),
+				form.getMonth(), categoryTask, objective, wish);
+		model.setViewName(
+				ModelUtils.REDIRECT_TASK_MONTH_SHOW + "?uuid=" + journal.getUuid() + "&month=" + form.getMonth());
 		return model;
 	}
 

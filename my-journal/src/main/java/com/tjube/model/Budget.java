@@ -28,7 +28,9 @@ import com.tjube.controller.utils.converter.UUIDAttributeConverter;
 		@NamedQuery(name = Budget.QN.RETRIEVE_BUDGET_WITH_UUID,
 				query = "SELECT item from Budget item where item.uuid=:uuid"),
 		@NamedQuery(name = Budget.QN.RETRIEVE_BUDGET_BY_MONTH,
-				query = "SELECT item from Budget item where item.month=:month"),
+				query = "SELECT item from Budget item where item.journal=:journal AND item.month=:month order by item.month asc"),
+		@NamedQuery(name = Budget.QN.RETRIEVE_BUDGET_BY_MONTH_AND_CATEGORY,
+				query = "SELECT item from Budget item where item.journal=:journal AND item.month=:month AND item.categoryTask=:categoryTask order by item.month asc"),
 		@NamedQuery(name = Budget.QN.RETRIEVE_BUDGETS_BY_JOURNAL,
 				query = "SELECT item from Budget item where item.journal=:journal") })
 @Entity
@@ -45,6 +47,7 @@ public class Budget
 	{
 		public static final String RETRIEVE_BUDGET_WITH_UUID = "Budget.retrieveBudgetWithUuid";
 		public static final String RETRIEVE_BUDGET_BY_MONTH = "Budget.retrieveBudgetByMonth";
+		public static final String RETRIEVE_BUDGET_BY_MONTH_AND_CATEGORY = "Budget.retrieveBudgetByMonthAndCategory";
 		public static final String RETRIEVE_BUDGETS_BY_JOURNAL = "Budget.retrieveBudgetsByJournal";
 
 		private QN()
@@ -70,6 +73,12 @@ public class Budget
 	@Column(name = "month", nullable = false)
 	private Month month = null;
 
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	private CategoryTask categoryTask = null;
+
+	@Column(name = "description", nullable = false)
+	private String description = null;
+
 	@Column(name = "budget_total", nullable = false, scale = 2)
 	private BigDecimal budgetTotal = BigDecimal.ZERO;
 
@@ -80,7 +89,7 @@ public class Budget
 	private BigDecimal budgetTaken = BigDecimal.ZERO;
 
 	@OneToMany(mappedBy = "budget", fetch = FetchType.LAZY)
-	private Collection<DailyTask> tasks = new ArrayList<>();
+	private Collection<Wish> wishes = new ArrayList<>();
 
 	//---------------------------------------------------------------------------------------------------------------------
 
@@ -89,12 +98,14 @@ public class Budget
 		// Default Constructor
 	}
 
-	public Budget(Journal journal, Month month, BigDecimal budgetTotal)
+	public Budget(String description, BigDecimal budgetTotal, Journal journal, Month month, CategoryTask categoryTask)
 	{
 		this.uuid = UUID.randomUUID();
 
+		this.description = description;
 		this.journal = journal;
 		this.month = month;
+		this.categoryTask = categoryTask;
 
 		setBudgetTotal(budgetTotal);
 	}
@@ -132,6 +143,18 @@ public class Budget
 
 	//---------------------------------------------------------------------------------------------------------------------
 
+	public CategoryTask getCategoryTask()
+	{
+		return categoryTask;
+	}
+
+	public void setCategoryTask(CategoryTask categoryTask)
+	{
+		this.categoryTask = categoryTask;
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
 	public Month getMonth()
 	{
 		return month;
@@ -140,6 +163,18 @@ public class Budget
 	public void setMonth(Month month)
 	{
 		this.month = month;
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	public String getDescription()
+	{
+		return description;
+	}
+
+	public void setDescription(String description)
+	{
+		this.description = description;
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -186,10 +221,10 @@ public class Budget
 		BigDecimal newBalance = budgetTotal;
 		BigDecimal newTaken = BigDecimal.ZERO;
 
-		for (DailyTask dailyTask : tasks)
+		for (Wish wish : wishes)
 		{
-			newBalance = newBalance.subtract(dailyTask.getPrice());
-			newTaken = newTaken.add(dailyTask.getPrice());
+			newBalance = newBalance.subtract(wish.getPrice());
+			newTaken = newTaken.add(wish.getPrice());
 		}
 
 		setBudgetBalance(newBalance);
@@ -198,27 +233,26 @@ public class Budget
 
 	//---------------------------------------------------------------------------------------------------------------------
 
-	public Collection<DailyTask> getTasks()
+	public Collection<Wish> getWishes()
 	{
-		return tasks;
+		return wishes;
 	}
 
-	public void addTask(DailyTask dailyTask)
+	public void addWish(Wish wish)
 	{
-		tasks.add(dailyTask);
+		wishes.add(wish);
 		updateBudget();
 	}
 
-	public void removeTask(DailyTask dailyTask)
+	public void removeWish(Wish wish)
 	{
-		tasks.remove(dailyTask);
+		wishes.remove(wish);
 		updateBudget();
 	}
 
-	public void clearTasks()
+	public void clearWishes()
 	{
-		tasks.clear();
-
+		wishes.clear();
 		updateBudget();
 	}
 
