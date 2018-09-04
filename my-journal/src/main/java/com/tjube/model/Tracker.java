@@ -32,7 +32,7 @@ import com.tjube.model.enums.TaskUnit;
 		@NamedQuery(name = Tracker.QN.RETRIEVE_TRACKER_WITH_UUID,
 				query = "SELECT t from Tracker t where t.uuid=:uuid"),
 		@NamedQuery(name = Tracker.QN.RETRIEVE_TRACKER_WITH_JOURNAL,
-				query = "SELECT t from Tracker t where t.journal=:journal"),
+				query = "SELECT t from Tracker t where t.journal=:journal and t.month=:month"),
 		 })
 @Entity
 @Table(name = "TRACKER")
@@ -91,7 +91,7 @@ public class Tracker
 		// Default constructor
 	}
 	
-	public Tracker(String name, Month month, Journal journal) {
+	public Tracker(Journal journal, Month month, String name) {
 		super();
 		this.name = name;
 		this.month = month;

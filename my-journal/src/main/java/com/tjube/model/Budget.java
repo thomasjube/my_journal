@@ -261,7 +261,9 @@ public class Budget
 
 	public BigDecimal getPercentage()
 	{
-		BigDecimal result = this.budgetTaken.multiply(new BigDecimal(100)).divide(this.budgetTotal).setScale(0,
+		BigDecimal result = BigDecimal.ZERO;
+		if(this.budgetTotal.setScale(0) != BigDecimal.ZERO)
+			result = this.budgetTaken.multiply(new BigDecimal(100)).divide(this.budgetTotal,0,
 				RoundingMode.HALF_UP);
 		return result;
 	}

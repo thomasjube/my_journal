@@ -61,10 +61,10 @@ public class MonthlyStats
 
 	public BigDecimal getAllbudgetPercent()
 	{
-		if (this.allbudget == BigDecimal.ZERO)
+		if (this.allbudget.setScale(0) == BigDecimal.ZERO || this.allbudget == null)
 			return BigDecimal.ZERO;
-		else
-			return this.usedBudget.multiply(new BigDecimal(100)).divide(this.allbudget).setScale(0,
+		else 
+			return this.usedBudget.multiply(new BigDecimal(100)).divide(this.allbudget,0,
 					RoundingMode.HALF_UP);
 	}
 

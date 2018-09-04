@@ -71,34 +71,46 @@
 	                                        	<div class="col-lg-12">
 					                                <div class="au-card chart-percent-card">
 					                                    <div class="au-card-inner">
-					                                        <h3 class="title-2 tm-b-5">${budget.description}</h3>
+					                                        <h3 class="title-2 tm-b-5">${budget.description} (${budget.budgetTotal}€)</h3>
 					                                        <div class="row no-gutters">
 					                                            <div class="col-xl-6">
 					                                                <div class="chart-note-wrap">
 					                                                    <div class="chart-note mr-0 d-block">
 					                                                        <span class="dot dot--blue"></span>
-					                                                        <span>Budget utilisé</span>
+					                                                        <span>Budget utilisé (${budget.budgetTaken}€)</span>
 					                                                    </div>
 					                                                    <div class="chart-note mr-0 d-block">
 					                                                        <span class="dot dot--red"></span>
-					                                                        <span>Dépassement du budget</span>
+					                                                        <span>Dépassement du budget <c:if test="${budget.budgetBalance < 0}">(${budget.budgetTaken - budget.budgetTotal}€)</c:if></span>
 					                                                    </div>
 					                                                </div>
 					                                            </div>
 					                                            
-					                                            <div class="${budget.percentage > 100 ? 'c100plus' : 'c100'} p${budget.percentage > 100 ? Math.round(budget.percentage%100) : budget.percentage}">
+					                                            <div class="${budget.percentage > 100 ? 'c100plus' : 'c100'} p${budget.percentage > 100 ? (budget.percentage >=200 ? 100 : Math.round(budget.percentage%100)) : budget.percentage}">
 												                    <span>${budget.percentage}%</span>
 												                    <div class="slice">
 												                        <div class="bar"></div>
 												                        <div class="fill"></div>
 												                    </div>
 												                </div>
-					                                            
-<!-- 					                                            <div class="col-xl-6"> -->
-<!-- 					                                                <div class="percent-chart"> -->
-<%-- 					                                                    <canvas class="percent-chart-budget" data-balance="${budget.budgetBalance }" data-taken="${budget.budgetTaken}" data-total="${budget.budgetTotal }"></canvas> --%>
-<!-- 					                                                </div> -->
-<!-- 					                                            </div> -->
+												                <c:if test="${not empty budget.wishes}">
+													                <div class="col-lg-6">
+														                <div class="top-campaign">
+										                                    <div class="table-responsive">
+										                                        <table class="table table-top-campaign">
+										                                            <tbody>
+										                                                <c:forEach items="${budget.wishes}" var="wish">
+										                                                	<tr>
+										                                                    	<td>&bull;&nbsp;${wish.description}</td>
+										                                                    	<td>${wish.price }</td>
+										                                                	</tr>
+										                                                </c:forEach>
+										                                            </tbody>
+										                                        </table>
+										                                    </div>
+										                                </div>
+						                                            </div>
+					                                            </c:if>
 					                                        </div>
 					                                    </div>
 					                                </div>
