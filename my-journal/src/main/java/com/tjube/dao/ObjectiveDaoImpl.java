@@ -37,12 +37,12 @@ public class ObjectiveDaoImpl
 	@Override
 	public void updateObjective(Objective objective, String name, String description, Objective masterObjective)
 	{
-		
-		if(objective != null)
+
+		if (objective != null)
 		{
 			if (!entityManager.contains(objective))
 				objective = entityManager.merge(objective);
-	
+
 			objective.setName(name);
 			objective.setDescription(description);
 			objective.setMasterObjective(masterObjective);
@@ -54,11 +54,11 @@ public class ObjectiveDaoImpl
 	@Override
 	public void updateState(Objective objective, TaskStateEvent state)
 	{
-		if(objective != null)
+		if (objective != null)
 		{
 			if (!entityManager.contains(objective))
 				objective = entityManager.merge(objective);
-	
+
 			objective.setState(state);
 		}
 	}
@@ -68,11 +68,11 @@ public class ObjectiveDaoImpl
 	@Override
 	public void removeObjective(Objective objective)
 	{
-		if(objective != null)
+		if (objective != null)
 		{
 			if (!entityManager.contains(objective))
 				objective = entityManager.merge(objective);
-		
+
 			entityManager.remove(objective);
 		}
 	}
@@ -107,13 +107,14 @@ public class ObjectiveDaoImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public Collection<Objective> retrieveObjectives(Account account)
+	public Collection<Objective> retrieveObjectives(Account account, Collection<TaskStateEvent> states)
 	{
 
-		TypedQuery<Objective> query = entityManager.createNamedQuery(Objective.QN.RETRIEVE_OBJECTIVE_BY_ACCOUNT,
-				Objective.class);
+		TypedQuery<Objective> query = entityManager
+				.createNamedQuery(Objective.QN.RETRIEVE_OBJECTIVE_BY_ACCOUNT_AND_STATES, Objective.class);
 
 		query.setParameter("account", account);
+		query.setParameter("states", states);
 
 		return query.getResultList();
 	}

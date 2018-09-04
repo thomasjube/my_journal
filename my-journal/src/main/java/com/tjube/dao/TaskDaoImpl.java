@@ -26,7 +26,6 @@ import com.tjube.model.Objective;
 import com.tjube.model.Tracker;
 import com.tjube.model.Wish;
 import com.tjube.model.enums.TaskStateEvent;
-import com.tjube.model.enums.TaskUnit;
 
 @Repository
 public class TaskDaoImpl
@@ -124,7 +123,7 @@ public class TaskDaoImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public DailyTask createDailyTask(Tracker tracker,LocalDate date)
+	public DailyTask createDailyTask(Tracker tracker, LocalDate date)
 	{
 		DailyTask dailyTaskJPA = new DailyTask(tracker, date);
 
@@ -198,7 +197,8 @@ public class TaskDaoImpl
 	@Override
 	public Map<Month, MonthlyStats> getMonthlyStats(Journal journal)
 	{
-		TypedQuery<Object[]> query = entityManager.createNamedQuery(MonthlyTask.QN.GET_MONTHLY_STATS_ALL_MONTHLY_TASK, Object[].class);
+		TypedQuery<Object[]> query = entityManager.createNamedQuery(MonthlyTask.QN.GET_MONTHLY_STATS_ALL_MONTHLY_TASK,
+				Object[].class);
 		query.setParameter("journal", journal);
 
 		Map<Month, MonthlyStats> results = new HashMap<>();
@@ -283,4 +283,16 @@ public class TaskDaoImpl
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
+
+	@Override
+	public void updateMonthlyTaskState(MonthlyTask monthlyTask, TaskStateEvent state)
+	{
+		if (monthlyTask != null)
+		{
+			if (!entityManager.contains(monthlyTask))
+				monthlyTask = entityManager.merge(monthlyTask);
+
+			monthlyTask.setState(state);
+		}
+	}
 }

@@ -1,6 +1,7 @@
 package com.tjube.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class MonthlyStats
 {
@@ -56,6 +57,23 @@ public class MonthlyStats
 	public void setUsedBudget(BigDecimal usedBudget)
 	{
 		this.usedBudget = usedBudget;
+	}
+
+	public BigDecimal getAllbudgetPercent()
+	{
+		if (this.allbudget == BigDecimal.ZERO)
+			return BigDecimal.ZERO;
+		else
+			return this.usedBudget.multiply(new BigDecimal(100)).divide(this.allbudget).setScale(0,
+					RoundingMode.HALF_UP);
+	}
+
+	public Integer getAllMonthlyTasksPercent()
+	{
+		if (this.allMonthlyTasks == 0)
+			return 0;
+		else
+			return this.finishMonthlyTasks * 100 / this.allMonthlyTasks;
 	}
 
 }

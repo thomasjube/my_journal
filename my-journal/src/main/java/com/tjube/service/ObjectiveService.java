@@ -20,7 +20,7 @@ public interface ObjectiveService
 
 	Objective retrieveObjective(UUID masterObjectiveUuid);
 
-	Collection<Objective> retrieveObjectives(Account account);
+	Collection<Objective> retrieveObjectives(Account account, Collection<TaskStateEvent> states);
 
 	Collection<Objective> retrieveMasterObjectives(Account account);
 

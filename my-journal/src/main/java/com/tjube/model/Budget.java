@@ -2,6 +2,7 @@ package com.tjube.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -254,6 +255,15 @@ public class Budget
 	{
 		wishes.clear();
 		updateBudget();
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	public BigDecimal getPercentage()
+	{
+		BigDecimal result = this.budgetTaken.multiply(new BigDecimal(100)).divide(this.budgetTotal).setScale(0,
+				RoundingMode.HALF_UP);
+		return result;
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------

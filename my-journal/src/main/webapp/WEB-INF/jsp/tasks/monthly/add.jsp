@@ -57,23 +57,66 @@
 			                                    <label>Nom</label>
 			                                    <input class="au-input au-input--full" type="text" name="description" required="required" value="${monthlyTaskAddForm.description }">
 			                                </div>
-			                                <div class="form-group">
-			                                    <div class="col col-md-3">
-                                                    <label for="select" class=" form-control-label">Unité</label>
+			                                <div class="row form-group">
+                                                <div class="col col-md-3">
+                                                    <label for="select" class=" form-control-label">Catégorie lié</label>
                                                 </div>
                                                 <div class="col-12 col-md-9">
-                                                    <select name="masterObjectiveUuid" class="form-control">
+                                                    <select name="categoryTaskUuid" class="form-control">
                                                     <option value="">Please select</option>
-                                                    <c:forEach items="${unitValues}" var="unit">
-														<option value="${unit}"><fmt:message key="label.${unit}.taskUnit" bundle="${lang }"/></option>                                                    	
+                                                    <c:forEach items="${categoryTasks}" var="category">
+														<option value="${category.uuid}">${category.description}</option>                                                    	
                                                     </c:forEach>
                                                     </select>
                                                 </div>
-			                                </div>
-			                                <div class="form-group">
-			                                    <label>Valeur</label>
-			                                    <input class="au-input au-input--full" type="text" name="price" required="required" value="${monthlyTaskAddForm.value }">
-			                                </div>
+                                             </div>
+			                                <div class="row form-group">
+                                                <div class="col col-md-3">
+                                                    <label for="select" class=" form-control-label">Objectif lié</label>
+                                                </div>
+                                                <div class="col-12 col-md-9">
+                                                    <select name="objectiveUuid" class="form-control">
+                                                    <option value="">Please select</option>
+                                                    <c:forEach items="${objectives}" var="objective">
+														<option value="${objective.uuid}">${objective.name}</option>                                                    	
+                                                    </c:forEach>
+                                                    </select>
+                                                </div>
+                                             </div>
+                                              <div class="row form-group">
+                                                <div class="col col-md-3">
+                                                    <label for="select" class=" form-control-label">Envie lié</label>
+                                                </div>
+                                                <div class="col-12 col-md-9">
+                                                    <select name="wishUuid" class="form-control">
+                                                    <option value="">Please select</option>
+                                                    <c:forEach items="${wishLists}" var="wishList">
+														<optgroup label="${wishList.description }">
+															<c:forEach items="${wishList.wishes}" var="wish">
+																<option value="${wish.uuid}">${wish.description}</option>
+															</c:forEach>   
+														</optgroup>                                                 	
+                                                    </c:forEach>
+                                                    </select>
+                                                </div>
+                                             </div>
+<!-- 			                                <div class="form-group"> -->
+<!-- 			                                    <div class="col col-md-3"> -->
+<!--                                                     <label for="select" class=" form-control-label">Unité</label> -->
+<!--                                                 </div> -->
+<!--                                                 <div class="col-12 col-md-9"> -->
+<!--                                                     <select name="masterObjectiveUuid" class="form-control"> -->
+<!--                                                     <option value="">Please select</option> -->
+<%--                                                     <c:forEach items="${unitValues}" var="unit"> --%>
+<%-- 														<option value="${unit}"><fmt:message key="label.${unit}.taskUnit" bundle="${lang }"/></option>                                                    	 --%>
+<%--                                                     </c:forEach> --%>
+<!--                                                     </select> -->
+<!--                                                 </div> -->
+<!-- 			                                </div> -->
+<!-- 			                                <div class="form-group"> -->
+<!-- 			                                    <label>Valeur</label> -->
+<%-- 			                                    <input class="au-input au-input--full" type="text" name="price" required="required" value="${monthlyTaskAddForm.value }"> --%>
+<!-- 			                                </div> -->
 	                                    <div class="card-footer">
 	                                        <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-dot-circle-o"></i>
 	                                        <c:choose>

@@ -1,6 +1,5 @@
 package com.tjube.service;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Collection;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tjube.dao.TaskDao;
-import com.tjube.model.Budget;
 import com.tjube.model.CategoryTask;
 import com.tjube.model.DailyTask;
 import com.tjube.model.Journal;
@@ -22,7 +20,6 @@ import com.tjube.model.Objective;
 import com.tjube.model.Tracker;
 import com.tjube.model.Wish;
 import com.tjube.model.enums.TaskStateEvent;
-import com.tjube.model.enums.TaskUnit;
 
 @Service
 @Transactional
@@ -39,19 +36,19 @@ public class TaskServiceImpl
 
 	@Override
 	public MonthlyTask createMonthlyTask(Journal journal, String description, boolean professional, Month month,
-			CategoryTask categoryTask,Objective objective,Wish wish)
+			CategoryTask categoryTask, Objective objective, Wish wish)
 	{
 
-		return taskDao.createMonthlyTask(journal, description, professional, month, categoryTask,objective,wish);
+		return taskDao.createMonthlyTask(journal, description, professional, month, categoryTask, objective, wish);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
 	public void updateMonthlyTask(MonthlyTask monthlyTask, String description, boolean professional, Month month,
-			CategoryTask categoryTask,Objective objective,Wish wish)
+			CategoryTask categoryTask, Objective objective, Wish wish)
 	{
-		taskDao.updateMonthlyTask(monthlyTask, description, professional, month,categoryTask,objective,wish);
+		taskDao.updateMonthlyTask(monthlyTask, description, professional, month, categoryTask, objective, wish);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -91,7 +88,7 @@ public class TaskServiceImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public DailyTask createDailyTask(Tracker tracker,LocalDate date)
+	public DailyTask createDailyTask(Tracker tracker, LocalDate date)
 	{
 		return taskDao.createDailyTask(tracker, date);
 	}
@@ -99,7 +96,7 @@ public class TaskServiceImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public void updateDailyTask(DailyTask dailyTask,TaskStateEvent state)
+	public void updateDailyTask(DailyTask dailyTask, TaskStateEvent state)
 	{
 		taskDao.updateDailyTask(dailyTask, state);
 	}
@@ -146,4 +143,9 @@ public class TaskServiceImpl
 
 	//---------------------------------------------------------------------------------------------------------------------
 
+	@Override
+	public void updateMonthlyTaskState(MonthlyTask monthlyTask, TaskStateEvent state)
+	{
+		taskDao.updateMonthlyTaskState(monthlyTask, state);
+	}
 }

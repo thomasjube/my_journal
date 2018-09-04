@@ -22,7 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tjube.controller.app.form.WishListForm;
 import com.tjube.controller.app.form.WishWishForm;
-import com.tjube.controller.app.json.ObjectiveChangeStateJSON;
+import com.tjube.controller.app.json.ObjectChangeStateJSON;
 import com.tjube.controller.security.SecurityContext;
 import com.tjube.controller.utils.LoginUtils;
 import com.tjube.controller.utils.ModelUtils;
@@ -476,9 +476,9 @@ public class WishController
 
 	//---------------------------------------------------------------------------------------------------------------------
 
-	@RequestMapping(value = "/updateState", method = { RequestMethod.POST }, consumes = "application/json")
+	@RequestMapping(value = "/list/wish/updateState", method = { RequestMethod.POST }, consumes = "application/json")
 	public void wishStatePatch(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody ObjectiveChangeStateJSON form, @RequestParam("uuid") UUID wishUuid)
+			@RequestBody ObjectChangeStateJSON form, @RequestParam("uuid") UUID wishUuid)
 	{
 		Wish wish = wishService.retrieveWish(wishUuid);
 		if (wish == null)

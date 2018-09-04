@@ -11,6 +11,7 @@ import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
 import com.tjube.model.Account;
+import com.tjube.model.Budget;
 import com.tjube.model.CategoryTask;
 import com.tjube.model.JPAUtils;
 import com.tjube.model.Wish;
@@ -118,7 +119,7 @@ public class WishDaoImpl
 			TaskStateEvent state)
 	{
 		Wish result = new Wish(wishList, description, price, categoryTask);
-		
+
 		entityManager.persist(result);
 
 		wishList.addWish(result);
@@ -137,6 +138,17 @@ public class WishDaoImpl
 		wish.setCategory(categoryTask);
 		wish.setDescription(description);
 		wish.setPrice(price);
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@Override
+	public void updateWish(Wish wish, Budget budget)
+	{
+		if (!entityManager.contains(wish))
+			wish = entityManager.merge(wish);
+
+		wish.setBudget(budget);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------

@@ -135,12 +135,25 @@
                                         </div>
                                         <div class="au-task-list js-scrollbar3">
                                         	<c:forEach items="${monthlyTasks}" var="task">
-	                                        	<div class="au-task__item au-task__item--danger">
-	                                                <div class="au-task__item-inner">
-	                                                    <h5 class="task">
-	                                                        <a href="tasks/monthly/show?uuid=${task.uuid }">${task.description}</a>
+	                                        	<div class="au-task__item au-task__item--danger" style="height:4.5em;">
+	                                                <div class="au-task__item-inner" style="height:100%;">
+	                                                    <h5 class="task" id="${task.uuid }" style="width:50%;float:left;">
+	                                                        <c:choose>
+			                                                    <c:when test="${task.state == 'DONE'}">
+			                                                    	<input onchange="updateState(this)" type="checkbox" class="status--process_${task.state }" style="position:relative;top:0%;" checked/>
+			                                                    </c:when>
+			                                                    <c:otherwise>
+			                                                    	<input onchange="updateState(this)" type="checkbox" class="status--process_${task.state }" style="position:relative;top:0%;" />
+			                                                    </c:otherwise>
+			                                                </c:choose>
+			                                                <a href="tasks/monthly/show?uuid=${task.uuid }">${task.description}</a>
+	                                                        
 	                                                    </h5>
-<%-- 	                                                    <span class="${task}">10:00 AM</span> --%>
+	                                                 <div class="table-data-feature" style="float:right;width:50%;">
+		                                                 <button class="item" data-toggle="tooltip" data-placement="top" title="Reporter" onclick="updateState(this,'POSTPONE')">
+		                                                 	<i class="zmdi zmdi-mail-send"></i>
+		                                                 </button>
+	                                                 </div>
 	                                                </div>
 	                                            </div>
                                         	</c:forEach>
@@ -192,6 +205,37 @@
 
     <!-- Main JS-->
     <script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
+
+		<script type="text/javascript">
+
+	function updateState(task,state){
+		var uuid = $(task).parent().siblings().attr("id");
+		if(state == null)
+		{
+			state = $(task).is(':checked') ? "DONE" : "TO_DO";
+			uuid = $(task).closest("h5").attr("id");
+		} 
+		var urlAjax = 'updateState?uuid=' + uuid;
+		var dataAjax = {'state' : state};
+		
+		$.ajax({
+			headers: { 
+		        'Accept': 'application/json',
+		        'Content-Type': 'application/json' 
+		    },
+	    	url: urlAjax,
+	   		type: 'POST',
+	   		contentType: 'application/json',
+	   		dataType: "json",
+	   		data: JSON.stringify(dataAjax),
+	   		success: function(data, status, jqXHR) {
+	  	    },
+			error: function(jqXHR, status, errorThrown) {
+			}
+		});
+	}
+	
+	</script>
 
 </body>
 

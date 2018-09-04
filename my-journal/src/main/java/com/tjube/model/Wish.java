@@ -72,7 +72,7 @@ public class Wish
 	@Column(name = "state", nullable = false)
 	private TaskStateEvent state = TaskStateEvent.TO_DO;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@ManyToOne(fetch = FetchType.LAZY, optional = true)
 	private Budget budget = null;
 
 	//---------------------------------------------------------------------------------------------------------------------

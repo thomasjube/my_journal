@@ -206,7 +206,7 @@
                                         <thead>
                                             <tr>
                                                 <th>date</th>
-                                                <th class="text-right">tâches quotidiennes</th>
+<!--                                                 <th class="text-right">tâches quotidiennes</th> -->
                                                 <th class="text-right">tâches mensuelles</th>
                                                 <th class="text-right">budget</th>
                                             </tr>
@@ -216,9 +216,9 @@
                                         	<c:set var="monthlyStat" value="${mapMonthStats[month]}"/>
                                         		<tr>
                                         			<td><fmt:message key="label.${month}.month" bundle="${lang}"/></td>
-                                        			<td class="text-center">${monthlyStat.allDailyTasks}</td>
-                                        			<td class="text-center">${monthlyStat.finishMonthlyTasks}/${monthlyStat.allMonthlyTasks} (%)</td>
-                                        			<td class="text-center">${monthlyStat.usedBudget}/${monthlyStat.allbudget} (%)</td>
+<%--                                         			<td class="text-center">${monthlyStat.allDailyTasks}</td> --%>
+                                        			<td class="text-center">${monthlyStat.finishMonthlyTasks}/${monthlyStat.allMonthlyTasks} (${monthlyStat.allMonthlyTasksPercent}%)</td>
+                                        			<td class="text-center">${monthlyStat.usedBudget}/${monthlyStat.allbudget} (${monthlyStat.allbudgetPercent}%)</td>
                                         		</tr>
                                         	</c:forEach>
                                         </tbody>

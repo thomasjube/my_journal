@@ -29,8 +29,8 @@ import com.tjube.model.enums.TaskStateEvent;
 				query = "SELECT item from Objective item where item.uuid=:uuid"),
 		@NamedQuery(name = Objective.QN.RETRIEVE_OBJECTIVE_BY_MOTHLY_TASK,
 				query = "SELECT item from Objective item where item.monthlyTask=:monthlyTask"),
-		@NamedQuery(name = Objective.QN.RETRIEVE_OBJECTIVE_BY_ACCOUNT,
-				query = "SELECT item from Objective item where item.account=:account"),
+		@NamedQuery(name = Objective.QN.RETRIEVE_OBJECTIVE_BY_ACCOUNT_AND_STATES,
+				query = "SELECT item from Objective item where item.account=:account and item.state in (:states)"),
 		@NamedQuery(name = Objective.QN.RETRIEVE_MASTER_OBJECTIVE_BY_ACCOUNT,
 				query = "SELECT item from Objective item where item.account=:account and item.masterObjective is null") })
 @Entity
@@ -46,7 +46,7 @@ public class Objective
 	{
 		public static final String RETRIEVE_OBJECTIVE_WITH_UUID = "Objective.retrieveObjectiveByUuid";
 		public static final String RETRIEVE_OBJECTIVE_BY_MOTHLY_TASK = "Objective.retrieveObjectiveByMonthlyTask";
-		public static final String RETRIEVE_OBJECTIVE_BY_ACCOUNT = "Objective.retrieveObjectiveByAccount";
+		public static final String RETRIEVE_OBJECTIVE_BY_ACCOUNT_AND_STATES = "Objective.retrieveObjectiveByAccountAndStates";
 		public static final String RETRIEVE_MASTER_OBJECTIVE_BY_ACCOUNT = "Objective.retrieveMasterObjectiveByAccount";
 
 		private QN()

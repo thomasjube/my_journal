@@ -57,9 +57,9 @@ public class ObjectiveServiceImpl
 	}
 
 	@Override
-	public Collection<Objective> retrieveObjectives(Account account)
+	public Collection<Objective> retrieveObjectives(Account account, Collection<TaskStateEvent> states)
 	{
-		return objectiveDao.retrieveObjectives(account);
+		return objectiveDao.retrieveObjectives(account, states);
 	}
 
 }

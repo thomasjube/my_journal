@@ -1,16 +1,16 @@
 package com.tjube.controller.app.json;
 
-public class ObjectiveChangeStateJSON
+public class ObjectChangeStateJSON
 {
 
 	private String state;
 
-	public ObjectiveChangeStateJSON()
+	public ObjectChangeStateJSON()
 	{
 		// TODO Auto-generated constructor stub
 	}
 
-	public ObjectiveChangeStateJSON(String state)
+	public ObjectChangeStateJSON(String state)
 	{
 		this.state = state;
 	}

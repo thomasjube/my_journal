@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tjube.controller.app.form.ObjectiveCreationForm;
-import com.tjube.controller.app.json.ObjectiveChangeStateJSON;
+import com.tjube.controller.app.json.ObjectChangeStateJSON;
 import com.tjube.controller.security.SecurityContext;
 import com.tjube.controller.utils.LoginUtils;
 import com.tjube.controller.utils.ModelUtils;
@@ -55,7 +55,8 @@ public class ObjectiveController
 
 		Account account = SecurityContext.getInstance().getCurrentUser();
 
-		Collection<Objective> objectives = objectiveService.retrieveObjectives(account);
+		Collection<Objective> objectives = objectiveService.retrieveObjectives(account,
+				TaskStateEvent.getStateForDailyTask());
 		model.addObject("objectives", objectives);
 
 		Collection<Objective> masterObjectives = objectiveService.retrieveMasterObjectives(account);
@@ -224,16 +225,8 @@ public class ObjectiveController
 
 	@RequestMapping(value = "/updateState", method = { RequestMethod.POST }, consumes = "application/json")
 	public void objectiveStatePatch(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody ObjectiveChangeStateJSON form, @RequestParam("uuid") UUID objectiveUuid)
+			@RequestBody ObjectChangeStateJSON form, @RequestParam("uuid") UUID objectiveUuid)
 	{
-		//		model.setViewName(ModelUtils.REDIRECT_LOGIN);
-		//		String result = LoginUtils.login();
-		//		if (result != null)
-		//			return model;
-		//
-		//		Account account = SecurityContext.getInstance().getCurrentUser();
-		//		model.addObject("account", account);
-		//
 		Objective objective = objectiveService.retrieveObjective(objectiveUuid);
 		if (objective == null)
 		{
@@ -241,8 +234,5 @@ public class ObjectiveController
 		}
 
 		objectiveService.updateState(objective, TaskStateEvent.valueOf(form.getState()));
-
-		//		model.setViewName(ModelUtils.REDIRECT_OBJECTIVE);
-		//		return model;
 	}
 }

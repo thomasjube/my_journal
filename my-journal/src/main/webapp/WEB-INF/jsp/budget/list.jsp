@@ -39,6 +39,9 @@
 
     <!-- Main CSS-->
     <link href="<%=request.getContextPath()%>/resources/css/theme.css" rel="stylesheet" media="all">
+    
+    <!-- Circle CSS -->
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css-circle/css/circle.css">
 
 </head>
 
@@ -73,20 +76,29 @@
 					                                            <div class="col-xl-6">
 					                                                <div class="chart-note-wrap">
 					                                                    <div class="chart-note mr-0 d-block">
-					                                                        <span class="dot dot--red"></span>
-					                                                        <span>Dépensé</span>
+					                                                        <span class="dot dot--blue"></span>
+					                                                        <span>Budget utilisé</span>
 					                                                    </div>
 					                                                    <div class="chart-note mr-0 d-block">
-					                                                        <span class="dot dot--blue"></span>
-					                                                        <span>Total</span>
+					                                                        <span class="dot dot--red"></span>
+					                                                        <span>Dépassement du budget</span>
 					                                                    </div>
 					                                                </div>
 					                                            </div>
-					                                            <div class="col-xl-6">
-					                                                <div class="percent-chart">
-					                                                    <canvas class="percent-chart-budget" data-total="${budget.budgetTotal }" data-taken="${budget.budgetTaken}"></canvas>
-					                                                </div>
-					                                            </div>
+					                                            
+					                                            <div class="${budget.percentage > 100 ? 'c100plus' : 'c100'} p${budget.percentage > 100 ? Math.round(budget.percentage%100) : budget.percentage}">
+												                    <span>${budget.percentage}%</span>
+												                    <div class="slice">
+												                        <div class="bar"></div>
+												                        <div class="fill"></div>
+												                    </div>
+												                </div>
+					                                            
+<!-- 					                                            <div class="col-xl-6"> -->
+<!-- 					                                                <div class="percent-chart"> -->
+<%-- 					                                                    <canvas class="percent-chart-budget" data-balance="${budget.budgetBalance }" data-taken="${budget.budgetTaken}" data-total="${budget.budgetTotal }"></canvas> --%>
+<!-- 					                                                </div> -->
+<!-- 					                                            </div> -->
 					                                        </div>
 					                                    </div>
 					                                </div>
@@ -197,70 +209,6 @@
 		window.location.href = "show?uuid=" + $(this).attr("id");
 	});
 
-	try
-	{
-	   	$.each($(".percent-chart-budget"),function(index,item){
-
-	   		var ctx = $(item);
-		    if (ctx) {
-		      ctx.height = 280;
-		      var myChart = new Chart(ctx, {
-		        type: 'doughnut',
-		        data: {
-		          datasets: [
-		            {
-		              label: "My First dataset",
-		              data: [$(ctx).data("taken"), $(ctx).data("total")],
-		              backgroundColor: [
-		                '#fa4251',
-		                '#00b5e9'
-		              ],
-		              hoverBackgroundColor: [
-		                '#fa4251',
-		                '#00b5e9'
-		              ],
-		              borderWidth: [
-		                0, 0
-		              ],
-		              hoverBorderColor: [
-		                'transparent',
-		                'transparent'
-		              ]
-		            }
-		          ],
-		          labels: [
-		            'Dépensé',
-		            'Total'
-		          ]
-		        },
-		        options: {
-		          maintainAspectRatio: true,
-		          responsive: true,
-		          cutoutPercentage: 55,
-		          animation: {
-		            animateScale: true,
-		            animateRotate: true
-		          },
-		          legend: {
-		            display: false
-		          },
-		          tooltips: {
-		            titleFontFamily: "Poppins",
-		            xPadding: 15,
-		            yPadding: 10,
-		            caretPadding: 0,
-		            bodyFontSize: 16
-		          }
-		        }
-		      });
-
-		}
-    });
-
-  } catch (error) {
-    console.log(error);
-  }
-	
 	</script>
 
 </body>
