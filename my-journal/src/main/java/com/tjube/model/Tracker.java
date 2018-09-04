@@ -3,6 +3,9 @@ package com.tjube.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Month;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -17,6 +20,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.tjube.controller.utils.converter.LocalDateAttributeConverter;
@@ -25,18 +29,19 @@ import com.tjube.model.enums.TaskStateEvent;
 import com.tjube.model.enums.TaskUnit;
 
 @NamedQueries({
-		@NamedQuery(name = DailyTask.QN.RETRIEVE_DAILY_TASK_WITH_UUID,
-				query = "SELECT dt from DailyTask dt where dt.uuid=:uuid"),
-		@NamedQuery(name = DailyTask.QN.RETRIEVE_DAILY_TASKS_WITH_TRACKER,
-				query = "SELECT dt from DailyTask dt where dt.tracker=:tracker"),
-		@NamedQuery(name = DailyTask.QN.RETRIEVE_DAILY_TASKS_WITH_DATE,
-				query = "SELECT dt from DailyTask dt where dt.date=:date and dt.tracker=:tracker"),})
+		@NamedQuery(name = Tracker.QN.RETRIEVE_TRACKER_WITH_UUID,
+				query = "SELECT t from Tracker t where t.uuid=:uuid"),
+		@NamedQuery(name = Tracker.QN.RETRIEVE_TRACKER_WITH_JOURNAL,
+				query = "SELECT t from Tracker t where t.journal=:journal"),
+		 })
 @Entity
-@Table(name = "DAILY_TASK")
-public class DailyTask
+@Table(name = "TRACKER")
+public class Tracker
 	implements Serializable
 {
-	private static final long serialVersionUID = 5482265096516757424L;
+	
+
+	private static final long serialVersionUID = -5480865053070705207L;
 
 	//==================================================================================================================================================================================================
 	//
@@ -46,9 +51,8 @@ public class DailyTask
 
 	public static class QN
 	{
-		public static final String RETRIEVE_DAILY_TASK_WITH_UUID = "DailyTask.retrieveDailyTaskWithUuid";
-		public static final String RETRIEVE_DAILY_TASKS_WITH_TRACKER = "DailyTask.retrieveDailyTasksWithTracker";
-		public static final String RETRIEVE_DAILY_TASKS_WITH_DATE = "DailyTask.retrieveDailyTasksWithDate";
+		public static final String RETRIEVE_TRACKER_WITH_UUID = "Tracker.retrieveTrackerWithUuid";
+		public static final String RETRIEVE_TRACKER_WITH_JOURNAL = "Tracker.retrieveTrackerWithJournal";
 
 		private QN()
 		{
@@ -66,28 +70,32 @@ public class DailyTask
 	@Column(name = "uuid", unique = true, nullable = false)
 	private UUID uuid;
 
-	@Column
+	@Column(name = "name", nullable = false)
+	private String name;
+	
 	@Enumerated(EnumType.STRING)
-	private TaskStateEvent state = TaskStateEvent.TO_DO;
-
-	@Convert(converter = LocalDateAttributeConverter.class)
-	@Column(name = "date", nullable = false)
-	private LocalDate date = null;
-
+	@Column(name = "month", nullable = false)
+	private Month month = null;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
-	private Tracker tracker;
+	private Journal journal;
+	
+	@OneToMany(mappedBy = "tracker", fetch = FetchType.LAZY)
+	private Collection<DailyTask> dailyTasks = new ArrayList<>();
+
 
 	//---------------------------------------------------------------------------------------------------------------------
 
-	public DailyTask()
+	public Tracker()
 	{
 		// Default constructor
 	}
-
-	public DailyTask(Tracker tracker,LocalDate date) {
+	
+	public Tracker(String name, Month month, Journal journal) {
 		super();
-		this.date = date;
-		this.tracker = tracker;
+		this.name = name;
+		this.month = month;
+		this.journal = journal;
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -116,38 +124,45 @@ public class DailyTask
 
 	//---------------------------------------------------------------------------------------------------------------------
 
-	public TaskStateEvent getState()
-	{
-		return state;
+	public String getName() {
+		return name;
 	}
 
-	public void setState(TaskStateEvent state)
-	{
-		this.state = state;
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	//---------------------------------------------------------------------------------------------------------------------
+
+
+	public Month getMonth() {
+		return month;
+	}
+
+	public void setMonth(Month month) {
+		this.month = month;
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
 
-	public LocalDate getDate()
-	{
-		return date;
+	public Journal getJournal() {
+		return journal;
 	}
 
-	public void setDate(LocalDate date)
-	{
-		this.date = date;
+	public void setJournal(Journal journal) {
+		this.journal = journal;
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
 
-	public Tracker getTracker() {
-		return tracker;
+	public Collection<DailyTask> getDailyTasks() {
+		return dailyTasks;
 	}
-	
-	public void setTracker(Tracker tracker) {
-		this.tracker = tracker;
+
+	public void setDailyTasks(Collection<DailyTask> dailyTasks) {
+		this.dailyTasks = dailyTasks;
 	}
-	
+
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
@@ -162,9 +177,9 @@ public class DailyTask
 		if (obj == null)
 			return false;
 
-		if (!(obj instanceof DailyTask))
+		if (!(obj instanceof Tracker))
 			return false;
 
-		return getId() == ((DailyTask) obj).getId();
+		return getId() == ((Tracker) obj).getId();
 	}
 }

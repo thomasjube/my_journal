@@ -14,7 +14,9 @@ import com.tjube.model.Journal;
 import com.tjube.model.MonthlyStats;
 import com.tjube.model.MonthlyTask;
 import com.tjube.model.Objective;
+import com.tjube.model.Tracker;
 import com.tjube.model.Wish;
+import com.tjube.model.enums.TaskStateEvent;
 import com.tjube.model.enums.TaskUnit;
 
 public interface TaskDao
@@ -40,21 +42,17 @@ public interface TaskDao
 	// DAILY OPERATIONS
 	//---------------------------------------------------------------------------------------------------------------------
 
-	DailyTask createDailyTask(Journal journal, String description, boolean professional, LocalDate date,
-			BigDecimal price, TaskUnit unit, Integer value, CategoryTask category, MonthlyTask monthlyTask, Wish wish,
-			Budget budget, Objective objective);
+	DailyTask createDailyTask(Tracker tracker, LocalDate date);
 
-	void updateDailyTask(DailyTask dailyTask, String description, boolean professional, LocalDate date,
-			BigDecimal price, TaskUnit unit, Integer value, CategoryTask category, MonthlyTask monthlyTask, Wish wish,
-			Budget budget, Objective objective);
+	void updateDailyTask(DailyTask dailyTask,TaskStateEvent state);
 
 	void removeDailyTask(DailyTask dailyTask);
 
 	DailyTask retrieveDailyTask(UUID uuid);
 
-	Collection<DailyTask> retrieveAllDailyTasksByJournal(Journal journal);
+	Collection<DailyTask> retrieveAllDailyTasksByTracker(Tracker tracker);
 
-	Collection<DailyTask> retrieveAllDailyTasksByDay(Journal journal, LocalDate localDate);
+	Collection<DailyTask> retrieveAllDailyTasksByDay(Tracker tracker, LocalDate localDate);
 
 	Map<Month, MonthlyStats> getMonthlyStats(Journal journal);
 }

@@ -19,7 +19,9 @@ import com.tjube.model.Journal;
 import com.tjube.model.MonthlyStats;
 import com.tjube.model.MonthlyTask;
 import com.tjube.model.Objective;
+import com.tjube.model.Tracker;
 import com.tjube.model.Wish;
+import com.tjube.model.enums.TaskStateEvent;
 import com.tjube.model.enums.TaskUnit;
 
 @Service
@@ -89,23 +91,17 @@ public class TaskServiceImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public DailyTask createDailyTask(Journal journal, String description, boolean professional, LocalDate date,
-			BigDecimal price, TaskUnit unit, Integer value, CategoryTask category, MonthlyTask monthlyTask, Wish wish,
-			Budget budget, Objective objective)
+	public DailyTask createDailyTask(Tracker tracker,LocalDate date)
 	{
-		return taskDao.createDailyTask(journal, description, professional, date, price, unit, value, category,
-				monthlyTask, wish, budget, objective);
+		return taskDao.createDailyTask(tracker, date);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public void updateDailyTask(DailyTask dailyTask, String description, boolean professional, LocalDate date,
-			BigDecimal price, TaskUnit unit, Integer value, CategoryTask category, MonthlyTask monthlyTask, Wish wish,
-			Budget budget, Objective objective)
+	public void updateDailyTask(DailyTask dailyTask,TaskStateEvent state)
 	{
-		taskDao.updateDailyTask(dailyTask, description, professional, date, price, unit, value, category, monthlyTask,
-				wish, budget, objective);
+		taskDao.updateDailyTask(dailyTask, state);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -127,17 +123,17 @@ public class TaskServiceImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public Collection<DailyTask> retrieveAllDailyTasksByJournal(Journal journal)
+	public Collection<DailyTask> retrieveAllDailyTasksByTracker(Tracker tracker)
 	{
-		return taskDao.retrieveAllDailyTasksByJournal(journal);
+		return taskDao.retrieveAllDailyTasksByTracker(tracker);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public Collection<DailyTask> retrieveAllDailyTasksByDay(Journal journal, LocalDate localDate)
+	public Collection<DailyTask> retrieveAllDailyTasksByDay(Tracker tracker, LocalDate localDate)
 	{
-		return taskDao.retrieveAllDailyTasksByDay(journal, localDate);
+		return taskDao.retrieveAllDailyTasksByDay(tracker, localDate);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------

@@ -9,8 +9,6 @@ public class MonthlyStats
 
 	private Integer finishMonthlyTasks = 0;
 
-	private Integer allDailyTasks = 0;
-
 	private BigDecimal allbudget = BigDecimal.ZERO;
 
 	private BigDecimal usedBudget = BigDecimal.ZERO;
@@ -38,16 +36,6 @@ public class MonthlyStats
 	public void setFinishMonthlyTasks(Integer finishMonthlyTasks)
 	{
 		this.finishMonthlyTasks = finishMonthlyTasks;
-	}
-
-	public Integer getAllDailyTasks()
-	{
-		return allDailyTasks;
-	}
-
-	public void setAllDailyTasks(Integer allDailyTasks)
-	{
-		this.allDailyTasks = allDailyTasks;
 	}
 
 	public BigDecimal getAllbudget()

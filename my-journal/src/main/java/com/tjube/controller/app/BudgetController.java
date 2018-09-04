@@ -261,10 +261,10 @@ public class BudgetController
 		if (form.getCategoryTaskUuid() != null)
 			categoryTask = categoryService.retrieveCategoryTask(form.getCategoryTaskUuid());
 
-		budgetService.createBudget(form.getDescription(), form.getBudgetTotal(), journal, form.getMonth(),
+		Budget budget = budgetService.createBudget(form.getDescription(), form.getBudgetTotal(), journal, form.getMonth(),
 				categoryTask);
 
-		model.setViewName(ModelUtils.REDIRECT_BUDGET_LIST_SHOW);
+		model.setViewName(ModelUtils.REDIRECT_BUDGET_LIST_SHOW+budget.getUuid());
 
 		return model;
 	}

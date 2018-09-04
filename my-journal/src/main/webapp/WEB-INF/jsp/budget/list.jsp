@@ -64,36 +64,64 @@
                                 <div class="table-responsive table-responsive-data2">
                                     <c:choose>
                                         <c:when test="${not empty budgets }">
-		                                    <table class="table table-data2">
-		                                        <thead>
-		                                            <tr>
-		                                                <th>description</th>
-		                                                <th>catégorie</th>
-		                                                <th>budget</th>
-		                                                <th></th>
-		                                            </tr>
-		                                        </thead>
-		                                        <tbody>
-		                                            <c:forEach items="${budgets}" var="budget">
-			                                            <tr id="${budget.uuid }" class="tr-shadow">
-			                                                <td><c:out value="${budget.description}"/></td>
-			                                                <td><c:out value="${budget.categoryTask.description}"/></td>
-			                                                <td><c:out value="${budget.budgetTotal}€"/></td>
-			                                                <td style="vertical-align:top !important;">
-			                                                    <div class="table-data-feature">
-			                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit" onclick="location.href='objective/update?uuid=${objective.uuid }';">
-			                                                            <i class="zmdi zmdi-edit"></i>
-			                                                        </button>
-			                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete" onclick="location.href='objective/delete?uuid=${objective.uuid }';">
-			                                                            <i class="zmdi zmdi-delete"></i>
-			                                                        </button>
-			                                                    </div>
-			                                                </td>
-			                                            </tr>
-		                                            <tr class="spacer"></tr>
-		                                            </c:forEach>
-		                                        </tbody>
-		                                    </table>
+                                        	<c:forEach items="${budgets}" var="budget">
+	                                        	<div class="col-lg-12">
+					                                <div class="au-card chart-percent-card">
+					                                    <div class="au-card-inner">
+					                                        <h3 class="title-2 tm-b-5">${budget.description}</h3>
+					                                        <div class="row no-gutters">
+					                                            <div class="col-xl-6">
+					                                                <div class="chart-note-wrap">
+					                                                    <div class="chart-note mr-0 d-block">
+					                                                        <span class="dot dot--red"></span>
+					                                                        <span>Dépensé</span>
+					                                                    </div>
+					                                                    <div class="chart-note mr-0 d-block">
+					                                                        <span class="dot dot--blue"></span>
+					                                                        <span>Total</span>
+					                                                    </div>
+					                                                </div>
+					                                            </div>
+					                                            <div class="col-xl-6">
+					                                                <div class="percent-chart">
+					                                                    <canvas class="percent-chart-budget" data-total="${budget.budgetTotal }" data-taken="${budget.budgetTaken}"></canvas>
+					                                                </div>
+					                                            </div>
+					                                        </div>
+					                                    </div>
+					                                </div>
+					                            </div>
+					                        </c:forEach>
+<!-- 		                                    <table class="table table-data2"> -->
+<!-- 		                                        <thead> -->
+<!-- 		                                            <tr> -->
+<!-- 		                                                <th>description</th> -->
+<!-- 		                                                <th>catégorie</th> -->
+<!-- 		                                                <th>budget</th> -->
+<!-- 		                                                <th></th> -->
+<!-- 		                                            </tr> -->
+<!-- 		                                        </thead> -->
+<!-- 		                                        <tbody> -->
+<%-- 		                                            <c:forEach items="${budgets}" var="budget"> --%>
+<%-- 			                                            <tr id="${budget.uuid }" class="tr-shadow"> --%>
+<%-- 			                                                <td><c:out value="${budget.description}"/></td> --%>
+<%-- 			                                                <td><c:out value="${budget.categoryTask.description}"/></td> --%>
+<%-- 			                                                <td><c:out value="${budget.budgetTotal}€"/></td> --%>
+<!-- 			                                                <td style="vertical-align:top !important;"> -->
+<!-- 			                                                    <div class="table-data-feature"> -->
+<%-- 			                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit" onclick="location.href='objective/update?uuid=${objective.uuid }';"> --%>
+<!-- 			                                                            <i class="zmdi zmdi-edit"></i> -->
+<!-- 			                                                        </button> -->
+<%-- 			                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete" onclick="location.href='objective/delete?uuid=${objective.uuid }';"> --%>
+<!-- 			                                                            <i class="zmdi zmdi-delete"></i> -->
+<!-- 			                                                        </button> -->
+<!-- 			                                                    </div> -->
+<!-- 			                                                </td> -->
+<!-- 			                                            </tr> -->
+<!-- 		                                            <tr class="spacer"></tr> -->
+<%-- 		                                            </c:forEach> --%>
+<!-- 		                                        </tbody> -->
+<!-- 		                                    </table> -->
                                      	</c:when>
                                         <c:otherwise>
                                         	<span><c:out value="Aucun budgets"/></span>
@@ -168,6 +196,70 @@
 	$(".tr-shadow").click(function(e){
 		window.location.href = "show?uuid=" + $(this).attr("id");
 	});
+
+	try
+	{
+	   	$.each($(".percent-chart-budget"),function(index,item){
+
+	   		var ctx = $(item);
+		    if (ctx) {
+		      ctx.height = 280;
+		      var myChart = new Chart(ctx, {
+		        type: 'doughnut',
+		        data: {
+		          datasets: [
+		            {
+		              label: "My First dataset",
+		              data: [$(ctx).data("taken"), $(ctx).data("total")],
+		              backgroundColor: [
+		                '#fa4251',
+		                '#00b5e9'
+		              ],
+		              hoverBackgroundColor: [
+		                '#fa4251',
+		                '#00b5e9'
+		              ],
+		              borderWidth: [
+		                0, 0
+		              ],
+		              hoverBorderColor: [
+		                'transparent',
+		                'transparent'
+		              ]
+		            }
+		          ],
+		          labels: [
+		            'Dépensé',
+		            'Total'
+		          ]
+		        },
+		        options: {
+		          maintainAspectRatio: true,
+		          responsive: true,
+		          cutoutPercentage: 55,
+		          animation: {
+		            animateScale: true,
+		            animateRotate: true
+		          },
+		          legend: {
+		            display: false
+		          },
+		          tooltips: {
+		            titleFontFamily: "Poppins",
+		            xPadding: 15,
+		            yPadding: 10,
+		            caretPadding: 0,
+		            bodyFontSize: 16
+		          }
+		        }
+		      });
+
+		}
+    });
+
+  } catch (error) {
+    console.log(error);
+  }
 	
 	</script>
 

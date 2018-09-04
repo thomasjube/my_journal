@@ -23,7 +23,9 @@ import com.tjube.model.Journal;
 import com.tjube.model.MonthlyStats;
 import com.tjube.model.MonthlyTask;
 import com.tjube.model.Objective;
+import com.tjube.model.Tracker;
 import com.tjube.model.Wish;
+import com.tjube.model.enums.TaskStateEvent;
 import com.tjube.model.enums.TaskUnit;
 
 @Repository
@@ -122,12 +124,9 @@ public class TaskDaoImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public DailyTask createDailyTask(Journal journal, String description, boolean professional, LocalDate date,
-			BigDecimal price, TaskUnit unit, Integer value, CategoryTask category, MonthlyTask monthlyTask, Wish wish,
-			Budget budget, Objective objective)
+	public DailyTask createDailyTask(Tracker tracker,LocalDate date)
 	{
-		DailyTask dailyTaskJPA = new DailyTask(journal, description, professional, date, price, unit, value, category,
-				monthlyTask, wish, budget, objective);
+		DailyTask dailyTaskJPA = new DailyTask(tracker, date);
 
 		entityManager.persist(dailyTaskJPA);
 
@@ -137,24 +136,12 @@ public class TaskDaoImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public void updateDailyTask(DailyTask dailyTask, String description, boolean professional, LocalDate date,
-			BigDecimal price, TaskUnit unit, Integer value, CategoryTask category, MonthlyTask monthlyTask, Wish wish,
-			Budget budget, Objective objective)
+	public void updateDailyTask(DailyTask dailyTask, TaskStateEvent state)
 	{
 		if (!entityManager.contains(dailyTask))
 			dailyTask = entityManager.merge(dailyTask);
 
-		dailyTask.setDescription(description);
-		dailyTask.setProfessional(professional);
-		dailyTask.setDate(date);
-		dailyTask.setPrice(price);
-		dailyTask.setUnit(unit);
-		dailyTask.setValue(value);
-		dailyTask.setCategoryTask(category);
-		dailyTask.setMonthlyTask(monthlyTask);
-		dailyTask.setWish(wish);
-		dailyTask.setBudget(budget);
-		dailyTask.setObjective(objective);
+		dailyTask.setState(state);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -184,12 +171,12 @@ public class TaskDaoImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public Collection<DailyTask> retrieveAllDailyTasksByJournal(Journal journal)
+	public Collection<DailyTask> retrieveAllDailyTasksByTracker(Tracker tracker)
 	{
-		TypedQuery<DailyTask> query = entityManager.createNamedQuery(DailyTask.QN.RETRIEVE_DAILY_TASKS_WITH_JOURNAL,
+		TypedQuery<DailyTask> query = entityManager.createNamedQuery(DailyTask.QN.RETRIEVE_DAILY_TASKS_WITH_TRACKER,
 				DailyTask.class);
 
-		query.setParameter("journal", journal);
+		query.setParameter("tracker", tracker);
 
 		return query.getResultList();
 	}
@@ -197,12 +184,12 @@ public class TaskDaoImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public Collection<DailyTask> retrieveAllDailyTasksByDay(Journal journal, LocalDate localDate)
+	public Collection<DailyTask> retrieveAllDailyTasksByDay(Tracker tracker, LocalDate localDate)
 	{
 		TypedQuery<DailyTask> query = entityManager.createNamedQuery(DailyTask.QN.RETRIEVE_DAILY_TASKS_WITH_DATE,
 				DailyTask.class);
 
-		query.setParameter("journal", journal);
+		query.setParameter("tracker", tracker);
 		query.setParameter("date", localDate);
 
 		return query.getResultList();
@@ -211,29 +198,10 @@ public class TaskDaoImpl
 	@Override
 	public Map<Month, MonthlyStats> getMonthlyStats(Journal journal)
 	{
-		TypedQuery<Object[]> query = entityManager.createNamedQuery(DailyTask.QN.GET_MONTHLY_STATS_DAILY_TASK,
-				Object[].class);
+		TypedQuery<Object[]> query = entityManager.createNamedQuery(MonthlyTask.QN.GET_MONTHLY_STATS_ALL_MONTHLY_TASK, Object[].class);
 		query.setParameter("journal", journal);
 
 		Map<Month, MonthlyStats> results = new HashMap<>();
-
-		for (Object[] values : query.getResultList())
-		{
-			Month month = values[0] != null ? Month.valueOf(values[0].toString().toUpperCase().trim()) : null;
-			Long count = values[1] != null ? (Long) values[1] : null;
-
-			MonthlyStats ms = new MonthlyStats();
-
-			if (results.get(month) != null)
-				ms = results.get(month);
-
-			ms.setAllDailyTasks(count.intValue());
-
-			results.put(month, ms);
-		}
-
-		query = entityManager.createNamedQuery(MonthlyTask.QN.GET_MONTHLY_STATS_ALL_MONTHLY_TASK, Object[].class);
-		query.setParameter("journal", journal);
 
 		for (Object[] values : query.getResultList())
 		{

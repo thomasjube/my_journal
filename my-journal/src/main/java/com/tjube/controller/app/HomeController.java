@@ -80,8 +80,8 @@ public class HomeController
 			model.setViewName(ModelUtils.REDIRECT_JOURNAL);
 		}
 
-		Collection<DailyTask> dailyTasks = taskService.retrieveAllDailyTasksByDay(journal, LocalDate.now());
-		model.addObject("dailyTasks", dailyTasks);
+//		Collection<DailyTask> dailyTasks = taskService.retrieveAllDailyTasksByDay(tracker, LocalDate.now());
+//		model.addObject("dailyTasks", dailyTasks);
 
 		Collection<JournalEvent> journalEvents = journalService.retrieveJournalEventsByDate(account,
 				LocalDateTime.now());

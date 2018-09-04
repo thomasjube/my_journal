@@ -1,6 +1,7 @@
 package com.tjube.service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tjube.dao.WishDao;
 import com.tjube.model.Account;
+import com.tjube.model.Budget;
 import com.tjube.model.CategoryTask;
 import com.tjube.model.Wish;
 import com.tjube.model.WishList;
@@ -25,6 +27,9 @@ public class WishServiceImpl
 
 	@Autowired
 	BudgetService budgetService = null;
+
+	@Autowired
+	JournalService journalService = null;
 
 	//---------------------------------------------------------------------------------------------------------------------
 	// WISH LIST OPERATIONS
@@ -114,17 +119,19 @@ public class WishServiceImpl
 	@Override
 	public void updateWishState(Wish wish, TaskStateEvent state)
 	{
-		if (wish.getPrice() != null)
+		Budget budget = null;
+		
+		if(wish.getBudget()==null)
+			budget = budgetService.retrieveBudget(journalService.retrieveCurrentJournal(wish.getWishList().getAccount()), LocalDate.now().getMonth(), wish.getCategory());
+		
+		if (wish.getPrice() != null && budget != null)
 		{
 			if (wish.getState() != TaskStateEvent.DONE && state == TaskStateEvent.DONE)
-			{
-				//enlever du budget
-			}
+				budget.setBudgetTaken(budget.getBudgetTaken().add(wish.getPrice()));
 			else if (wish.getState() == TaskStateEvent.DONE && state != TaskStateEvent.DONE)
-			{
-				//remettre dans le budget
-			}
+				budget.setBudgetTaken(budget.getBudgetTaken().subtract(wish.getPrice()));
 		}
+		
 		wishDao.updateWishState(wish, state);
 
 	}

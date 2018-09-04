@@ -118,7 +118,7 @@ public class WishDaoImpl
 			TaskStateEvent state)
 	{
 		Wish result = new Wish(wishList, description, price, categoryTask);
-
+		
 		entityManager.persist(result);
 
 		wishList.addWish(result);
