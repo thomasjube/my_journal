@@ -1,9 +1,12 @@
 package com.tjube.controller.app;
 
+import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,8 +30,10 @@ import com.tjube.controller.security.SecurityContext;
 import com.tjube.controller.utils.LoginUtils;
 import com.tjube.controller.utils.ModelUtils;
 import com.tjube.model.Account;
+import com.tjube.model.DailyTask;
 import com.tjube.model.Journal;
 import com.tjube.model.Tracker;
+import com.tjube.model.TrackerState;
 import com.tjube.service.JournalService;
 import com.tjube.service.TaskService;
 import com.tjube.service.TrackerService;
@@ -46,7 +51,7 @@ public class TrackerController
 
 	@Autowired
 	private TaskService taskService;
-	
+
 	@Autowired
 	private TrackerService trackerService;
 
@@ -60,7 +65,7 @@ public class TrackerController
 		if (result != null)
 			return model;
 
-		model.setViewName(ModelUtils.MODEL_GENERAL_JOURNAL_LIST);
+		model.setViewName(ModelUtils.REDIRECT_TRACKER_JOURNAL_LIST);
 		return model;
 	}
 
@@ -128,36 +133,6 @@ public class TrackerController
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
-	// TRACKER - SHOW
-	//---------------------------------------------------------------------------------------------------------------------
-
-	@RequestMapping(value = { "/show" }, method = { RequestMethod.GET })
-	public ModelAndView trackerListHome(HttpServletRequest request, HttpServletResponse response, ModelAndView model,
-			@RequestParam(value = "uuid", required = true) UUID uuid)
-	{
-		model.setViewName(ModelUtils.REDIRECT_LOGIN);
-		String result = LoginUtils.login();
-		if (result != null)
-			return model;
-
-		Account account = SecurityContext.getInstance().getCurrentUser();
-
-		Tracker tracker = trackerService.retrieveTracker(uuid);
-		if (tracker == null)
-		{
-			model.clear();
-			model.setViewName(ModelUtils.REDIRECT_TRACKER);
-			return model;
-		}
-
-		model.addObject(ModelUtils.MODEL_ACCOUNT, account);
-		model.addObject("tracker", tracker);
-		model.setViewName(ModelUtils.MODEL_TRACKER_SHOW);
-
-		return model;
-	}
-
-	//---------------------------------------------------------------------------------------------------------------------
 	// TRACKER - LIST
 	//---------------------------------------------------------------------------------------------------------------------
 
@@ -194,10 +169,56 @@ public class TrackerController
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
+	// TRACKER - SHOW
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@RequestMapping(value = { "/show" }, method = { RequestMethod.GET })
+	public ModelAndView trackerListShow(HttpServletRequest request, HttpServletResponse response, ModelAndView model,
+			@RequestParam(value = "uuid", required = true) UUID uuid)
+	{
+		model.setViewName(ModelUtils.REDIRECT_LOGIN);
+		String result = LoginUtils.login();
+		if (result != null)
+			return model;
+
+		Account account = SecurityContext.getInstance().getCurrentUser();
+
+		Tracker tracker = trackerService.retrieveTracker(uuid);
+		if (tracker == null)
+		{
+			model.clear();
+			model.setViewName(ModelUtils.REDIRECT_TRACKER);
+			return model;
+		}
+
+		Journal journal = tracker.getJournal();
+
+		model.addObject(ModelUtils.MODEL_ACCOUNT, account);
+		model.addObject("tracker", tracker);
+
+		Map<Integer, TrackerState> mapDayState = new HashMap<>();
+		for (DailyTask dailyTask : tracker.getDailyTasks())
+			mapDayState.put(dailyTask.getDate().getDayOfMonth(), dailyTask.getState());
+
+		model.addObject("mapDayState", mapDayState);
+
+		LocalDate beginDate = LocalDate.of(journal.getYear(tracker.getMonth()).getValue(), tracker.getMonth(), 1);
+
+		model.addObject("beginDate", beginDate);
+		model.addObject("endDate", beginDate.plusMonths(1).minusDays(1));
+
+		model.addObject("month", tracker.getMonth());
+		model.addObject("year", journal.getYear(tracker.getMonth()));
+
+		model.setViewName(ModelUtils.MODEL_TRACKER_SHOW);
+
+		return model;
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
 
 	@RequestMapping(value = "/creation", method = { RequestMethod.GET })
-	public ModelAndView trackerCreationGet(ModelAndView model,
-			@RequestParam(value = "uuid", required = true) UUID uuid,
+	public ModelAndView trackerCreationGet(ModelAndView model, @RequestParam(value = "uuid", required = true) UUID uuid,
 			@RequestParam(value = "month", required = true) Month month)
 	{
 		model.setViewName(ModelUtils.REDIRECT_LOGIN);
@@ -208,8 +229,8 @@ public class TrackerController
 		Account account = SecurityContext.getInstance().getCurrentUser();
 		model.addObject("account", account);
 
-		model.addObject("form", new TrackerCreationForm(uuid,month));
-		model.setViewName(ModelUtils.MODEL_JOURNAL_CREATION);
+		model.addObject("form", new TrackerCreationForm(uuid, month));
+		model.setViewName(ModelUtils.MODEL_TRACKER_CREATION);
 		return model;
 	}
 
@@ -226,7 +247,7 @@ public class TrackerController
 
 		if (validationResult.hasErrors())
 		{
-			model.setViewName(ModelUtils.MODEL_JOURNAL_CREATION);
+			model.setViewName(ModelUtils.MODEL_TRACKER_CREATION);
 			return model;
 		}
 
@@ -242,11 +263,19 @@ public class TrackerController
 		if (journal == null)
 		{
 			model.clear();
-			model.setViewName(ModelUtils.REDIRECT_JOURNAL);
+			model.setViewName(ModelUtils.REDIRECT_TRACKER_JOURNAL_LIST);
 		}
-		
-		Tracker tracker = trackerService.createTracker(journal,form.getMonth(),form.getName());
-		model.setViewName(ModelUtils.REDIRECT_TRACKER_SHOW+tracker.getUuid());
+
+		Tracker tracker = trackerService.createTracker(journal, form.getMonth(), form.getName());
+
+		int i = 0;
+		for (String name : form.getStateName())
+		{
+			trackerService.createTrackerState(tracker, name, form.getStateColor().get(i));
+			i++;
+		}
+
+		model.setViewName(ModelUtils.REDIRECT_TRACKER_SHOW + tracker.getUuid());
 		return model;
 	}
 
@@ -288,7 +317,7 @@ public class TrackerController
 
 		if (validationResult.hasErrors())
 		{
-			model.setViewName(ModelUtils.MODEL_JOURNAL_UPDATE);
+			model.setViewName(ModelUtils.MODEL_TRACKER_UPDATE);
 			return model;
 		}
 
@@ -309,7 +338,8 @@ public class TrackerController
 
 		trackerService.updateTracker(tracker, form.getName());
 
-		model.setViewName(ModelUtils.REDIRECT_TRACKER);
+		model.setViewName(ModelUtils.REDIRECT_TRACKER_LIST + "?uuid=" + tracker.getJournal().getUuid() + "&month="
+				+ tracker.getMonth());
 
 		return model;
 	}

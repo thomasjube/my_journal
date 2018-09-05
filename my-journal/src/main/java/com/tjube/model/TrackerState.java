@@ -1,16 +1,11 @@
 package com.tjube.model;
 
 import java.io.Serializable;
-import java.time.Month;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,18 +13,18 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.tjube.controller.utils.converter.UUIDAttributeConverter;
 
 @NamedQueries({
-		@NamedQuery(name = Tracker.QN.RETRIEVE_TRACKER_WITH_UUID, query = "SELECT t from Tracker t where t.uuid=:uuid"),
-		@NamedQuery(name = Tracker.QN.RETRIEVE_TRACKER_WITH_JOURNAL,
-				query = "SELECT t from Tracker t where t.journal=:journal and t.month=:month"), })
+		@NamedQuery(name = TrackerState.QN.RETRIEVE_TRACKER_STATE_WITH_UUID,
+				query = "SELECT ts from TrackerState ts where ts.uuid=:uuid"),
+		@NamedQuery(name = TrackerState.QN.RETRIEVE_TRACKER_STATE_WITH_TRACKER,
+				query = "SELECT ts from TrackerState ts where ts.tracker=:tracker"), })
 @Entity
-@Table(name = "TRACKER")
-public class Tracker
+@Table(name = "TRACKER_STATE")
+public class TrackerState
 	implements Serializable
 {
 
@@ -43,8 +38,8 @@ public class Tracker
 
 	public static class QN
 	{
-		public static final String RETRIEVE_TRACKER_WITH_UUID = "Tracker.retrieveTrackerWithUuid";
-		public static final String RETRIEVE_TRACKER_WITH_JOURNAL = "Tracker.retrieveTrackerWithJournal";
+		public static final String RETRIEVE_TRACKER_STATE_WITH_UUID = "TrackerState.retrieveTrackerStateWithUuid";
+		public static final String RETRIEVE_TRACKER_STATE_WITH_TRACKER = "TrackerState.retrieveTrackerStateWithTracker";
 
 		private QN()
 		{
@@ -65,33 +60,26 @@ public class Tracker
 	@Column(name = "name", nullable = false)
 	private String name;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "month", nullable = false)
-	private Month month = null;
+	@Column(name = "COLOR", nullable = false)
+	private String color = null;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	private Journal journal;
-
-	@OneToMany(mappedBy = "tracker", fetch = FetchType.LAZY)
-	private Collection<DailyTask> dailyTasks = new ArrayList<>();
-
-	@OneToMany(mappedBy = "tracker", fetch = FetchType.LAZY)
-	private Collection<TrackerState> states = new ArrayList<>();
+	private Tracker tracker;
 
 	//---------------------------------------------------------------------------------------------------------------------
 
-	public Tracker()
+	public TrackerState()
 	{
 		// Default constructor
 	}
 
-	public Tracker(Journal journal, Month month, String name)
+	public TrackerState(Tracker tracker, String name, String color)
 	{
 		super();
 		this.uuid = UUID.randomUUID();
 		this.name = name;
-		this.month = month;
-		this.journal = journal;
+		this.tracker = tracker;
+		this.color = color;
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -132,51 +120,29 @@ public class Tracker
 
 	//---------------------------------------------------------------------------------------------------------------------
 
-	public Month getMonth()
+	public String getColor()
 	{
-		return month;
+		return color;
 	}
 
-	public void setMonth(Month month)
+	public void setColor(String color)
 	{
-		this.month = month;
-	}
-
-	//---------------------------------------------------------------------------------------------------------------------
-
-	public Journal getJournal()
-	{
-		return journal;
-	}
-
-	public void setJournal(Journal journal)
-	{
-		this.journal = journal;
+		this.color = color;
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
 
-	public Collection<DailyTask> getDailyTasks()
+	public Tracker getTracker()
 	{
-		return dailyTasks;
+		return tracker;
 	}
 
-	public void setDailyTasks(Collection<DailyTask> dailyTasks)
+	public void setTracker(Tracker tracker)
 	{
-		this.dailyTasks = dailyTasks;
+		this.tracker = tracker;
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
-
-	public Collection<TrackerState> getStates()
-	{
-		return states;
-	}
-
-	public void setStates(Collection<TrackerState> states)
-	{
-		this.states = states;
-	}
 
 	//---------------------------------------------------------------------------------------------------------------------
 
@@ -192,9 +158,9 @@ public class Tracker
 		if (obj == null)
 			return false;
 
-		if (!(obj instanceof Tracker))
+		if (!(obj instanceof TrackerState))
 			return false;
 
-		return getId() == ((Tracker) obj).getId();
+		return getId() == ((TrackerState) obj).getId();
 	}
 }

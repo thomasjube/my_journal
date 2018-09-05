@@ -3,8 +3,10 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page session="true" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
     <!-- Required meta tags-->
     <meta charset="UTF-8">
@@ -14,12 +16,12 @@
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>Tables</title>
+    <title>Forms</title>
 
     <!-- Fontfaces CSS-->
     <link href="<%=request.getContextPath()%>/resources/css/font-face.css" rel="stylesheet" media="all">
-    <link href="<%=request.getContextPath()%>/resources/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
     <link href="<%=request.getContextPath()%>/resources/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+    <link href="<%=request.getContextPath()%>/resources/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
     <link href="<%=request.getContextPath()%>/resources/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
 
     <!-- Bootstrap CSS-->
@@ -41,66 +43,58 @@
 
 <body class="animsition">
     <div class="page-wrapper">
-        <jsp:include page="../menu.jsp"/>
+    
+    <jsp:include page="../menu.jsp"/>
+
             <!-- MAIN CONTENT-->
             <div class="main-content">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-md-12">
-                                <!-- DATA TABLE -->
-                                <h3 class="title-5 m-b-35">Journals</h3>
-                                <div class="table-data__tool">
-                                    <div class="table-data__tool-right">
-                                        <button class="au-btn au-btn-icon au-btn--green au-btn--small">
-                                            <i class="zmdi zmdi-plus"></i><a style="color:white;" href="journal/creation">Ajouter</a></button>
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <strong>Nouveau Tracker</strong>
                                     </div>
+                                    <div class="card-body card-block">
+                                        <form action="" method="post">
+			                                <input type="hidden" name="month" value="${form.month }">
+			                                <input type="hidden" name="journalUuid" value="${form.journalUuid }">
+			                                <div class="form-group">
+			                                    <label>Nom</label>
+			                                    <input class="au-input au-input--full" type="text" name="name" id="nameInput">
+			                                </div>
+<!-- 			                                ajouter ici pour ajouter des states -->
+											<table class="table table-borderless table-striped table-earning">
+							                 	<thead>
+								                 	<th>Etat</th>
+								                 	<th>Couleur</th>
+								                 	<th><input id="add-state" type="button" value="Ajouter" class="table-button"></th>
+							                 	</thead>
+							                 	<tbody id="stateBody">
+									                 	<c:forEach items="${tracker.states}" var="state" varStatus="status">
+									                 		<tr id="tr-state-${status.index}">
+										                 		<td class="state-name"><input type="text" name="stateName[${status.index}]" value="${state.name}"></td>
+										                 		<td class="state-color"><input type="color" name="stateColor[${status.index}]" value="${state.color }"></td>
+										                 		<td><input type="button" class="removeState table-button" value="Effacer"></td>
+									                 		</tr>
+									                 	</c:forEach>
+								                 </tbody>
+							                 </table>
+											
+	                                    <div class="card-footer">
+	                                        <button type="submit" class="btn btn-primary btn-sm">
+	                                            <i class="fa fa-dot-circle-o"></i> Submit
+	                                        </button>
+	                                    </div>
+	                           		</form>
                                 </div>
-                                <div class="table-responsive table-responsive-data2">
-                                    <c:choose>
-	                                        	<c:when test="${empty journals}">
-	                                        		Aucun Journal
-	                                        	</c:when>
-	                                        	<c:otherwise>
-		                                        	<table class="table table-data2">
-				                                        <thead>
-				                                            <tr>
-				                                                <th>du</th>
-				                                                <th>au</th>
-				                                                <th></th>
-				                                            </tr>
-				                                        </thead>
-				                                        <tbody>
-			                                        		<c:forEach items="${journals}" var="journal">
-					                                            <tr style="cursor:pointer;" class="tr-shadow" id="${journal.uuid }">
-					                                                <td class="td-clickeable"><tags:localDate date="${journal.beginDate }"/></td>
-					                                                <td class="td-clickeable"><tags:localDate date="${journal.endDate}"/></td>
-					                                                <td>
-					                                                    <div class="table-data-feature">
-					                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit" onclick="location.href='journal/update?uuid=${journal.uuid }';">
-					                                                            <i class="zmdi zmdi-edit"></i>
-					                                                        </button>
-					                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete" onclick="location.href='journal/delete?uuid=${journal.uuid }';">
-					                                                            <i class="zmdi zmdi-delete"></i>
-					                                                        </button>
-					                                                    </div>
-					                                                </td>
-					                                            </tr>
-				                                            	<tr class="spacer"></tr>
-			                                            	</c:forEach>
-			                                            	
-				                                        </tbody>
-				                                    </table>
-	                                        	</c:otherwise>
-                                        	</c:choose>
-                                </div>
-                                <!-- END DATA TABLE -->
                             </div>
-                        </div>
+                            </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="copyright">
-                                    <p>Copyright © 2018 Thomas' project.</p>
+                                    <p>Copyright © 2018 Colorlib. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p>
                                 </div>
                             </div>
                         </div>
@@ -108,9 +102,7 @@
                 </div>
             </div>
         </div>
-
-    </div>
-
+	</div>
     <!-- Jquery JS-->
     <script src="<%=request.getContextPath()%>/resources/vendor/jquery-3.2.1.min.js"></script>
     <!-- Bootstrap JS-->
@@ -137,8 +129,24 @@
 
 	<script type="text/javascript">
 
-	$(".td-clickeable").click(function(e){
-		window.location.href = "journal/show?uuid=" + $(this).closest("tr").attr("id");
+	$("#add-state").click(function(e){
+
+		var indexMax = $(".state-name").length;
+		var index = indexMax-1;
+		
+		var tr = "<tr id='tr-state-"+indexMax+"'>";
+		tr += "<td class='stateName'><input id='stateName"+indexMax+"' name='stateName["+indexMax+"]' class='state-name' type='text'></td>";
+		tr += "<td class='stateColor'><input id='stateColor"+indexMax+"' name='stateColor["+indexMax+"]' class='state-color' type='color'></td>";
+		tr += "<td><input type='button' class='removeState table-button' value='Effacer'></td>";
+		
+		if(indexMax == 0)
+			$("#stateBody").append(tr);	
+		else
+			$("#tr-state-"+index).after(tr);
+	});
+
+	$(document).on('click','.removeState',function(e){
+		$(this).parent().parent().remove();
 	});
 	
 	</script>

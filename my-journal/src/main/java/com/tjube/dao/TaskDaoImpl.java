@@ -24,6 +24,7 @@ import com.tjube.model.MonthlyStats;
 import com.tjube.model.MonthlyTask;
 import com.tjube.model.Objective;
 import com.tjube.model.Tracker;
+import com.tjube.model.TrackerState;
 import com.tjube.model.Wish;
 import com.tjube.model.enums.TaskStateEvent;
 
@@ -135,7 +136,7 @@ public class TaskDaoImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public void updateDailyTask(DailyTask dailyTask, TaskStateEvent state)
+	public void updateDailyTask(DailyTask dailyTask, TrackerState state)
 	{
 		if (!entityManager.contains(dailyTask))
 			dailyTask = entityManager.merge(dailyTask);

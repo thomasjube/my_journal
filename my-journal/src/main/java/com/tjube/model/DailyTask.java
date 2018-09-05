@@ -1,15 +1,12 @@
 package com.tjube.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,8 +18,6 @@ import javax.persistence.Table;
 
 import com.tjube.controller.utils.converter.LocalDateAttributeConverter;
 import com.tjube.controller.utils.converter.UUIDAttributeConverter;
-import com.tjube.model.enums.TaskStateEvent;
-import com.tjube.model.enums.TaskUnit;
 
 @NamedQueries({
 		@NamedQuery(name = DailyTask.QN.RETRIEVE_DAILY_TASK_WITH_UUID,
@@ -30,7 +25,7 @@ import com.tjube.model.enums.TaskUnit;
 		@NamedQuery(name = DailyTask.QN.RETRIEVE_DAILY_TASKS_WITH_TRACKER,
 				query = "SELECT dt from DailyTask dt where dt.tracker=:tracker"),
 		@NamedQuery(name = DailyTask.QN.RETRIEVE_DAILY_TASKS_WITH_DATE,
-				query = "SELECT dt from DailyTask dt where dt.date=:date and dt.tracker=:tracker"),})
+				query = "SELECT dt from DailyTask dt where dt.date=:date and dt.tracker=:tracker"), })
 @Entity
 @Table(name = "DAILY_TASK")
 public class DailyTask
@@ -66,13 +61,12 @@ public class DailyTask
 	@Column(name = "uuid", unique = true, nullable = false)
 	private UUID uuid;
 
-	@Column
-	@Enumerated(EnumType.STRING)
-	private TaskStateEvent state = TaskStateEvent.TO_DO;
-
 	@Convert(converter = LocalDateAttributeConverter.class)
 	@Column(name = "date", nullable = false)
 	private LocalDate date = null;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	private TrackerState state;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Tracker tracker;
@@ -84,7 +78,8 @@ public class DailyTask
 		// Default constructor
 	}
 
-	public DailyTask(Tracker tracker,LocalDate date) {
+	public DailyTask(Tracker tracker, LocalDate date)
+	{
 		super();
 		this.date = date;
 		this.tracker = tracker;
@@ -116,12 +111,12 @@ public class DailyTask
 
 	//---------------------------------------------------------------------------------------------------------------------
 
-	public TaskStateEvent getState()
+	public TrackerState getState()
 	{
 		return state;
 	}
 
-	public void setState(TaskStateEvent state)
+	public void setState(TrackerState state)
 	{
 		this.state = state;
 	}
@@ -140,14 +135,16 @@ public class DailyTask
 
 	//---------------------------------------------------------------------------------------------------------------------
 
-	public Tracker getTracker() {
+	public Tracker getTracker()
+	{
 		return tracker;
 	}
-	
-	public void setTracker(Tracker tracker) {
+
+	public void setTracker(Tracker tracker)
+	{
 		this.tracker = tracker;
 	}
-	
+
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override

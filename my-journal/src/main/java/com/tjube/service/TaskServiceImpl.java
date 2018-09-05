@@ -18,6 +18,7 @@ import com.tjube.model.MonthlyStats;
 import com.tjube.model.MonthlyTask;
 import com.tjube.model.Objective;
 import com.tjube.model.Tracker;
+import com.tjube.model.TrackerState;
 import com.tjube.model.Wish;
 import com.tjube.model.enums.TaskStateEvent;
 
@@ -96,7 +97,7 @@ public class TaskServiceImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public void updateDailyTask(DailyTask dailyTask, TaskStateEvent state)
+	public void updateDailyTask(DailyTask dailyTask, TrackerState state)
 	{
 		taskDao.updateDailyTask(dailyTask, state);
 	}

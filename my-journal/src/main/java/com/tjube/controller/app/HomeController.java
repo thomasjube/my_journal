@@ -19,7 +19,6 @@ import com.tjube.controller.security.SecurityContext;
 import com.tjube.controller.utils.LoginUtils;
 import com.tjube.controller.utils.ModelUtils;
 import com.tjube.model.Account;
-import com.tjube.model.DailyTask;
 import com.tjube.model.Journal;
 import com.tjube.model.JournalEvent;
 import com.tjube.service.JournalService;
@@ -80,8 +79,10 @@ public class HomeController
 			model.setViewName(ModelUtils.REDIRECT_JOURNAL);
 		}
 
-//		Collection<DailyTask> dailyTasks = taskService.retrieveAllDailyTasksByDay(tracker, LocalDate.now());
-//		model.addObject("dailyTasks", dailyTasks);
+		//		Collection<DailyTask> dailyTasks = taskService.retrieveAllDailyTasksByDay(tracker, LocalDate.now());
+		//		model.addObject("dailyTasks", dailyTasks);
+
+		//TODO : mettre des graphiques pour les trackers du mois en cours + synthèses des trackers du jour avec couleur+ affichers les trackers renseigné si il y en a (dans le calendriers)
 
 		Collection<JournalEvent> journalEvents = journalService.retrieveJournalEventsByDate(account,
 				LocalDateTime.now());

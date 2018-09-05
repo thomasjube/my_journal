@@ -49,38 +49,36 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <!-- DATA TABLE -->
-                                <h3 class="title-5 m-b-35">Journals</h3>
+                                <h3 class="title-5 m-b-35">Trackers</h3>
                                 <div class="table-data__tool">
                                     <div class="table-data__tool-right">
                                         <button class="au-btn au-btn-icon au-btn--green au-btn--small">
-                                            <i class="zmdi zmdi-plus"></i><a style="color:white;" href="journal/creation">Ajouter</a></button>
+                                            <i class="zmdi zmdi-plus"></i><a style="color:white;" href="creation?uuid=${uuid}&month=${month}">Ajouter</a></button>
                                     </div>
                                 </div>
                                 <div class="table-responsive table-responsive-data2">
                                     <c:choose>
-	                                        	<c:when test="${empty journals}">
-	                                        		Aucun Journal
+	                                        	<c:when test="${empty trackers}">
+	                                        		Aucun Tracker
 	                                        	</c:when>
 	                                        	<c:otherwise>
 		                                        	<table class="table table-data2">
 				                                        <thead>
 				                                            <tr>
-				                                                <th>du</th>
-				                                                <th>au</th>
+				                                                <th>Nom</th>
 				                                                <th></th>
 				                                            </tr>
 				                                        </thead>
 				                                        <tbody>
-			                                        		<c:forEach items="${journals}" var="journal">
-					                                            <tr style="cursor:pointer;" class="tr-shadow" id="${journal.uuid }">
-					                                                <td><tags:localDate date="${journal.beginDate }"/></td>
-					                                                <td><tags:localDate date="${journal.endDate}"/></td>
+			                                        		<c:forEach items="${trackers}" var="tracker">
+					                                            <tr style="cursor:pointer;" class="tr-shadow" id="${tracker.uuid }">
+					                                                <td class="tracker-name">${tracker.name}</td>
 					                                                <td>
 					                                                    <div class="table-data-feature">
-					                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit" onclick="location.href='journal/update?uuid=${journal.uuid }';">
+					                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit" onclick="location.href='update?uuid=${tracker.uuid }';">
 					                                                            <i class="zmdi zmdi-edit"></i>
 					                                                        </button>
-					                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete" onclick="location.href='journal/delete?uuid=${journal.uuid }';">
+					                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete" onclick="location.href='delete?uuid=${tracker.uuid }';">
 					                                                            <i class="zmdi zmdi-delete"></i>
 					                                                        </button>
 					                                                    </div>
@@ -109,8 +107,6 @@
             </div>
         </div>
 
-    </div>
-
     <!-- Jquery JS-->
     <script src="<%=request.getContextPath()%>/resources/vendor/jquery-3.2.1.min.js"></script>
     <!-- Bootstrap JS-->
@@ -137,8 +133,8 @@
 
 	<script type="text/javascript">
 
-	$(".tr-shadow").click(function(e){
-		window.location.href = "journal/show?uuid=" + $(this).attr("id");
+	$(".tracker-name").click(function(e){
+		window.location.href = "show?uuid=" + $(this).closest("tr").attr("id");
 	});
 	
 	</script>

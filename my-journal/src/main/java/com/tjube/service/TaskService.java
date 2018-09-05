@@ -13,6 +13,7 @@ import com.tjube.model.MonthlyStats;
 import com.tjube.model.MonthlyTask;
 import com.tjube.model.Objective;
 import com.tjube.model.Tracker;
+import com.tjube.model.TrackerState;
 import com.tjube.model.Wish;
 import com.tjube.model.enums.TaskStateEvent;
 
@@ -43,7 +44,7 @@ public interface TaskService
 
 	DailyTask createDailyTask(Tracker tracker, LocalDate date);
 
-	void updateDailyTask(DailyTask dailyTask, TaskStateEvent state);
+	void updateDailyTask(DailyTask dailyTask, TrackerState state);
 
 	void removeDailyTask(DailyTask dailyTask);
 
