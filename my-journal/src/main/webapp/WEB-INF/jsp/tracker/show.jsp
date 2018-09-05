@@ -141,6 +141,7 @@
                         </div>
                     </div>
                 </div>
+               </div>
             <!-- END MAIN CONTENT-->
             <!-- END PAGE CONTAINER-->
     </div>
