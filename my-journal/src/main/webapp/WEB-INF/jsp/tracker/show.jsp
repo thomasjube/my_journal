@@ -92,7 +92,7 @@
 	                    	</div>
 	                    	<br/>
         		            <br/>
-	                    	<div class="row">
+	                    	<div class="row"> 
                             <div class="col-lg-6">
                                 <div class="table table--no-card m-b-40">
                                     <table class="table table-borderless table-striped table-earning">
