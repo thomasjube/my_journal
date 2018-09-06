@@ -4,12 +4,12 @@
         transaction-type="RESOURCE_LOCAL">
 		
 		<properties>
-			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://192.168.0.50:5433/my_journal"/>
-			<property name="javax.persistence.jdbc.user" value="postgres"/>
-			<property name="javax.persistence.jdbc.password" value="postgres"/>
-<!-- 			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql:my-journal"/> -->
-<!-- 			<property name="javax.persistence.jdbc.user" value="devpi"/> -->
-<!-- 			<property name="javax.persistence.jdbc.password" value="abcd"/> -->
+<!-- 			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://192.168.0.50:5433/my_journal"/> -->
+<!-- 			<property name="javax.persistence.jdbc.user" value="postgres"/> -->
+<!-- 			<property name="javax.persistence.jdbc.password" value="postgres"/> -->
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql:my-journal"/>
+			<property name="javax.persistence.jdbc.user" value="devpi"/>
+			<property name="javax.persistence.jdbc.password" value="abcd"/>
 			<property name="hibernate.enable_lazy_load_no_trans" value="true"/>
 			<property name="hibernate.jdbc.batch_size" value="200" />
 			<property name="hibernate.order_inserts" value="true" />

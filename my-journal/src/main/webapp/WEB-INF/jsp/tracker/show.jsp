@@ -44,6 +44,9 @@
     
     <!-- Calendar-->
     <link href="<%=request.getContextPath()%>/resources/calendar/calendar.css" rel="stylesheet" media="all">
+    
+    <!-- QTIP-->
+    <link href="<%=request.getContextPath()%>/resources/qtip/jquery.qtip.min.css" rel="stylesheet" media="all">
 
 </head>
 
@@ -167,8 +170,120 @@
     <script src="<%=request.getContextPath()%>/resources/vendor/select2/select2.min.js">
     </script>
 
+ 	<!-- QTIP JS-->
+    <script src="<%=request.getContextPath()%>/resources/qtip/jquery.qtip.min.js"></script>
+    
+    <!-- render JS-->
+    <script src="<%=request.getContextPath()%>/resources/render/jsrender.min.js"></script>
+    <script src="<%=request.getContextPath()%>/resources/render/jsviews.min.js"></script>
+    
     <!-- Main JS-->
     <script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
+    
+    <script id="menuTemplate" type="text/x-jsrender">
+		<table>
+			<tbody>
+            	<c:forEach items="${tracker.states}" var="state">
+                	<tr>
+                    	<td>${state.name}</td>
+                    	<td><input type="color" value="${state.color}" disabled="disabled"></td>
+                	</tr>
+            	</c:forEach>
+        	</tbody>
+		</table>
+	</script>
+    
+    
+    <script type="text/javascript">
+
+
+    var menuTemplate = $.templates("#menuTemplate");
+    
+	$(document).on('click',$(".day"),function(e){
+		showMenu(e,$(this));
+	});
+    
+    function showMenu(event,day) 
+    {	
+        day = $("#1");
+    	var app={};
+    		$('.qtip').remove();
+    			$(day.$el).qtip({
+    				overwrite: true, // Make sure the tooltip won't be overridden once created
+    		    	content: menuTemplate.render(app),
+    		    	
+    				style: 'qtip-light menu',
+    				show: {ready: true},
+    		        hide: {fixed: false, delay:10000000, leave: false},
+    			   	position: {
+    					viewport: $('body'),
+    					target: 'mouse',
+    					adjust:{
+    						mouse:false
+    					}
+    				},
+    		        events: {
+    		        	render: function(event, api) {
+    		    			$(document).on('click', function(e){
+    		    				e.preventDefault();
+    		    				if (!$(e.target).parents(".qtip").length) {
+        							var tooltips = $(day.$el).qtip({});
+        							var api = tooltips.qtip('api');
+    	    						if(api){
+    	    							api.destroy();
+    	    						}
+    	    						else if($('.context-menu').length > 0)
+    	    							$('.context-menu').parent().parent().remove();
+    	    						currentRange = null;
+    		    						
+    		    				}
+    		    			});
+    		            	$('.state-choices li', api.elements.content).click(function(e) {
+    		            		clickMenu($(this).attr("id"),$(day).attr("id"));
+    		            		api.destroy();
+    		                });
+    		            	$('.deletes', api.elements.content).click(function(e) {
+    		            		clickMenuDelete($(day).attr("id"));
+    		            		api.destroy();
+    		                });
+    		        	}
+    				}
+    	   		 }, event);
+    }
+
+	//UPDATE SCHEDULE FOR DAY - ADMINISTRATION
+	function clickMenu(dayId,stateUuid){
+		var urlAjax = '<spring:url value="day/state/update" javaScriptEscape="true"/>';
+		var dataAjax = {'dayId' : dayId, 'stateUuid' : stateUuid};
+		$.ajax({
+	    	url: urlAjax,
+	   		type: 'PUT',
+	   		contentType: 'application/json',
+	   		data: JSON.stringify(dataAjax),
+	   		success: function(data, status, jqXHR) {
+	  	    },
+			error: function(jqXHR, status, errorThrown) {
+			}
+		});
+	}
+
+	//DELETE SCHEDULE FOR DAY - ADMINISTRATION
+	function clickMenuDelete(dayId,stateUuid){
+		var urlAjax = '<spring:url value="day/state/delete" javaScriptEscape="true"/>';
+		var dataAjax = {'dayId' : dayId, 'stateUuid' : stateUuid};
+		
+		$.ajax({
+	    	url: urlAjax,
+	   		type: 'DELETE',
+	   		contentType: 'application/json',
+	   		data: JSON.stringify(dataAjax),
+	   		success: function(data, status, jqXHR) {
+	  	    },
+			error: function(jqXHR, status, errorThrown) {
+			}
+		});
+	}
+    </script>
 
 </body>
 
