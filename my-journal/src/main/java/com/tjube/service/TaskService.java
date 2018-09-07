@@ -42,7 +42,7 @@ public interface TaskService
 	// DAILY OPERATIONS
 	//---------------------------------------------------------------------------------------------------------------------
 
-	DailyTask createDailyTask(Tracker tracker, LocalDate date);
+	DailyTask createDailyTask(Tracker tracker, LocalDate date, TrackerState trackerState);
 
 	void updateDailyTask(DailyTask dailyTask, TrackerState state);
 
@@ -52,7 +52,7 @@ public interface TaskService
 
 	Collection<DailyTask> retrieveAllDailyTasksByTracker(Tracker tracker);
 
-	Collection<DailyTask> retrieveAllDailyTasksByDay(Tracker tracker, LocalDate localDate);
+	DailyTask retrieveDailyTasksByDay(Tracker tracker, LocalDate localDate);
 
 	Map<Month, MonthlyStats> getMonthlyStats(Journal journal);
 

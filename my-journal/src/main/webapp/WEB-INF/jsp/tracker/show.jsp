@@ -181,14 +181,16 @@
     <script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
     
     <script id="menuTemplate" type="text/x-jsrender">
-		<table>
+		<table class="table table-borderless table-data3">
 			<tbody>
             	<c:forEach items="${tracker.states}" var="state">
                 	<tr>
-                    	<td>${state.name}</td>
-                    	<td><input type="color" value="${state.color}" disabled="disabled"></td>
+                    	<td id="${state.uuid}" data-color="${state.color}" class="state-choices" style="text-align:center;background-color:${state.color};">${state.name}</td>
                 	</tr>
             	</c:forEach>
+				<tr>
+					<td class="deletes">Effacer le tracker</td>
+				</tr>
         	</tbody>
 		</table>
 	</script>
@@ -196,19 +198,29 @@
     
     <script type="text/javascript">
 
+	var trackerUuid = "${tracker.uuid}";
 
     var menuTemplate = $.templates("#menuTemplate");
     
-	$(document).on('click',$(".day"),function(e){
+$(".day").click(function(e){
 		showMenu(e,$(this));
 	});
-    
+
+	function hexToRgb(hex) {
+	   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+	   return result ? {
+	       r: parseInt(result[1], 16),
+	       g: parseInt(result[2], 16),
+	       b: parseInt(result[3], 16)
+	   } : null;
+	}
+
     function showMenu(event,day) 
     {	
-        day = $("#1");
+        day = $(day);
     	var app={};
     		$('.qtip').remove();
-    			$(day.$el).qtip({
+    			$(day).qtip({
     				overwrite: true, // Make sure the tooltip won't be overridden once created
     		    	content: menuTemplate.render(app),
     		    	
@@ -224,22 +236,8 @@
     				},
     		        events: {
     		        	render: function(event, api) {
-    		    			$(document).on('click', function(e){
-    		    				e.preventDefault();
-    		    				if (!$(e.target).parents(".qtip").length) {
-        							var tooltips = $(day.$el).qtip({});
-        							var api = tooltips.qtip('api');
-    	    						if(api){
-    	    							api.destroy();
-    	    						}
-    	    						else if($('.context-menu').length > 0)
-    	    							$('.context-menu').parent().parent().remove();
-    	    						currentRange = null;
-    		    						
-    		    				}
-    		    			});
-    		            	$('.state-choices li', api.elements.content).click(function(e) {
-    		            		clickMenu($(this).attr("id"),$(day).attr("id"));
+    		            	$('.state-choices', api.elements.content).click(function(e) {
+    		            		clickMenu($(day).attr("id"),$(this).attr("id"),$(this).data("color"));
     		            		api.destroy();
     		                });
     		            	$('.deletes', api.elements.content).click(function(e) {
@@ -252,25 +250,27 @@
     }
 
 	//UPDATE SCHEDULE FOR DAY - ADMINISTRATION
-	function clickMenu(dayId,stateUuid){
-		var urlAjax = '<spring:url value="day/state/update" javaScriptEscape="true"/>';
-		var dataAjax = {'dayId' : dayId, 'stateUuid' : stateUuid};
+	function clickMenu(dayId,stateUuid,color){
+		var urlAjax = 'day/state/update';
+		var dataAjax = {'day' : dayId, 'stateUuid' : stateUuid};
 		$.ajax({
 	    	url: urlAjax,
-	   		type: 'PUT',
+	   		type: 'PATCH',
 	   		contentType: 'application/json',
 	   		data: JSON.stringify(dataAjax),
 	   		success: function(data, status, jqXHR) {
-	  	    },
+				$("#"+dayId).css({'background-color':color});
+		  	    },
 			error: function(jqXHR, status, errorThrown) {
+				//an error occured
 			}
 		});
 	}
 
 	//DELETE SCHEDULE FOR DAY - ADMINISTRATION
 	function clickMenuDelete(dayId,stateUuid){
-		var urlAjax = '<spring:url value="day/state/delete" javaScriptEscape="true"/>';
-		var dataAjax = {'dayId' : dayId, 'stateUuid' : stateUuid};
+		var urlAjax = 'day/state/delete';
+		var dataAjax = {'day' : dayId, 'trackerUuid' : trackerUuid};
 		
 		$.ajax({
 	    	url: urlAjax,
@@ -278,6 +278,7 @@
 	   		contentType: 'application/json',
 	   		data: JSON.stringify(dataAjax),
 	   		success: function(data, status, jqXHR) {
+		   		$("#"+dayId).css({'background-color':''});
 	  	    },
 			error: function(jqXHR, status, errorThrown) {
 			}

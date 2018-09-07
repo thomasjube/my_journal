@@ -78,11 +78,13 @@ public class DailyTask
 		// Default constructor
 	}
 
-	public DailyTask(Tracker tracker, LocalDate date)
+	public DailyTask(Tracker tracker, LocalDate date, TrackerState trackerState)
 	{
 		super();
+		this.uuid = UUID.randomUUID();
 		this.date = date;
 		this.tracker = tracker;
+		this.state = trackerState;
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------

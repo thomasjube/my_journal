@@ -89,9 +89,9 @@ public class TaskServiceImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public DailyTask createDailyTask(Tracker tracker, LocalDate date)
+	public DailyTask createDailyTask(Tracker tracker, LocalDate date, TrackerState trackerState)
 	{
-		return taskDao.createDailyTask(tracker, date);
+		return taskDao.createDailyTask(tracker, date, trackerState);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -129,9 +129,9 @@ public class TaskServiceImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public Collection<DailyTask> retrieveAllDailyTasksByDay(Tracker tracker, LocalDate localDate)
+	public DailyTask retrieveDailyTasksByDay(Tracker tracker, LocalDate localDate)
 	{
-		return taskDao.retrieveAllDailyTasksByDay(tracker, localDate);
+		return taskDao.retrieveDailyTasksByDay(tracker, localDate);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------

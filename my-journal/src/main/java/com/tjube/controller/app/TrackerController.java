@@ -1,8 +1,10 @@
 package com.tjube.controller.app;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
+import java.time.Year;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -20,12 +22,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tjube.controller.app.form.TrackerCreationForm;
+import com.tjube.controller.app.json.DayStateTrackerJSON;
 import com.tjube.controller.security.SecurityContext;
 import com.tjube.controller.utils.LoginUtils;
 import com.tjube.controller.utils.ModelUtils;
@@ -210,6 +214,8 @@ public class TrackerController
 		model.addObject("month", tracker.getMonth());
 		model.addObject("year", journal.getYear(tracker.getMonth()));
 
+		model.addObject("tracker", tracker);
+
 		model.setViewName(ModelUtils.MODEL_TRACKER_SHOW);
 
 		return model;
@@ -368,6 +374,76 @@ public class TrackerController
 
 		model.setViewName(ModelUtils.REDIRECT_TRACKER);
 		return model;
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@RequestMapping(value = "/day/state/update", method = RequestMethod.PATCH)
+	public void dayStateUpdate(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody DayStateTrackerJSON form)
+		throws IOException
+	{
+		TrackerState trackerState = trackerService.retrieveTrackerState(form.getStateUuid());
+
+		if (trackerState == null)
+		{
+			response.sendError(500, "error state");
+			return;
+		}
+		if (form.getDay() == null)
+		{
+			response.sendError(500, "error day");
+			return;
+		}
+
+		Tracker tracker = trackerState.getTracker();
+
+		Integer day = form.getDay();
+		Month month = trackerState.getTracker().getMonth();
+		Year year = trackerState.getTracker().getJournal().getYear(month);
+
+		LocalDate localDate = LocalDate.of(year.getValue(), month, day);
+
+		DailyTask dailyTask = taskService.retrieveDailyTasksByDay(tracker, localDate);
+		if (dailyTask == null)
+		{
+			taskService.createDailyTask(tracker, localDate, trackerState);
+		}
+		else
+			taskService.updateDailyTask(dailyTask, trackerState);
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@RequestMapping(value = "/day/state/delete", method = RequestMethod.DELETE)
+	public void dayStateDelete(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody DayStateTrackerJSON form)
+		throws IOException
+	{
+		Tracker tracker = trackerService.retrieveTracker(form.getTrackerUuid());
+
+		if (tracker == null)
+		{
+			response.sendError(500, "error state");
+			return;
+		}
+		if (form.getDay() == null)
+		{
+			response.sendError(500, "error day");
+			return;
+		}
+
+		Integer day = form.getDay();
+		Month month = tracker.getMonth();
+		Year year = tracker.getJournal().getYear(month);
+
+		LocalDate localDate = LocalDate.of(year.getValue(), month, day);
+
+		DailyTask dailyTask = taskService.retrieveDailyTasksByDay(tracker, localDate);
+		if (dailyTask != null)
+		{
+			taskService.removeDailyTask(dailyTask);
+		}
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------

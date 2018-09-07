@@ -124,9 +124,9 @@ public class TaskDaoImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public DailyTask createDailyTask(Tracker tracker, LocalDate date)
+	public DailyTask createDailyTask(Tracker tracker, LocalDate date, TrackerState trackerState)
 	{
-		DailyTask dailyTaskJPA = new DailyTask(tracker, date);
+		DailyTask dailyTaskJPA = new DailyTask(tracker, date, trackerState);
 
 		entityManager.persist(dailyTaskJPA);
 
@@ -184,7 +184,7 @@ public class TaskDaoImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public Collection<DailyTask> retrieveAllDailyTasksByDay(Tracker tracker, LocalDate localDate)
+	public DailyTask retrieveDailyTasksByDay(Tracker tracker, LocalDate localDate)
 	{
 		TypedQuery<DailyTask> query = entityManager.createNamedQuery(DailyTask.QN.RETRIEVE_DAILY_TASKS_WITH_DATE,
 				DailyTask.class);
@@ -192,7 +192,7 @@ public class TaskDaoImpl
 		query.setParameter("tracker", tracker);
 		query.setParameter("date", localDate);
 
-		return query.getResultList();
+		return JPAUtils.getSingleResult(query);
 	}
 
 	@Override
