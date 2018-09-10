@@ -125,29 +125,35 @@ public class WishServiceImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public void updateWishState(Wish wish, TaskStateEvent state)
+	public void updateWishState(Wish wish, TaskStateEvent state, boolean isFree)
 	{
 		Budget budget = wish.getBudget();
 
-		if (budget == null)
-			budget = budgetService.retrieveBudget(
-					journalService.retrieveCurrentJournal(wish.getWishList().getAccount()), LocalDate.now().getMonth(),
-					wish.getCategory());
-
-		if (wish.getPrice() != null && budget != null)
+		if(!isFree)
 		{
-			if (wish.getState() != TaskStateEvent.DONE && state == TaskStateEvent.DONE)
+			if (budget == null)
+				budget = budgetService.retrieveBudget(
+						journalService.retrieveCurrentJournal(wish.getWishList().getAccount()), LocalDate.now().getMonth(),
+						wish.getCategory());
+
+			if (wish.getPrice() != null && budget != null)
 			{
-				budget.addWish(wish);
-				wishDao.updateWish(wish, budget);
-			}
-			else if (wish.getState() == TaskStateEvent.DONE && state != TaskStateEvent.DONE)
-			{
-				budget.removeWish(wish);
-				wishDao.updateWish(wish, null);
+				if (wish.getState() != TaskStateEvent.DONE && state == TaskStateEvent.DONE)
+				{
+					budget.addWish(wish);
+					wishDao.updateWish(wish, budget);
+				}
+				else if (wish.getState() == TaskStateEvent.DONE && state != TaskStateEvent.DONE)
+				{
+					budget.removeWish(wish);
+					wishDao.updateWish(wish, null);
+				}
 			}
 		}
-
+		else
+		{
+			wishDao.updateWish(wish, null);
+		}
 		wishDao.updateWishState(wish, state);
 
 	}

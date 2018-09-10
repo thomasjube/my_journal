@@ -62,14 +62,14 @@
 			                                    	<select name="categoryUuid" class="form-control">
 				                                    	<option value ="">Sélectionnez une catégorie</option>
 				                                    	<c:forEach items="${categories}" var="category">
-	<%-- 			                                    		<c:choose> --%>
-	<%-- 			                                    			<c:when test="${wishWishForm.categoryUuid == category.uuid }"> --%>
-				                                    				<option ${wishWishForm.categoryUuid == category.uuid ? 'selected="selected"' : '' } selected="selected" value="${category.uuid}">${category.description}</option>
-	<%-- 			                                    			</c:when> --%>
-	<%-- 			                                    			<c:otherwise> --%>
-	<%-- 			                                    				<option value="${category.uuid}">${category.uuid}</option> --%>
-	<%-- 			                                    			</c:otherwise> --%>
-	<%-- 			                                    		</c:choose> --%>
+				                                    		<c:choose>
+				                                    			<c:when test="${wishWishForm.categoryUuid == category.uuid }">
+				                                    				<option selected="selected" value="${category.uuid}">${category.description}</option>
+				                                    			</c:when>
+				                                    			<c:otherwise>
+				                                    				<option value="${category.uuid}">${category.description}</option>
+				                                    			</c:otherwise>
+				                                    		</c:choose>
 				                                    	</c:forEach>
 				                                    </select>
 			                                    </div>

@@ -45,7 +45,8 @@
 		                                	<table class="table table-data2">
 				                            	<thead>
 				                                	<tr>
-				                                		<th></th>
+				                                		<th>Acheter</th>
+				                                		<th>Offert</th>
 				                                		<th>Description</th>
 				                                		<th>Catégorie</th>
 				                                		<th>Prix</th>
@@ -58,10 +59,26 @@
 					                                    	<td style="vertical-align:top !important;">
 			                                                    <c:choose>
 				                                                    <c:when test="${wish.state == 'DONE'}">
-				                                                    	<input onchange="updateState(this)" type="checkbox" class="status--process_${wish.state }" style="position:relative;top:0%;" checked/>
+				                                                    	<input id="boxBuy" onchange="updateState(this)" type="checkbox" class="status--process_${wish.state }" style="position:relative;top:0%;" checked/>
+				                                                    </c:when>
+				                                                    <c:when test="${wish.state == 'OFFERED'}">
+				                                                    	<input id="boxBuy" onchange="updateState(this)" type="checkbox" class="status--process_${wish.state }" style="position:relative;top:0%;" disabled="disabled"/>
 				                                                    </c:when>
 				                                                    <c:otherwise>
-				                                                    	<input onchange="updateState(this)" type="checkbox" class="status--process_${wish.state }" style="position:relative;top:0%;"/>
+				                                                    	<input id="boxBuy" onchange="updateState(this)" type="checkbox" class="status--process_${wish.state }" style="position:relative;top:0%;"/>
+				                                                    </c:otherwise>
+			                                                    </c:choose>
+			                                                </td>
+			                                                <td style="vertical-align:top !important;">
+			                                                    <c:choose>
+				                                                    <c:when test="${wish.state == 'OFFERED'}">
+				                                                    	<input id="boxFree" onchange="updateStateFree(this)" type="checkbox" class="status--process_${wish.state }" style="position:relative;top:0%;" checked/>
+				                                                    </c:when>
+				                                                    <c:when test="${wish.state == 'DONE'}">
+				                                                    	<input id="boxFree" onchange="updateStateFree(this)" type="checkbox" class="status--process_${wish.state }" style="position:relative;top:0%;" disabled="disabled"/>
+				                                                    </c:when>
+				                                                    <c:otherwise>
+				                                                    	<input id="boxFree" onchange="updateStateFree(this)" type="checkbox" class="status--process_${wish.state }" style="position:relative;top:0%;"/>
 				                                                    </c:otherwise>
 			                                                    </c:choose>
 			                                                </td>
@@ -126,6 +143,45 @@
 		var state = $(wish).is(':checked') ? "DONE" : "TO_DO"; 
 		var urlAjax = 'wish/updateState?uuid=' + uuid;
 		var dataAjax = {'state' : state};
+
+		if(state == "TO_DO")
+		{
+			$(wish).parent().parent().find("#boxFree").removeAttr("disabled");
+		}
+		else
+			$(wish).parent().parent().find("#boxFree").attr("disabled",true);
+		
+		$.ajax({
+			headers: { 
+		        'Accept': 'application/json',
+		        'Content-Type': 'application/json' 
+		    },
+	    	url: urlAjax,
+	   		type: 'POST',
+	   		contentType: 'application/json',
+	   		dataType: "json",
+	   		data: JSON.stringify(dataAjax),
+	   		success: function(data, status, jqXHR) {
+	  	    },
+			error: function(jqXHR, status, errorThrown) {
+			}
+		});
+	}
+
+	function updateStateFree(wish){
+		var uuid = $(wish).closest("tr").attr("id");
+		var state = $(wish).is(':checked') ? "OFFERED" : "TO_DO"; 
+		var urlAjax = 'wish/updateStateFree?uuid=' + uuid;
+		var dataAjax = {'state' : state};
+
+		if(state == "TO_DO")
+		{
+			$(wish).parent().parent().find("#boxBuy").removeAttr("disabled");
+		}
+		else
+		{
+			$(wish).parent().parent().find("#boxBuy").attr("disabled",true);
+		}
 		
 		$.ajax({
 			headers: { 

@@ -486,7 +486,23 @@ public class WishController
 			return;
 		}
 
-		wishService.updateWishState(wish, TaskStateEvent.valueOf(form.getState()));
+		wishService.updateWishState(wish, TaskStateEvent.valueOf(form.getState()),false);
+
+	}
+	
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@RequestMapping(value = "/list/wish/updateStateFree", method = { RequestMethod.POST }, consumes = "application/json")
+	public void wishStateFreePatch(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody ObjectChangeStateJSON form, @RequestParam("uuid") UUID wishUuid)
+	{
+		Wish wish = wishService.retrieveWish(wishUuid);
+		if (wish == null)
+		{
+			return;
+		}
+
+		wishService.updateWishState(wish, TaskStateEvent.valueOf(form.getState()),true);
 
 	}
 }

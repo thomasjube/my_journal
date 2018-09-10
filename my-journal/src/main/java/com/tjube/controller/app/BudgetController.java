@@ -264,7 +264,7 @@ public class BudgetController
 		Budget budget = budgetService.createBudget(form.getDescription(), form.getBudgetTotal(), journal, form.getMonth(),
 				categoryTask);
 
-		model.setViewName(ModelUtils.REDIRECT_BUDGET_LIST_SHOW+budget.getUuid());
+		model.setViewName(ModelUtils.REDIRECT_BUDGET_LIST+"?uuid="+budget.getUuid()+"&month="+form.getMonth());
 
 		return model;
 	}

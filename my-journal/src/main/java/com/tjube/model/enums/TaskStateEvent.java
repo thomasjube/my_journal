@@ -8,6 +8,7 @@ public enum TaskStateEvent
 {
 	TO_DO(true),
 	DONE(true),
+	OFFERED(true),
 	POSTPONE(false);
 
 	private boolean forDailyTask = false;

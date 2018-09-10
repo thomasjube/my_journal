@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -72,10 +73,10 @@ public class Tracker
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Journal journal;
 
-	@OneToMany(mappedBy = "tracker", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "tracker", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
 	private Collection<DailyTask> dailyTasks = new ArrayList<>();
 
-	@OneToMany(mappedBy = "tracker", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "tracker", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
 	private Collection<TrackerState> states = new ArrayList<>();
 
 	//---------------------------------------------------------------------------------------------------------------------

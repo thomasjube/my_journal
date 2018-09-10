@@ -2,6 +2,7 @@ package com.tjube.service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -30,7 +31,10 @@ public class JournalServiceImpl
 	@Override
 	public Journal createJournal(Account account, LocalDate beginDate, LocalDate endDate)
 	{
-		return journalDao.createJournal(account, beginDate, endDate);
+		Journal journal = journalDao.createJournal(account, beginDate, endDate);
+		if((account.getBirthDate().isAfter(beginDate) || account.getBirthDate().isEqual(beginDate)) && (account.getBirthDate().isBefore(endDate) || account.getBirthDate().isEqual(endDate)))
+			journalDao.createJournalEvent(journal, account.getBirthDate().atTime(LocalTime.MIDNIGHT), "Mon anniversaire", null, null, true);
+		return journal;
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------

@@ -38,5 +38,10 @@ BDD:
 	
 	objectifs du mois peut être soit : monthly_task ou objectif ou wish
 	
-	ajout nouvel object tracker
+	
+	Reste à faire : 
+		- show detail journal ( journal_event (create,update,remove))
+		- pouvoir créer ses propres catégories
+		- dashboard
+		- revoir un peu l'affichage(css) dans toutes les pages
 	

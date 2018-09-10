@@ -311,7 +311,7 @@ public class TaskController
 				objectiveService.updateState(monthlyTask.getObjective(), TaskStateEvent.valueOf(form.getState()));
 
 			if (monthlyTask.getWish() != null)
-				wishService.updateWishState(monthlyTask.getWish(), TaskStateEvent.valueOf(form.getState()));
+				wishService.updateWishState(monthlyTask.getWish(), TaskStateEvent.valueOf(form.getState()),false);
 		}
 		else
 		{
