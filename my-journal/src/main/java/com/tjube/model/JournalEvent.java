@@ -1,7 +1,8 @@
 package com.tjube.model;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -16,7 +17,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import com.tjube.controller.utils.converter.LocalDateTimeAttributeConverter;
+import com.tjube.controller.utils.converter.LocalDateAttributeConverter;
+import com.tjube.controller.utils.converter.LocalTimeAttributeConverter;
 import com.tjube.controller.utils.converter.UUIDAttributeConverter;
 
 @NamedQueries({
@@ -25,9 +27,9 @@ import com.tjube.controller.utils.converter.UUIDAttributeConverter;
 		@NamedQuery(name = JournalEvent.QN.RETRIEVE_JOURNAL_EVENTS_WITH_JOURNAL,
 				query = "SELECT je from JournalEvent je where je.journal=:journal"),
 		@NamedQuery(name = JournalEvent.QN.RETRIEVE_JOURNAL_EVENTS_WITH_JOURNAL_AND_DATETIME,
-				query = "SELECT je from JournalEvent je where je.journal=:journal and je.dateTime=:dateTime"),
+				query = "SELECT je from JournalEvent je where je.journal=:journal and je.date=:date and je.time=:time"),
 		@NamedQuery(name = JournalEvent.QN.RETRIEVE_JOURNAL_EVENTS_WITH_ACCOUNT_AND_DATETIME,
-		query = "SELECT je from JournalEvent je where je.account=:account and je.dateTime>:dateTimeMin and je.dateTime<:dateTimeMax"), })
+				query = "SELECT je from JournalEvent je where je.account=:account and je.date=:date and je.time=:time"), })
 @Entity
 @Table(name = "JOURNAL_EVENT")
 public class JournalEvent
@@ -66,8 +68,12 @@ public class JournalEvent
 	private UUID uuid;
 
 	@Column
-	@Convert(converter = LocalDateTimeAttributeConverter.class)
-	private LocalDateTime dateTime;
+	@Convert(converter = LocalDateAttributeConverter.class)
+	private LocalDate date;
+
+	@Column
+	@Convert(converter = LocalTimeAttributeConverter.class)
+	private LocalTime time;
 
 	@Column(name = "description", nullable = false)
 	private String description;
@@ -83,7 +89,7 @@ public class JournalEvent
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Journal journal;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Account account;
 
@@ -94,12 +100,13 @@ public class JournalEvent
 		// TODO Auto-generated constructor stub
 	}
 
-	public JournalEvent(Journal journal, LocalDateTime dateTime, String description, String place, String comments,
-			boolean isAnnually)
+	public JournalEvent(Journal journal, LocalDate date, LocalTime time, String description, String place,
+			String comments, boolean isAnnually)
 	{
 		this.uuid = UUID.randomUUID();
 		this.journal = journal;
-		this.dateTime = dateTime;
+		this.date = date;
+		this.time = time;
 		this.description = description;
 		this.place = place;
 		this.comments = comments;
@@ -132,14 +139,26 @@ public class JournalEvent
 
 	//---------------------------------------------------------------------------------------------------------------------
 
-	public LocalDateTime getDateTime()
+	public LocalDate getDate()
 	{
-		return dateTime;
+		return date;
 	}
 
-	public void setDateTime(LocalDateTime dateTime)
+	public void setDate(LocalDate date)
 	{
-		this.dateTime = dateTime;
+		this.date = date;
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	public LocalTime getTime()
+	{
+		return time;
+	}
+
+	public void setTime(LocalTime time)
+	{
+		this.time = time;
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -201,14 +220,14 @@ public class JournalEvent
 	{
 		this.journal = journal;
 	}
-	
+
 	//---------------------------------------------------------------------------------------------------------------------
 
 	public Account getAccount()
 	{
 		return account;
 	}
-	
+
 	public void setAccount(Account account)
 	{
 		this.account = account;

@@ -3,6 +3,7 @@ package com.tjube.service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Period;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -32,8 +33,26 @@ public class JournalServiceImpl
 	public Journal createJournal(Account account, LocalDate beginDate, LocalDate endDate)
 	{
 		Journal journal = journalDao.createJournal(account, beginDate, endDate);
-		if((account.getBirthDate().isAfter(beginDate) || account.getBirthDate().isEqual(beginDate)) && (account.getBirthDate().isBefore(endDate) || account.getBirthDate().isEqual(endDate)))
-			journalDao.createJournalEvent(journal, account.getBirthDate().atTime(LocalTime.MIDNIGHT), "Mon anniversaire", null, null, true);
+
+		Integer year = null;
+		if ((account.getBirthDate().withYear(beginDate.getYear()).isAfter(beginDate)
+				|| account.getBirthDate().withYear(beginDate.getYear()).isEqual(beginDate))
+				&& account.getBirthDate().withYear(beginDate.getYear())
+						.isBefore(LocalDate.of(beginDate.getYear() + 1, 1, 1)))
+			year = beginDate.getYear();
+		else if ((account.getBirthDate().withYear(endDate.getYear()).isBefore(endDate)
+				|| account.getBirthDate().withYear(endDate.getYear()).isEqual(endDate))
+				&& (account.getBirthDate().withYear(endDate.getYear()).isAfter(beginDate)
+						|| account.getBirthDate().withYear(endDate.getYear()).isEqual(beginDate)))
+			year = endDate.getYear();
+
+		if (year != null)
+		{
+			LocalDate birthDateYear = account.getBirthDate().withYear(year);
+			journalDao.createJournalEvent(journal, birthDateYear, LocalTime.MIDNIGHT,
+					"Mon " + Period.between(account.getBirthDate(), birthDateYear).getYears() + "ème anniversaire",
+					null, null, true);
+		}
 		return journal;
 	}
 
@@ -90,19 +109,19 @@ public class JournalServiceImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public JournalEvent createJournalEvent(Journal journal, LocalDateTime dateTime, String description, String place,
-			String comments, boolean isAnnually)
+	public JournalEvent createJournalEvent(Journal journal, LocalDate date, LocalTime time, String description,
+			String place, String comments, boolean isAnnually)
 	{
-		return journalDao.createJournalEvent(journal, dateTime, description, place, comments, isAnnually);
+		return journalDao.createJournalEvent(journal, date, time, description, place, comments, isAnnually);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public void updateJournalEvent(JournalEvent journalEvent, LocalDateTime dateTime, String description, String place,
-			String comments, boolean isAnnually)
+	public void updateJournalEvent(JournalEvent journalEvent, LocalDate date, LocalTime time, String description,
+			String place, String comments, boolean isAnnually)
 	{
-		journalDao.updateJournalEvent(journalEvent, dateTime, description, place, comments, isAnnually);
+		journalDao.updateJournalEvent(journalEvent, date, time, description, place, comments, isAnnually);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -128,14 +147,14 @@ public class JournalServiceImpl
 	{
 		return journalDao.retrieveJournalEventsByDate(account, dateTime);
 	}
-	
+
 	//---------------------------------------------------------------------------------------------------------------------
 
-		@Override
-		public Collection<JournalEvent> retrieveJournalEventsByDate(Journal journal, LocalDateTime dateTime)
-		{
-			return journalDao.retrieveJournalEventsByDate(journal, dateTime);
-		}
+	@Override
+	public Collection<JournalEvent> retrieveJournalEventsByDate(Journal journal, LocalDateTime dateTime)
+	{
+		return journalDao.retrieveJournalEventsByDate(journal, dateTime);
+	}
 
 	//---------------------------------------------------------------------------------------------------------------------
 

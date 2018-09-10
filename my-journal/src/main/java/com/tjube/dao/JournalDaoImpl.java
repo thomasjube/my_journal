@@ -120,10 +120,10 @@ public class JournalDaoImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public JournalEvent createJournalEvent(Journal journal, LocalDateTime dateTime, String description, String place,
-			String comments, boolean isAnnually)
+	public JournalEvent createJournalEvent(Journal journal, LocalDate date, LocalTime time, String description,
+			String place, String comments, boolean isAnnually)
 	{
-		JournalEvent journalEventJPA = new JournalEvent(journal, dateTime, description, place, comments, isAnnually);
+		JournalEvent journalEventJPA = new JournalEvent(journal, date, time, description, place, comments, isAnnually);
 
 		entityManager.persist(journalEventJPA);
 
@@ -133,13 +133,14 @@ public class JournalDaoImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public void updateJournalEvent(JournalEvent journalEvent, LocalDateTime dateTime, String description, String place,
-			String comments, boolean isAnnually)
+	public void updateJournalEvent(JournalEvent journalEvent, LocalDate date, LocalTime time, String description,
+			String place, String comments, boolean isAnnually)
 	{
 		if (!entityManager.contains(journalEvent))
 			journalEvent = entityManager.merge(journalEvent);
 
-		journalEvent.setDateTime(dateTime);
+		journalEvent.setDate(date);
+		journalEvent.setTime(time);
 		journalEvent.setDescription(description);
 		journalEvent.setPlace(place);
 		journalEvent.setComments(comments);
@@ -184,7 +185,7 @@ public class JournalDaoImpl
 
 		return query.getResultList();
 	}
-	
+
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
@@ -195,7 +196,7 @@ public class JournalDaoImpl
 
 		query.setParameter("journal", journal);
 		query.setParameter("date", dateTime);
-		
+
 		return query.getResultList();
 	}
 
