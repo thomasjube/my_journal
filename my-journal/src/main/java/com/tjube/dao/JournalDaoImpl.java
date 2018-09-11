@@ -1,8 +1,8 @@
 package com.tjube.dao;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Month;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -174,14 +174,13 @@ public class JournalDaoImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public Collection<JournalEvent> retrieveJournalEventsByDate(Account account, LocalDateTime dateTime)
+	public Collection<JournalEvent> retrieveJournalEventsByDate(Account account, LocalDate date)
 	{
-		TypedQuery<JournalEvent> query = entityManager.createNamedQuery(
-				JournalEvent.QN.RETRIEVE_JOURNAL_EVENTS_WITH_ACCOUNT_AND_DATETIME, JournalEvent.class);
+		TypedQuery<JournalEvent> query = entityManager
+				.createNamedQuery(JournalEvent.QN.RETRIEVE_JOURNAL_EVENTS_WITH_ACCOUNT_AND_DATE, JournalEvent.class);
 
 		query.setParameter("account", account);
-		query.setParameter("dateTimeMin", LocalDateTime.of(dateTime.toLocalDate(), LocalTime.MIDNIGHT));
-		query.setParameter("dateTimeMax", LocalDateTime.of(dateTime.toLocalDate().plusDays(1), LocalTime.MIDNIGHT));
+		query.setParameter("date", date);
 
 		return query.getResultList();
 	}
@@ -189,13 +188,27 @@ public class JournalDaoImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public Collection<JournalEvent> retrieveJournalEventsByDate(Journal journal, LocalDateTime dateTime)
+	public Collection<JournalEvent> retrieveJournalEventsByDate(Journal journal, LocalDate date)
 	{
-		TypedQuery<JournalEvent> query = entityManager.createNamedQuery(
-				JournalEvent.QN.RETRIEVE_JOURNAL_EVENTS_WITH_JOURNAL_AND_DATETIME, JournalEvent.class);
+		TypedQuery<JournalEvent> query = entityManager
+				.createNamedQuery(JournalEvent.QN.RETRIEVE_JOURNAL_EVENTS_WITH_JOURNAL_AND_DATE, JournalEvent.class);
 
 		query.setParameter("journal", journal);
-		query.setParameter("date", dateTime);
+		query.setParameter("date", date);
+
+		return query.getResultList();
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@Override
+	public Collection<JournalEvent> retrieveJournalEventsByMonth(Journal journal, Month month)
+	{
+		TypedQuery<JournalEvent> query = entityManager
+				.createNamedQuery(JournalEvent.QN.RETRIEVE_JOURNAL_EVENTS_WITH_JOURNAL_AND_MONTH, JournalEvent.class);
+
+		query.setParameter("journal", journal);
+		query.setParameter("month", month);
 
 		return query.getResultList();
 	}

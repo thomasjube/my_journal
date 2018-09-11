@@ -202,13 +202,27 @@ public class Journal
 	public Year getYear(Month month)
 	{
 		LocalDate tmp = this.beginDate;
-		
-		while(tmp.getMonth() != month || tmp.isAfter(this.endDate))
+
+		while (tmp.getMonth() != month || tmp.isAfter(this.endDate))
 			tmp = tmp.plusMonths(1);
 
 		return Year.from(tmp);
 	}
-	
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	public Collection<Month> getMonths()
+	{
+		Collection<Month> results = new ArrayList<>();
+		LocalDate tmpDate = this.beginDate;
+		while (tmpDate.isBefore(this.endDate) || tmpDate.isEqual(this.endDate))
+		{
+			results.add(tmpDate.getMonth());
+			tmpDate = tmpDate.plusMonths(1);
+		}
+		return results;
+	}
+
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override

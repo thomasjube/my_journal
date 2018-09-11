@@ -6,6 +6,7 @@ public class ModelUtils
 	public static final String REDIRECT_LOGIN = "redirect:/login";
 
 	public static final String REDIRECT_JOURNAL = "redirect:/journal";
+	public static final String REDIRECT_JOURNAL_SHOW = "redirect:/journal/show?uuid=";
 
 	public static final String REDIRECT_OBJECTIVE = "redirect:/objective";
 
@@ -44,6 +45,9 @@ public class ModelUtils
 	public static final String MODEL_JOURNAL_CREATION = "journal/creation";
 	public static final String MODEL_JOURNAL_UPDATE = "journal/update";
 	public static final String MODEL_JOURNAL_SHOW = "journal/show";
+
+	public static final String MODEL_JOURNAL_EVENT_CREATION = "journal/event/creation";
+	public static final String MODEL_JOURNAL_EVENT_UPDATE = "journal/event/update";
 
 	public static final String MODEL_TASKS_SHOW = "tasks/show";
 	public static final String MODEL_TASKS_MONTH_ADD = "tasks/monthly/add";

@@ -56,53 +56,65 @@
                         <div class="row">
                             <div class="col-lg-9">
                                 <h2 class="title-1 m-b-25">Journal du <tags:localDate date="${journal.beginDate}"/> au <tags:localDate date="${journal.endDate}"/></h2>
-                                <div class="table-responsive table--no-card m-b-40">
+	                                <div class="table-responsive table--no-card m-b-40">
+	                                    <table class="table table-borderless table-striped table-earning">
+	                                        <thead>
+	                                            <tr>
+	                                                <th>date</th>
+	<!--                                                 <th class="text-right">tâches quotidiennes</th> -->
+	                                                <th class="text-right">tâches mensuelles</th>
+	                                                <th class="text-right">budget</th>
+	                                            </tr>
+	                                        </thead>
+	                                        <tbody>
+	                                        	<c:forEach items="${months}" var="month">
+	                                        	<c:set var="monthlyStat" value="${mapMonthStats[month]}"/>
+	                                        		<tr>
+	                                        			<td><fmt:message key="label.${month}.month" bundle="${lang}"/></td>
+	                                        			<td class="text-center">${monthlyStat.finishMonthlyTasks}/${monthlyStat.allMonthlyTasks} (${monthlyStat.allMonthlyTasksPercent}%)</td>
+	                                        			<td class="text-center">${monthlyStat.usedBudget}/${monthlyStat.allbudget} (${monthlyStat.allbudgetPercent}%)</td>
+	                                        		</tr>
+	                                        	</c:forEach>
+	                                        </tbody>
+	                                    </table>
+	                                </div>
+	                                <div class="table-responsive table--no-card m-b-40">
+                                        <button class="au-btn-plus-event" onclick="location.href='event/creation?uuid=${journal.uuid}'">
+                                            <i class="zmdi zmdi-plus"></i>
+                                        </button>
+                                    </div>
                                     <table class="table table-borderless table-striped table-earning">
-                                        <thead>
-                                            <tr>
-                                                <th>date</th>
-<!--                                                 <th class="text-right">tâches quotidiennes</th> -->
-                                                <th class="text-right">tâches mensuelles</th>
-                                                <th class="text-right">budget</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        	<c:forEach items="${months}" var="month">
-                                        	<c:set var="monthlyStat" value="${mapMonthStats[month]}"/>
-                                        		<tr>
-                                        			<td><fmt:message key="label.${month}.month" bundle="${lang}"/></td>
-<%--                                         			<td class="text-center">${monthlyStat.allDailyTasks}</td> --%>
-                                        			<td class="text-center">${monthlyStat.finishMonthlyTasks}/${monthlyStat.allMonthlyTasks} (${monthlyStat.allMonthlyTasksPercent}%)</td>
-                                        			<td class="text-center">${monthlyStat.usedBudget}/${monthlyStat.allbudget} (${monthlyStat.allbudgetPercent}%)</td>
-                                        		</tr>
-                                        	</c:forEach>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                
-                                <div class="table-responsive table--no-card m-b-40">
-                                    <table class="table table-borderless table-striped table-earning">
-                                        <thead>
-                                            <tr>
-                                                <th>date</th>
-                                                <th>heure</th>
-                                                <th>description</th>
-                                                <th>lieu</th>
-                                                <th class="text-right"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        	<c:forEach items="${journal.journalEvents}" var="event">
-                                        		<tr>
-                                        			<td>${event.date}</td>
-                                        			<td class="text-center">${event.time}</td>
-                                        			<td class="text-center">${event.description }</td>
-                                        			<td class="text-center">${event.place }</td>
-                                        		</tr>
-                                        	</c:forEach>
-                                        </tbody>
-                                    </table>
-                                </div>
+	                                        <thead>
+	                                            <tr>
+	                                                <th>date</th>
+	                                                <th>heure</th>
+	                                                <th>description</th>
+	                                                <th>lieu</th>
+	                                                <th class="text-right"></th>
+	                                            </tr>
+	                                        </thead>
+	                                        <tbody>
+	                                        	<c:forEach items="${journal.journalEvents}" var="event">
+	                                        		<tr>
+	                                        			<td><tags:localDate date="${event.date}"/></td>
+	                                        			<td>${event.time}</td>
+	                                        			<td>${event.description }</td>
+	                                        			<td>${event.place }</td>
+	                                        			<td>
+	                                        				<div class="table-data-feature">
+		                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit" onclick="location.href='event/update?uuid=${event.uuid }';">
+		                                                            <i class="zmdi zmdi-edit"></i>
+		                                                        </button>
+		                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete" onclick="location.href='event/delete?uuid=${event.uuid }';">
+		                                                            <i class="zmdi zmdi-delete"></i>
+		                                                        </button>
+		                                                    </div>
+	                                        			</td>
+	                                        		</tr>
+	                                        	</c:forEach>
+	                                        </tbody>
+	                                    </table>
+	                                </div>
                             </div>
                         <div class="row">
                             <div class="col-md-12">

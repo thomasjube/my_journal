@@ -1,7 +1,6 @@
 package com.tjube.controller.app;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 
@@ -84,8 +83,7 @@ public class HomeController
 
 		//TODO : mettre des graphiques pour les trackers du mois en cours + synthèses des trackers du jour avec couleur+ affichers les trackers renseigné si il y en a (dans le calendriers)
 
-		Collection<JournalEvent> journalEvents = journalService.retrieveJournalEventsByDate(account,
-				LocalDateTime.now());
+		Collection<JournalEvent> journalEvents = journalService.retrieveJournalEventsByDate(account, LocalDate.now());
 		model.addObject("journalEvents", journalEvents);
 
 		return model;

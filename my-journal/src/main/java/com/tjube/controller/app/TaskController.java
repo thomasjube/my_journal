@@ -6,6 +6,8 @@ import java.time.Period;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +36,7 @@ import com.tjube.model.Account;
 import com.tjube.model.Budget;
 import com.tjube.model.CategoryTask;
 import com.tjube.model.Journal;
+import com.tjube.model.JournalEvent;
 import com.tjube.model.MonthlyTask;
 import com.tjube.model.Objective;
 import com.tjube.model.Wish;
@@ -183,12 +186,27 @@ public class TaskController
 
 		LocalDate beginDate = LocalDate.of(journal.getYear(month).getValue(), month, 1);
 
+		Map<Integer, Collection<JournalEvent>> mapEvents = new HashMap<>();
+		Collection<JournalEvent> events = journalService.retrieveJournalEventsByMonth(journal, month);
+
+		for (JournalEvent e : events)
+		{
+			Collection<JournalEvent> results = mapEvents.get(e.getDate().getDayOfMonth());
+			if (results == null)
+				results = new ArrayList<>();
+
+			results.add(e);
+
+			mapEvents.put(e.getDate().getDayOfMonth(), results);
+		}
+
 		model.addObject("beginDate", beginDate);
 		model.addObject("endDate", beginDate.plusMonths(1).minusDays(1));
 
 		model.addObject("month", month);
 		model.addObject("year", journal.getYear(month));
 		model.addObject("journal", journal);
+		model.addObject("mapEvents", mapEvents);
 		model.addObject(ModelUtils.MODEL_ACCOUNT, account);
 		model.setViewName(ModelUtils.MODEL_TASKS_SHOW);
 
@@ -311,7 +329,7 @@ public class TaskController
 				objectiveService.updateState(monthlyTask.getObjective(), TaskStateEvent.valueOf(form.getState()));
 
 			if (monthlyTask.getWish() != null)
-				wishService.updateWishState(monthlyTask.getWish(), TaskStateEvent.valueOf(form.getState()),false);
+				wishService.updateWishState(monthlyTask.getWish(), TaskStateEvent.valueOf(form.getState()), false);
 		}
 		else
 		{

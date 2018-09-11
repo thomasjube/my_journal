@@ -1,8 +1,8 @@
 package com.tjube.service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Month;
 import java.time.Period;
 import java.util.Collection;
 import java.util.UUID;
@@ -143,17 +143,25 @@ public class JournalServiceImpl
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public Collection<JournalEvent> retrieveJournalEventsByDate(Account account, LocalDateTime dateTime)
+	public Collection<JournalEvent> retrieveJournalEventsByDate(Account account, LocalDate date)
 	{
-		return journalDao.retrieveJournalEventsByDate(account, dateTime);
+		return journalDao.retrieveJournalEventsByDate(account, date);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@Override
-	public Collection<JournalEvent> retrieveJournalEventsByDate(Journal journal, LocalDateTime dateTime)
+	public Collection<JournalEvent> retrieveJournalEventsByDate(Journal journal, LocalDate date)
 	{
-		return journalDao.retrieveJournalEventsByDate(journal, dateTime);
+		return journalDao.retrieveJournalEventsByDate(journal, date);
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@Override
+	public Collection<JournalEvent> retrieveJournalEventsByMonth(Journal journal, Month month)
+	{
+		return journalDao.retrieveJournalEventsByMonth(journal, month);
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------

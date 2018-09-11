@@ -3,11 +3,14 @@ package com.tjube.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.Month;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,10 +29,12 @@ import com.tjube.controller.utils.converter.UUIDAttributeConverter;
 				query = "SELECT je from JournalEvent je where je.uuid=:uuid"),
 		@NamedQuery(name = JournalEvent.QN.RETRIEVE_JOURNAL_EVENTS_WITH_JOURNAL,
 				query = "SELECT je from JournalEvent je where je.journal=:journal"),
-		@NamedQuery(name = JournalEvent.QN.RETRIEVE_JOURNAL_EVENTS_WITH_JOURNAL_AND_DATETIME,
-				query = "SELECT je from JournalEvent je where je.journal=:journal and je.date=:date and je.time=:time"),
-		@NamedQuery(name = JournalEvent.QN.RETRIEVE_JOURNAL_EVENTS_WITH_ACCOUNT_AND_DATETIME,
-				query = "SELECT je from JournalEvent je where je.account=:account and je.date=:date and je.time=:time"), })
+		@NamedQuery(name = JournalEvent.QN.RETRIEVE_JOURNAL_EVENTS_WITH_JOURNAL_AND_DATE,
+				query = "SELECT je from JournalEvent je where je.journal=:journal and je.date=:date"),
+		@NamedQuery(name = JournalEvent.QN.RETRIEVE_JOURNAL_EVENTS_WITH_JOURNAL_AND_MONTH,
+				query = "SELECT je from JournalEvent je where je.journal=:journal and je.month=:month"),
+		@NamedQuery(name = JournalEvent.QN.RETRIEVE_JOURNAL_EVENTS_WITH_ACCOUNT_AND_DATE,
+				query = "SELECT je from JournalEvent je where je.account=:account and je.date=:date"), })
 @Entity
 @Table(name = "JOURNAL_EVENT")
 public class JournalEvent
@@ -48,8 +53,9 @@ public class JournalEvent
 	{
 		public static final String RETRIEVE_JOURNAL_EVENT_WITH_UUID = "JournalEvent.retrieveJournalEventWithUuid";
 		public static final String RETRIEVE_JOURNAL_EVENTS_WITH_JOURNAL = "JournalEvent.retrieveJournalEventsWithJournal";
-		public static final String RETRIEVE_JOURNAL_EVENTS_WITH_JOURNAL_AND_DATETIME = "JournalEvent.retrieveJournalEventsWithJournalAndDateTime";
-		public static final String RETRIEVE_JOURNAL_EVENTS_WITH_ACCOUNT_AND_DATETIME = "JournalEvent.retrieveJournalEventsWithAccountAndDateTime";
+		public static final String RETRIEVE_JOURNAL_EVENTS_WITH_JOURNAL_AND_DATE = "JournalEvent.retrieveJournalEventsWithJournalAndDate";
+		public static final String RETRIEVE_JOURNAL_EVENTS_WITH_JOURNAL_AND_MONTH = "JournalEvent.retrieveJournalEventsWithJournalAndMonth";
+		public static final String RETRIEVE_JOURNAL_EVENTS_WITH_ACCOUNT_AND_DATE = "JournalEvent.retrieveJournalEventsWithAccountAndDate";
 
 		private QN()
 		{
@@ -70,6 +76,10 @@ public class JournalEvent
 	@Column
 	@Convert(converter = LocalDateAttributeConverter.class)
 	private LocalDate date;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "month", nullable = false)
+	private Month month = null;
 
 	@Column
 	@Convert(converter = LocalTimeAttributeConverter.class)
@@ -106,6 +116,7 @@ public class JournalEvent
 		this.uuid = UUID.randomUUID();
 		this.journal = journal;
 		this.date = date;
+		this.month = date.getMonth();
 		this.time = time;
 		this.description = description;
 		this.place = place;
@@ -147,6 +158,7 @@ public class JournalEvent
 	public void setDate(LocalDate date)
 	{
 		this.date = date;
+		this.month = date.getMonth();
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
@@ -231,6 +243,18 @@ public class JournalEvent
 	public void setAccount(Account account)
 	{
 		this.account = account;
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	public Month getMonth()
+	{
+		return month;
+	}
+
+	public void setMonth(Month month)
+	{
+		this.month = month;
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------

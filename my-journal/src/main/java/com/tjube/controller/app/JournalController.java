@@ -25,11 +25,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tjube.controller.app.form.JournalCreationForm;
+import com.tjube.controller.app.form.JournalEventCreationForm;
 import com.tjube.controller.security.SecurityContext;
 import com.tjube.controller.utils.LoginUtils;
 import com.tjube.controller.utils.ModelUtils;
 import com.tjube.model.Account;
 import com.tjube.model.Journal;
+import com.tjube.model.JournalEvent;
 import com.tjube.model.MonthlyStats;
 import com.tjube.service.JournalService;
 import com.tjube.service.TaskService;
@@ -99,8 +101,12 @@ public class JournalController
 		model.addObject("mapMonthStats", mapMonthStats);
 
 		List<Month> months = new ArrayList<>();
-		for (Month month : mapMonthStats.keySet())
+		for (Month month : journal.getMonths())
+		{
 			months.add(month);
+			if (mapMonthStats.get(month) == null)
+				mapMonthStats.put(month, new MonthlyStats());
+		}
 		Collections.sort(months, new Comparator<Month>() {
 			@Override
 			public int compare(Month o1, Month o2)
@@ -260,5 +266,153 @@ public class JournalController
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
+	// JOURNAL EVENT OPERATIONS
+	//---------------------------------------------------------------------------------------------------------------------
 
+	@RequestMapping(value = "/event/creation", method = { RequestMethod.GET })
+	public ModelAndView journalCreationGet(ModelAndView model, @RequestParam("uuid") UUID journalUuid)
+	{
+		model.setViewName(ModelUtils.REDIRECT_LOGIN);
+		String result = LoginUtils.login();
+		if (result != null)
+			return model;
+
+		Account account = SecurityContext.getInstance().getCurrentUser();
+		model.addObject("account", account);
+
+		model.addObject("form", new JournalEventCreationForm(journalUuid));
+		model.setViewName(ModelUtils.MODEL_JOURNAL_EVENT_CREATION);
+		return model;
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@RequestMapping(value = { "/event/creation" }, method = { RequestMethod.POST })
+	public ModelAndView journalEventCreationPost(HttpServletRequest request, ModelAndView model,
+			@Valid @ModelAttribute("form") JournalEventCreationForm form, BindingResult validationResult)
+	{
+		model.setViewName(ModelUtils.MODEL_LOGIN);
+		String result = LoginUtils.login();
+		if (result != null)
+			return model;
+
+		if (validationResult.hasErrors())
+		{
+			model.setViewName(ModelUtils.MODEL_JOURNAL_EVENT_CREATION);
+			return model;
+		}
+
+		Account account = SecurityContext.getInstance().getCurrentUser();
+		if (account == null)
+		{
+			model.setViewName(ModelUtils.REDIRECT_LOGIN);
+			model.addObject("accountNotFound", true);
+			return model;
+		}
+
+		Journal journal = journalService.retrieveJournal(form.getJournalUuid());
+		if (journal == null)
+		{
+			model.setViewName(ModelUtils.REDIRECT_JOURNAL);
+			model.addObject("journalNotFound", true);
+			return model;
+		}
+
+		journalService.createJournalEvent(journal, form.getDate(), form.getTime(), form.getDescription(),
+				form.getPlace(), form.getComments(), form.isAnnually());
+		model.setViewName(ModelUtils.REDIRECT_JOURNAL_SHOW + journal.getUuid());
+		return model;
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@RequestMapping(value = "/event/update", method = { RequestMethod.GET })
+	public ModelAndView journalEventUpdateGet(ModelAndView model, @RequestParam("uuid") UUID journalEventUuid)
+	{
+		model.setViewName(ModelUtils.REDIRECT_LOGIN);
+		String result = LoginUtils.login();
+		if (result != null)
+			return model;
+
+		Account account = SecurityContext.getInstance().getCurrentUser();
+		model.addObject("account", account);
+
+		JournalEvent journalEvent = journalService.retrieveJournalEvent(journalEventUuid);
+		if (journalEvent == null)
+		{
+			model.clear();
+			model.setViewName(ModelUtils.REDIRECT_JOURNAL);
+		}
+
+		model.addObject("form", new JournalEventCreationForm(journalEvent));
+		model.setViewName(ModelUtils.MODEL_JOURNAL_EVENT_UPDATE);
+		return model;
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@RequestMapping(value = { "/event/update" }, method = { RequestMethod.POST })
+	public ModelAndView journalEventUpdatePost(HttpServletRequest request, ModelAndView model,
+			@Valid @ModelAttribute("form") JournalEventCreationForm form, BindingResult validationResult)
+	{
+		model.setViewName(ModelUtils.REDIRECT_LOGIN);
+		String result = LoginUtils.login();
+		if (result != null)
+			return model;
+
+		if (validationResult.hasErrors())
+		{
+			model.setViewName(ModelUtils.MODEL_JOURNAL_EVENT_UPDATE);
+			return model;
+		}
+
+		Account account = SecurityContext.getInstance().getCurrentUser();
+		if (account == null)
+		{
+			model.setViewName(ModelUtils.MODEL_LOGIN);
+			model.addObject("accountNotFound", true);
+			return model;
+		}
+
+		JournalEvent journalEvent = journalService.retrieveJournalEvent(form.getJournalEventUuid());
+		if (journalEvent == null)
+		{
+			model.clear();
+			model.setViewName(ModelUtils.REDIRECT_JOURNAL);
+			return model;
+		}
+
+		journalService.updateJournalEvent(journalEvent, form.getDate(), form.getTime(), form.getDescription(),
+				form.getPlace(), form.getComments(), form.isAnnually());
+
+		model.setViewName(ModelUtils.REDIRECT_JOURNAL_SHOW + journalEvent.getJournal().getUuid());
+
+		return model;
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@RequestMapping(value = "/event/delete", method = { RequestMethod.GET })
+	public ModelAndView journalEventDeleteGet(ModelAndView model, @RequestParam("uuid") UUID journalEventUuid)
+	{
+		model.setViewName(ModelUtils.REDIRECT_LOGIN);
+		String result = LoginUtils.login();
+		if (result != null)
+			return model;
+
+		Account account = SecurityContext.getInstance().getCurrentUser();
+		model.addObject("account", account);
+
+		JournalEvent journalEvent = journalService.retrieveJournalEvent(journalEventUuid);
+		if (journalEvent == null)
+		{
+			model.clear();
+			model.setViewName(ModelUtils.REDIRECT_JOURNAL);
+		}
+
+		journalService.removeJournalEvent(journalEvent);
+
+		model.setViewName(ModelUtils.REDIRECT_JOURNAL_SHOW + journalEvent.getJournal().getUuid());
+		return model;
+	}
 }

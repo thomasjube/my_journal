@@ -1,8 +1,8 @@
 package com.tjube.dao;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Month;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -44,9 +44,11 @@ public interface JournalDao
 
 	JournalEvent retrieveJournalEvent(UUID uuid);
 
-	Collection<JournalEvent> retrieveJournalEventsByDate(Account account, LocalDateTime dateTime);
+	Collection<JournalEvent> retrieveJournalEventsByDate(Account account, LocalDate date);
 
-	Collection<JournalEvent> retrieveJournalEventsByDate(Journal journal, LocalDateTime dateTime);
+	Collection<JournalEvent> retrieveJournalEventsByDate(Journal journal, LocalDate date);
+
+	Collection<JournalEvent> retrieveJournalEventsByMonth(Journal journal, Month month);
 
 	Collection<JournalEvent> retrieveAllJournalEvents(Journal journal);
 

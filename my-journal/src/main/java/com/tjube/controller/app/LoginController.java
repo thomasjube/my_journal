@@ -1,6 +1,6 @@
 package com.tjube.controller.app;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
@@ -76,9 +76,9 @@ public class LoginController
 
 		SecurityContext.getInstance().setCurrentUser(account);
 		SessionAttributes.setLoggedAccount(request, account);
-		
-		Collection<JournalEvent> journalEvents = journalService.retrieveJournalEventsByDate(account, LocalDateTime.now());
-		SessionAttributes.setTodayJournalEvents(request,journalEvents);
+
+		Collection<JournalEvent> journalEvents = journalService.retrieveJournalEventsByDate(account, LocalDate.now());
+		SessionAttributes.setTodayJournalEvents(request, journalEvents);
 		return model;
 	}
 
