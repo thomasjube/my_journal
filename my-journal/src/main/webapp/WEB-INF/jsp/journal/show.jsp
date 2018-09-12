@@ -83,37 +83,38 @@
                                             <i class="zmdi zmdi-plus"></i>
                                         </button>
                                     </div>
-                                    <table class="table table-borderless table-striped table-earning">
-	                                        <thead>
-	                                            <tr>
-	                                                <th>date</th>
-	                                                <th>heure</th>
-	                                                <th>description</th>
-	                                                <th>lieu</th>
-	                                                <th class="text-right"></th>
-	                                            </tr>
-	                                        </thead>
-	                                        <tbody>
-	                                        	<c:forEach items="${journal.journalEvents}" var="event">
-	                                        		<tr>
-	                                        			<td><tags:localDate date="${event.date}"/></td>
-	                                        			<td>${event.time}</td>
-	                                        			<td>${event.description }</td>
-	                                        			<td>${event.place }</td>
-	                                        			<td>
-	                                        				<div class="table-data-feature">
-		                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit" onclick="location.href='event/update?uuid=${event.uuid }';">
-		                                                            <i class="zmdi zmdi-edit"></i>
-		                                                        </button>
-		                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete" onclick="location.href='event/delete?uuid=${event.uuid }';">
-		                                                            <i class="zmdi zmdi-delete"></i>
-		                                                        </button>
-		                                                    </div>
-	                                        			</td>
-	                                        		</tr>
-	                                        	</c:forEach>
-	                                        </tbody>
-	                                    </table>
+                                    <div class="table-responsive table--no-card m-b-40">
+	                                    <table class="table table-borderless table-striped table-earning">
+		                                        <thead>
+		                                            <tr>
+		                                                <th>date</th>
+		                                                <th>heure</th>
+		                                                <th>description</th>
+		                                                <th>lieu</th>
+		                                                <th class="text-right"></th>
+		                                            </tr>
+		                                        </thead>
+		                                        <tbody>
+		                                        	<c:forEach items="${journal.journalEvents}" var="event">
+		                                        		<tr>
+		                                        			<td><tags:localDate date="${event.date}"/></td>
+		                                        			<td>${event.time}</td>
+		                                        			<td>${event.description }</td>
+		                                        			<td>${event.place }</td>
+		                                        			<td>
+		                                        				<div class="table-data-feature">
+			                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit" onclick="location.href='event/update?uuid=${event.uuid }';">
+			                                                            <i class="zmdi zmdi-edit"></i>
+			                                                        </button>
+			                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete" onclick="location.href='event/delete?uuid=${event.uuid }';">
+			                                                            <i class="zmdi zmdi-delete"></i>
+			                                                        </button>
+			                                                    </div>
+		                                        			</td>
+		                                        		</tr>
+		                                        	</c:forEach>
+		                                        </tbody>
+		                                  </table>
 	                                </div>
                             </div>
                         <div class="row">

@@ -185,7 +185,7 @@
 			<tbody>
             	<c:forEach items="${tracker.states}" var="state">
                 	<tr>
-                    	<td id="${state.uuid}" data-color="${state.color}" class="state-choices" style="text-align:center;background-color:${state.color};">${state.name}</td>
+                    	<td id="${state.uuid}" data-color="${state.color}" class="state-choices" style="text-align:center;background-color:${state.color};color:${state.getColorText()};">${state.name}</td>
                 	</tr>
             	</c:forEach>
 				<tr>
@@ -205,15 +205,6 @@
 $(".day").click(function(e){
 		showMenu(e,$(this));
 	});
-
-	function hexToRgb(hex) {
-	   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-	   return result ? {
-	       r: parseInt(result[1], 16),
-	       g: parseInt(result[2], 16),
-	       b: parseInt(result[3], 16)
-	   } : null;
-	}
 
     function showMenu(event,day) 
     {	

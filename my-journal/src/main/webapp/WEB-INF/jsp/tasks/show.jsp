@@ -44,6 +44,10 @@
 
     <!-- Main CSS-->
     <link href="<%=request.getContextPath()%>/resources/css/theme.css" rel="stylesheet" media="all">
+    
+    
+    <!-- QTIP-->
+    <link href="<%=request.getContextPath()%>/resources/qtip/jquery.qtip.min.css" rel="stylesheet" media="all">
 
 </head>
 
@@ -77,7 +81,7 @@
 										</c:forEach>
 									</c:if>
 									<c:forEach begin="1" end="${endDate.dayOfMonth }" step="1" var="day">
-										<span id="${day}" class="${not empty mapEvents[day] ? 'calendar-event' : ''}">${day}</span>
+										<span id="${day}" class="${not empty mapEvents[day] ? 'calendar-event circle' : ''}">${day}</span>
 									</c:forEach>
 									
 									<c:if test="${offsetEndDate != 0}">
@@ -105,7 +109,7 @@
                                         </div>
                                         <div class="au-task-list js-scrollbar3">
                                         	<c:forEach items="${monthlyTasks}" var="task">
-	                                        	<div class="au-task__item au-task__item--danger" style="height:4.5em;">
+	                                        	<div class="au-task__item au-task__item--${task.state == 'DONE' ? 'success' : task.state == 'TO_DO' ? 'danger' : 'warning'}" style="height:4.5em;">
 	                                                <div class="au-task__item-inner" style="height:100%;">
 	                                                    <h5 class="task" id="${task.uuid }" style="width:50%;float:left;">
 	                                                        <c:choose>
@@ -174,6 +178,23 @@
 
     <!-- Main JS-->
     <script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
+    
+    <!-- QTIP JS-->
+    <script src="<%=request.getContextPath()%>/resources/qtip/jquery.qtip.min.js"></script>
+   
+    <!-- render JS-->
+    <script src="<%=request.getContextPath()%>/resources/render/jsrender.min.js"></script>
+    <script src="<%=request.getContextPath()%>/resources/render/jsviews.min.js"></script>
+
+	<script id="eventsTemplate" type="text/x-jsrender">
+		<ul>
+            {{for events}}
+                <li id="{{:uuid}}">
+                    {{:description}}
+                </li>
+            {{/for}}
+		</ul>
+	</script>
 
 	<script type="text/javascript">
 
@@ -189,10 +210,34 @@
 	]<c:if test="${not vs.last}">,</c:if></c:forEach>
 	};
 
+    var eventsTemplate = $.templates("#eventsTemplate");
+    
 	$(document).ready(function(){
 		$.each($(".calendar-event"),function(item){
-			console.log(eventByDay[$(this).attr("id")]);
-			// mettre un qtip qui affiche les evenements
+			var day = $(this).attr("id");
+			var events = eventByDay[day];
+			$(".calendar-event").on('mouseover click',function(event){
+
+				$(this).qtip({
+    				overwrite: true, // Make sure the tooltip won't be overridden once created
+    		    	content: eventsTemplate.render({events : events}),
+    		    	
+    				style: 'qtip-light menu',
+    				show: {ready: true},
+    		        hide: {fixed: false, delay:10000000, leave: false},
+    			   	position: {
+    					viewport: $('body'),
+    					target: 'mouse',
+    					adjust:{
+    						mouse:false
+    					}
+    				},
+    		        events: {
+    		        	render: function(event, api) {
+    		        	}
+    				}
+    	   		 }, event);
+			});
 		});
 
 	});

@@ -65,23 +65,24 @@
 			                                    <input class="au-input au-input--full" type="text" name="name" id="nameInput">
 			                                </div>
 <!-- 			                                ajouter ici pour ajouter des states -->
-											<table class="table table-borderless table-striped table-earning">
-							                 	<thead>
-								                 	<th>Etat</th>
-								                 	<th>Couleur</th>
-								                 	<th><input id="add-state" type="button" value="Ajouter" class="table-button"></th>
-							                 	</thead>
-							                 	<tbody id="stateBody">
-									                 	<c:forEach items="${tracker.states}" var="state" varStatus="status">
-									                 		<tr id="tr-state-${status.index}">
-										                 		<td class="state-name"><input type="text" name="stateName[${status.index}]" value="${state.name}"></td>
-										                 		<td class="state-color"><input type="color" name="stateColor[${status.index}]" value="${state.color }"></td>
-										                 		<td><input type="button" class="removeState table-button" value="Effacer"></td>
-									                 		</tr>
-									                 	</c:forEach>
-								                 </tbody>
-							                 </table>
-											
+											<div class="table-responsive table--no-card m-b-40">
+												<table class="table table-borderless table-striped table-earning">
+								                 	<thead>
+									                 	<th>Etat</th>
+									                 	<th>Couleur</th>
+									                 	<th><button type="button" class="au-btn-plus-tracker" id="add-state" ><i class="zmdi zmdi-plus"></i></button></th>
+								                 	</thead>
+								                 	<tbody id="stateBody">
+										                 	<c:forEach items="${tracker.states}" var="state" varStatus="status">
+										                 		<tr id="tr-state-${status.index}">
+											                 		<td class="state-name"><input type="text" name="stateName[${status.index}]" value="${state.name}"></td>
+											                 		<td class="state-color"><input type="color" name="stateColor[${status.index}]" value="${state.color }"></td>
+											                 		<td><input type="button" class="removeState table-button" value="Effacer"></td>
+										                 		</tr>
+										                 	</c:forEach>
+									                 </tbody>
+								                 </table>
+											 </div>											
 	                                    <div class="card-footer">
 	                                        <button type="submit" class="btn btn-primary btn-sm">
 	                                            <i class="fa fa-dot-circle-o"></i> Submit
@@ -128,7 +129,7 @@
     <script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
 
 	<script type="text/javascript">
-
+	
 	$("#add-state").click(function(e){
 
 		var indexMax = $(".state-name").length;

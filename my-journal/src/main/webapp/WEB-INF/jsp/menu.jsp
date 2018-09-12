@@ -22,11 +22,55 @@
                 </div>
             </div>
             <nav class="navbar-mobile">
+                <div class="account-wrap" style="background:white;width:26em;margin-left:1em;">
+	                <div class="account-item clearfix js-item-menu">
+	                    <div class="image">
+	                        <img src="<%=request.getContextPath()%>/resources/images/icon/avatar-01.jpg" alt="John Doe" />
+	                    </div>
+	                    <div class="content">
+	                        <a class="js-acc-btn" href="#">
+	                        	<c:choose>
+	                        		<c:when test="${not empty sessionScope.loggedAccount.alias}">
+	                        			${sessionScope.loggedAccount.alias}
+	                        		</c:when>
+	                        		<c:otherwise>
+	                        			${sessionScope.loggedAccount.firstName}&nbsp;${sessionScope.loggedAccount.lastName}
+	                        		</c:otherwise>
+	                        	</c:choose>
+	                        </a>
+	                    </div>
+	                    <div class="account-dropdown js-dropdown">
+	                        <div class="info clearfix">
+	                            <div class="image">
+	                                <a href="#">
+	                                    <img src="<%=request.getContextPath()%>/resources/images/icon/avatar-01.jpg" alt="John Doe" />
+	                                </a>
+	                            </div>
+	                            <div class="content">
+	                                <h5 class="name">
+	                                    <a href="#">${sessionScope.loggedAccount.firstName}&nbsp;${sessionScope.loggedAccount.lastName}</a>
+	                                </h5>
+	                                <span class="email">${sessionScope.loggedAccount.email }</span>
+	                            </div>
+	                        </div>
+	                        <div class="account-dropdown__body">
+	                            <div class="account-dropdown__item">
+	                                <a href="account/settings">
+	                                    <i class="zmdi zmdi-settings"></i>Setting</a>
+	                            </div>
+	                        </div>
+	                        <div class="account-dropdown__footer">
+	                            <a href="login/logout">
+	                                <i class="zmdi zmdi-power"></i>Logout</a>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
                 <div class="container-fluid">
                     <ul class="navbar-mobile__list list-unstyled">
                         <li class="active has-sub">
                             <a class="js-arrow" href="<%=request.getContextPath()%>/">
-                                <i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                                <i class="fas fa-tachometer-alt"></i>Accueil</a>
                         </li>
                         <li>
                             <a href="<%=request.getContextPath()%>/journal">
@@ -34,7 +78,7 @@
                         </li>
                         <li>
                             <a href="<%=request.getContextPath()%>/tasks">
-                                <i class="fas fa-check-square"></i>Tâches</a>
+                                <i class="fas fa-check-square"></i>Objectifs Mens.</a>
                         </li>
                         <li>
                             <a href="<%=request.getContextPath()%>/tracker">
@@ -46,11 +90,11 @@
                         </li>
                         <li>
                             <a href="<%=request.getContextPath()%>/objective">
-                                <i class="fas fa-table"></i>Objectifs</a>
+                                <i class="fas fa-table"></i>Bucket list</a>
                         </li>
                         <li>
                             <a href="<%=request.getContextPath()%>/wish">
-                                <i class="fas fa-map-marker-alt"></i>Liste d'envies</a>
+                                <i class="fas fa-map-marker-alt"></i>WishList / ToDOList</a>
                         </li>
                     </ul>
                 </div>
@@ -66,11 +110,55 @@
                 </a>
             </div>
             <div class="menu-sidebar__content js-scrollbar1">
-                <nav class="navbar-sidebar">
+                <div class="account-wrap">
+                        <div class="account-item clearfix js-item-menu">
+                            <div class="image">
+                                <img src="<%=request.getContextPath()%>/resources/images/icon/avatar-01.jpg" alt="John Doe" />
+                            </div>
+                            <div class="content">
+                                <a class="js-acc-btn" href="#">
+                                	<c:choose>
+                                		<c:when test="${not empty sessionScope.loggedAccount.alias}">
+                                			${sessionScope.loggedAccount.alias}
+                                		</c:when>
+                                		<c:otherwise>
+                                			${sessionScope.loggedAccount.firstName}&nbsp;${sessionScope.loggedAccount.lastName}
+                                		</c:otherwise>
+                                	</c:choose>
+                                </a>
+                            </div>
+                            <div class="account-dropdown js-dropdown">
+                                <div class="info clearfix">
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="<%=request.getContextPath()%>/resources/images/icon/avatar-01.jpg" alt="John Doe" />
+                                        </a>
+                                    </div>
+                                    <div class="content">
+                                        <h5 class="name">
+                                            <a href="#">${sessionScope.loggedAccount.firstName}&nbsp;${sessionScope.loggedAccount.lastName}</a>
+                                        </h5>
+                                        <span class="email">${sessionScope.loggedAccount.email }</span>
+                                    </div>
+                                </div>
+                                <div class="account-dropdown__body">
+                                    <div class="account-dropdown__item">
+                                        <a href="account/settings">
+                                            <i class="zmdi zmdi-settings"></i>Setting</a>
+                                    </div>
+                                </div>
+                                <div class="account-dropdown__footer">
+                                    <a href="login/logout">
+                                        <i class="zmdi zmdi-power"></i>Logout</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li>
                             <a class="js-arrow" href="<%=request.getContextPath()%>/">
-                                <i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                                <i class="fas fa-tachometer-alt"></i>Accueil</a>
                         </li>
                         <li>
                             <a href="<%=request.getContextPath()%>/journal">
@@ -78,7 +166,7 @@
                         </li>
                         <li>
                             <a href="<%=request.getContextPath()%>/tasks">
-                                <i class="fas fa-check-square"></i>Tâches</a>
+                                <i class="fas fa-check-square"></i>Objectifs Mens.</a>
                         </li>
                         <li>
                             <a href="<%=request.getContextPath()%>/tracker">
@@ -90,11 +178,11 @@
                         </li>
                         <li>
                             <a href="<%=request.getContextPath()%>/objective">
-                                <i class="fas fa-table"></i>Objectifs</a>
+                                <i class="fas fa-table"></i>Bucket list</a>
                         </li>
                         <li>
                             <a href="<%=request.getContextPath()%>/wish">
-                                <i class="fas fa-map-marker-alt"></i>Liste d'envies</a>
+                                <i class="fas fa-map-marker-alt"></i>Wish list / ToDo list</a>
                         </li>
                     </ul>
                 </nav>
@@ -105,80 +193,37 @@
         <!-- PAGE CONTAINER-->
         <div class="page-container">
             <!-- HEADER DESKTOP-->
-            <header class="header-desktop">
-                <div class="section__content section__content--p30">
-                    <div class="container-fluid">
-                        <div class="header-wrap" style="float:right;">
-                            <div class="header-button">
-                                <div class="noti-wrap">
-                                    <div class="noti__item js-item-menu">
-                                        <i class="zmdi zmdi-notifications"></i>
-                                        <span class="${not empty sessionScope.todayJournalEvents ? 'quantity' :''}">${not empty sessionScope.todayJournalEvents ? sessionScope.todayJournalEvents.length : ''}</span>
-                                        <div class="notifi-dropdown js-dropdown">
-                                            <div class="notifi__title">
-                                                <p>Vous avez ${not empty sessionScope.todayJournalEvents ? sessionScope.todayJournalEvents.length : 0} Notifications</p>
-                                            </div>
-                                            <c:forEach items="${sessionScope.todayJournalEvents}" var="journalEvent">
-	                                            <div class="notifi__item">
-	                                                <div class="bg-c1 img-cir img-40">
-	                                                    <i class="zmdi zmdi-email-open"></i>
-	                                                </div>
-	                                                <div class="content">
-	                                                    <p>${journalEvent.description }</p>
-	                                                    <span class="date">${journalEvent.dateTime }</span>
-	                                                </div>
-	                                            </div>
-                                            </c:forEach>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="account-wrap">
-                                    <div class="account-item clearfix js-item-menu">
-                                        <div class="image">
-                                            <img src="<%=request.getContextPath()%>/resources/images/icon/avatar-01.jpg" alt="John Doe" />
-                                        </div>
-                                        <div class="content">
-                                            <a class="js-acc-btn" href="#">
-                                            	<c:choose>
-                                            		<c:when test="${not empty sessionScope.loggedAccount.alias}">
-                                            			${sessionScope.loggedAccount.alias}
-                                            		</c:when>
-                                            		<c:otherwise>
-                                            			${sessionScope.loggedAccount.firstName}&nbsp;${sessionScope.loggedAccount.lastName}
-                                            		</c:otherwise>
-                                            	</c:choose>
-                                            </a>
-                                        </div>
-                                        <div class="account-dropdown js-dropdown">
-                                            <div class="info clearfix">
-                                                <div class="image">
-                                                    <a href="#">
-                                                        <img src="<%=request.getContextPath()%>/resources/images/icon/avatar-01.jpg" alt="John Doe" />
-                                                    </a>
-                                                </div>
-                                                <div class="content">
-                                                    <h5 class="name">
-                                                        <a href="#">${sessionScope.loggedAccount.firstName}&nbsp;${sessionScope.loggedAccount.lastName}</a>
-                                                    </h5>
-                                                    <span class="email">${sessionScope.loggedAccount.email }</span>
-                                                </div>
-                                            </div>
-                                            <div class="account-dropdown__body">
-                                                <div class="account-dropdown__item">
-                                                    <a href="account/settings">
-                                                        <i class="zmdi zmdi-settings"></i>Setting</a>
-                                                </div>
-                                            </div>
-                                            <div class="account-dropdown__footer">
-                                                <a href="login/logout">
-                                                    <i class="zmdi zmdi-power"></i>Logout</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </header>
+<!--             <header class="header-desktop"> -->
+<!--                 <div class="section__content section__content--p30"> -->
+<!--                     <div class="container-fluid"> -->
+<!--                         <div class="header-wrap" style="float:right;"> -->
+<!--                             <div class="header-button"> -->
+<!--                                 <div class="noti-wrap"> -->
+<!--                                     <div class="noti__item js-item-menu"> -->
+<!--                                         <i class="zmdi zmdi-notifications"></i> -->
+<%--                                         <span class="${not empty sessionScope.todayJournalEvents ? 'quantity' :''}">${not empty sessionScope.todayJournalEvents ? sessionScope.todayJournalEvents.length : ''}</span> --%>
+<!--                                         <div class="notifi-dropdown js-dropdown"> -->
+<!--                                             <div class="notifi__title"> -->
+<%--                                                 <p>Vous avez ${not empty sessionScope.todayJournalEvents ? sessionScope.todayJournalEvents.length : 0} Notifications</p> --%>
+<!--                                             </div> -->
+<%--                                             <c:forEach items="${sessionScope.todayJournalEvents}" var="journalEvent"> --%>
+<!-- 	                                            <div class="notifi__item"> -->
+<!-- 	                                                <div class="bg-c1 img-cir img-40"> -->
+<!-- 	                                                    <i class="zmdi zmdi-email-open"></i> -->
+<!-- 	                                                </div> -->
+<!-- 	                                                <div class="content"> -->
+<%-- 	                                                    <p>${journalEvent.description }</p> --%>
+<%-- 	                                                    <span class="date">${journalEvent.dateTime }</span> --%>
+<!-- 	                                                </div> -->
+<!-- 	                                            </div> -->
+<%--                                             </c:forEach> --%>
+<!--                                         </div> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+                                
+<!--                             </div> -->
+<!--                         </div> -->
+<!--                     </div> -->
+<!--                 </div> -->
+<!--             </header> -->
             <!-- HEADER DESKTOP-->

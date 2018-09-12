@@ -1,5 +1,6 @@
 package com.tjube.model;
 
+import java.awt.Color;
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -143,6 +144,24 @@ public class TrackerState
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
+
+	public String getColorText()
+	{
+		return changeColorText(this.color);
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	private String changeColorText(String color)
+	{
+		Color c = Color.decode(color);
+		double brightness = Math.sqrt(c.getRed() * c.getRed() * 0.241 + c.getGreen() * c.getGreen() * 0.691
+				+ c.getBlue() * c.getBlue() * 0.068);
+		if (brightness < 130)
+			return "#fff";
+		else
+			return "#000";
+	}
 
 	//---------------------------------------------------------------------------------------------------------------------
 

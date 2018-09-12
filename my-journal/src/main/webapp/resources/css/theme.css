@@ -554,6 +554,41 @@ section {
     background: #59bd60;
 }
 
+.au-btn-plus-tracker {
+    position: absolute;
+    height: 45px;
+    width: 45px;
+    background: #63c76a;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    border-radius: 100%;
+    -webkit-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    right: 45px;
+    top:150px;
+    z-index: 3;
+}
+
+.au-btn-plus-tracker i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    font-size: 15px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.au-btn-plus-tracker:hover {
+    background: #59bd60;
+}
+
 .au-btn-load {
     background: #808080;
     padding: 0 40px;
@@ -588,6 +623,23 @@ section {
     padding: 0 20px;
     line-height: 40px;
     font-size: 14px;
+}
+
+.stateName{
+	padding-left:0px !important;
+}
+
+.stateName input{
+	border: 1px solid #e5e5e5;
+	width:7em;
+}
+
+@function set-notification-text-color($color) {
+  @if (lightness($color) > 50) {
+    @return #000000; // Lighter backgorund, return dark color
+  } @else {
+    @return #ffffff; // Darker background, return light color
+  }
 }
 
 /*Page Loader*/
