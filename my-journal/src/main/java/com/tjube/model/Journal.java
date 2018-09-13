@@ -203,8 +203,12 @@ public class Journal
 	{
 		LocalDate tmp = this.beginDate;
 
-		while (tmp.getMonth() != month || tmp.isAfter(this.endDate))
+		while (tmp.getMonth() != month && tmp.isBefore(this.endDate))
+		{
+			if (tmp.isAfter(this.endDate))
+				return null;
 			tmp = tmp.plusMonths(1);
+		}
 
 		return Year.from(tmp);
 	}

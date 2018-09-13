@@ -1,14 +1,11 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page session="true" %>
-<fmt:setLocale value="fr" />
-<fmt:setBundle basename="com.tjube.i18n.text" var="lang"/>
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 
 <head>
     <!-- Required meta tags-->
@@ -19,12 +16,12 @@
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>Dashboard</title>
+    <title>Forms</title>
 
     <!-- Fontfaces CSS-->
     <link href="<%=request.getContextPath()%>/resources/css/font-face.css" rel="stylesheet" media="all">
-    <link href="<%=request.getContextPath()%>/resources/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
     <link href="<%=request.getContextPath()%>/resources/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+    <link href="<%=request.getContextPath()%>/resources/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
     <link href="<%=request.getContextPath()%>/resources/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
 
     <!-- Bootstrap CSS-->
@@ -46,50 +43,46 @@
 
 <body class="animsition">
     <div class="page-wrapper">
-        
-			<jsp:include page="../menu.jsp"/>
+    
+    <jsp:include page="../menu.jsp"/>
 
             <!-- MAIN CONTENT-->
             <div class="main-content">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-lg-9">
-                                <h2 class="title-1 m-b-25">Budget : ${budget.description }</h2>
-                                <div class="table-responsive table--no-card m-b-40">
-                                    <table class="table table-borderless table-striped table-earning">
-                                        <thead>
-                                            <tr>
-                                                <th>Achat</th>
-                                                <th class="text-right">Prix</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        	<c:forEach items="${budget.wishes}" var="wish">
-                                        		<tr>
-                                        			<td>${wish.description }</td>
-                                        			<td class="text-center">${wish.price}</td>
-                                        		</tr>
-                                        	</c:forEach>
-                                        </tbody>
-                                    </table>
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <strong>Nouvelle Catégorie</strong>
+                                    </div>
+                                    <div class="card-body card-block">
+                                        <form action="" method="post">
+			                                <div class="form-group">
+			                                    <label>Description</label>
+			                                    <input class="au-input au-input--full" type="text" name="description">
+			                                </div>
+	                                    
+	                                    <div class="card-footer">
+	                                        <button type="submit" class="btn btn-primary btn-sm">
+	                                            <i class="fa fa-dot-circle-o"></i> Submit
+	                                        </button>
+	                                    </div>
+	                           		</form>
                                 </div>
+                            </div>
                             </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="copyright">
-                                    <p>Copyright © 2018 Colorlib. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p>
+                                    <p>Copyright Â© 2018 Colorlib. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- END MAIN CONTENT-->
-            <!-- END PAGE CONTAINER-->
         </div>
-
-    </div>
 
     <!-- Jquery JS-->
     <script src="<%=request.getContextPath()%>/resources/vendor/jquery-3.2.1.min.js"></script>

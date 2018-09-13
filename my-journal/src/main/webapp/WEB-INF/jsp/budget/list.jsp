@@ -113,39 +113,17 @@
 					                                            </c:if>
 					                                        </div>
 					                                    </div>
+					                                    <div class="table-data-feature">
+	                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit" onclick="location.href='update?uuid=${budget.uuid }';">
+	                                                            <i class="zmdi zmdi-edit"></i>
+	                                                        </button>
+	                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete" onclick="location.href='delete?uuid=${budget.uuid }';">
+	                                                            <i class="zmdi zmdi-delete"></i>
+	                                                        </button>
+	                                                    </div>
 					                                </div>
 					                            </div>
 					                        </c:forEach>
-<!-- 		                                    <table class="table table-data2"> -->
-<!-- 		                                        <thead> -->
-<!-- 		                                            <tr> -->
-<!-- 		                                                <th>description</th> -->
-<!-- 		                                                <th>catégorie</th> -->
-<!-- 		                                                <th>budget</th> -->
-<!-- 		                                                <th></th> -->
-<!-- 		                                            </tr> -->
-<!-- 		                                        </thead> -->
-<!-- 		                                        <tbody> -->
-<%-- 		                                            <c:forEach items="${budgets}" var="budget"> --%>
-<%-- 			                                            <tr id="${budget.uuid }" class="tr-shadow"> --%>
-<%-- 			                                                <td><c:out value="${budget.description}"/></td> --%>
-<%-- 			                                                <td><c:out value="${budget.categoryTask.description}"/></td> --%>
-<%-- 			                                                <td><c:out value="${budget.budgetTotal}€"/></td> --%>
-<!-- 			                                                <td style="vertical-align:top !important;"> -->
-<!-- 			                                                    <div class="table-data-feature"> -->
-<%-- 			                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit" onclick="location.href='objective/update?uuid=${objective.uuid }';"> --%>
-<!-- 			                                                            <i class="zmdi zmdi-edit"></i> -->
-<!-- 			                                                        </button> -->
-<%-- 			                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete" onclick="location.href='objective/delete?uuid=${objective.uuid }';"> --%>
-<!-- 			                                                            <i class="zmdi zmdi-delete"></i> -->
-<!-- 			                                                        </button> -->
-<!-- 			                                                    </div> -->
-<!-- 			                                                </td> -->
-<!-- 			                                            </tr> -->
-<!-- 		                                            <tr class="spacer"></tr> -->
-<%-- 		                                            </c:forEach> --%>
-<!-- 		                                        </tbody> -->
-<!-- 		                                    </table> -->
                                      	</c:when>
                                         <c:otherwise>
                                         	<span><c:out value="Aucun budgets"/></span>

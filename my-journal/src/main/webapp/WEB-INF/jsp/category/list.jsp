@@ -3,10 +3,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page session="true" %>
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
     <!-- Required meta tags-->
     <meta charset="UTF-8">
@@ -16,7 +14,7 @@
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>Dashboard</title>
+    <title>Catégories</title>
 
     <!-- Fontfaces CSS-->
     <link href="<%=request.getContextPath()%>/resources/css/font-face.css" rel="stylesheet" media="all">
@@ -43,68 +41,72 @@
 
 <body class="animsition">
     <div class="page-wrapper">
-        
-			<jsp:include page="menu.jsp"/>
-
+        <jsp:include page="../menu.jsp"/>
             <!-- MAIN CONTENT-->
             <div class="main-content">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
-                            <c:forEach items="${trackers}" var="tracker">
-	                            <div class="col-lg-3">
-	                                <div class="au-card m-b-30">
-	                                    <div class="au-card-inner">
-	                                        <h3 class="title-2 m-b-40">${tracker.name}</h3>
-	                                        <canvas id="pieChart"></canvas>
-	                                    </div>
-	                                </div>
-	                            </div>
-                            </c:forEach>
-                            <div class="col-lg-12">
-                                <div class="au-card au-card--no-shadow au-card--no-pad m-b-40">
-                                    <div class="au-card-title" style="background-image:url('<%=request.getContextPath()%>/resources/images/bg-title-01.jpg');">
-                                        <div class="bg-overlay bg-overlay--blue"></div>
-                                        <h3>
-                                            <i class="zmdi zmdi-account-calendar"></i>${today}</h3>
-                                        <button class="au-btn-plus" onclick="location.href='tasks/daily/new">
-                                            <i class="zmdi zmdi-plus"></i>
-                                        </button>
-                                    </div>
-                                    <div class="au-task js-list-load">
-                                        <div class="au-task__title">
-<!--                                             <p>Tasks for John Doe</p> -->
-                                        </div>
-                                        <div class="au-task-list js-scrollbar3">
-                                        	<c:forEach items="${dailyTasks}" var="task">
-	                                        	<div class="au-task__item au-task__item--danger">
-	                                                <div class="au-task__item-inner">
-	                                                    <h5 class="task">
-	                                                        <a href="tasks/daily/show?uuid=${task.uuid }">${task.tracker.name}</a>
-	                                                    </h5>
-<%-- 	                                                    <span class="${task}">10:00 AM</span> --%>
-	                                                </div>
-	                                            </div>
-                                        	</c:forEach>
-                                            
-                                        </div>
-<!--                                         <div class="au-task__footer"> -->
-<!--                                             <button class="au-btn au-btn-load js-load-btn">load more</button> -->
-<!--                                         </div> -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- DATA TABLE -->
+                                <h3 class="title-5 m-b-35">Catégories</h3>
+                                <div class="table-data__tool">
+                                    <div class="table-data__tool-right">
+                                        <button class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                            <i class="zmdi zmdi-plus"></i><a style="color:white;" href="category/creation">Ajouter</a></button>
                                     </div>
                                 </div>
+                                <div class="table-responsive table-responsive-data2">
+                                    <c:choose>
+	                                        	<c:when test="${empty categories}">
+	                                        		Aucune catégories
+	                                        	</c:when>
+	                                        	<c:otherwise>
+		                                        	<table class="table table-data2">
+				                                        <thead>
+				                                            <tr>
+				                                                <th>Description</th>
+				                                                <th></th>
+				                                            </tr>
+				                                        </thead>
+				                                        <tbody>
+			                                        		<c:forEach items="${categories}" var="category">
+					                                            <tr style="cursor:pointer;" class="tr-shadow" id="${category.uuid }">
+					                                                <td class="td-clickeable">${category.description }</td>
+					                                                <td>
+					                                                    <c:if test="${not empty category.account}">
+					                                                    	<div class="table-data-feature">
+					                                                        	<button class="item" data-toggle="tooltip" data-placement="top" title="Edit" onclick="location.href='category/update?uuid=${category.uuid }';">
+					                                                            	<i class="zmdi zmdi-edit"></i>
+					                                                        	</button>
+					                                                        	<button class="item" data-toggle="tooltip" data-placement="top" title="Delete" onclick="location.href='category/delete?uuid=${category.uuid }';">
+					                                                            	<i class="zmdi zmdi-delete"></i>
+					                                                        	</button>
+					                                                    	</div>
+					                                                    </c:if>
+					                                                </td>
+					                                            </tr>
+				                                            	<tr class="spacer"></tr>
+			                                            	</c:forEach>
+			                                            	
+				                                        </tbody>
+				                                    </table>
+	                                        	</c:otherwise>
+                                        	</c:choose>
+                                </div>
+                                <!-- END DATA TABLE -->
                             </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="copyright">
-                                    <p>Copyright © 2018 Colorlib. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p>
+                                    <p>Copyright © 2018 Thomas' project.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- END MAIN CONTENT-->
-            <!-- END PAGE CONTAINER-->
         </div>
 
     </div>
@@ -135,46 +137,6 @@
 
 	<script type="text/javascript">
 
-	var trackers = {<c:forEach items="${trackers}" var="tracker" varStatus="trackerStatus">
-		'${tracker.uuid}':
-		{
-			data:['${mapTrackerData[tracker.uuid]}'],
-			colors:['${mapTrackerColors[tracker.uuid]}'],
-			labels:['${mapTrackerLabels[tracker.uuid]}']
-		}
-	<c:if test="${not trackerStatus.last}">,</c:if></c:forEach>};
-
-	var ctx = document.getElementById("pieChart");
-    if (ctx) {
-      ctx.height = 200;
-      var myChart = new Chart(ctx, {
-        type: 'pie',
-        data: {
-          datasets: [{
-            data: trackers[].data,
-            backgroundColor: trackers[].colors,
-            hoverBackgroundColor: [
-              "rgba(0, 123, 255,0.9)",
-              "rgba(0, 123, 255,0.7)",
-              "rgba(0, 123, 255,0.5)",
-              "rgba(0,0,0,0.07)"
-            ]
-
-          }],
-          labels: trackers[].labels
-        },
-        options: {
-          legend: {
-            position: 'top',
-            labels: {
-              fontFamily: 'Poppins'
-            }
-
-          },
-          responsive: true
-        }
-      });
-	
 	</script>
 
 </body>

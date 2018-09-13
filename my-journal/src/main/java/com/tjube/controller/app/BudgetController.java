@@ -139,7 +139,7 @@ public class BudgetController
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@RequestMapping(value = { "/show" }, method = { RequestMethod.GET })
-	public ModelAndView budgetListHome(HttpServletRequest request, HttpServletResponse response, ModelAndView model,
+	public ModelAndView budgetShow(HttpServletRequest request, HttpServletResponse response, ModelAndView model,
 			@RequestParam(value = "uuid", required = true) UUID uuid)
 	{
 		model.setViewName(ModelUtils.REDIRECT_LOGIN);
@@ -205,7 +205,7 @@ public class BudgetController
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@RequestMapping(value = "/creation", method = { RequestMethod.GET })
-	public ModelAndView journalCreationGet(ModelAndView model, @RequestParam(value = "uuid", required = true) UUID uuid,
+	public ModelAndView budgetCreationGet(ModelAndView model, @RequestParam(value = "uuid", required = true) UUID uuid,
 			@RequestParam(value = "month", required = true) Month month)
 	{
 		model.setViewName(ModelUtils.REDIRECT_LOGIN);
@@ -227,7 +227,7 @@ public class BudgetController
 	//---------------------------------------------------------------------------------------------------------------------
 
 	@RequestMapping(value = { "/creation" }, method = { RequestMethod.POST })
-	public ModelAndView journalCreationPost(HttpServletRequest request, ModelAndView model,
+	public ModelAndView budgetCreationPost(HttpServletRequest request, ModelAndView model,
 			@Valid @ModelAttribute("form") BudgetCreationForm form, BindingResult validationResult)
 	{
 		model.setViewName(ModelUtils.REDIRECT_LOGIN);
@@ -252,7 +252,7 @@ public class BudgetController
 		Journal journal = journalService.retrieveJournal(form.getJournalUuid());
 		if (journal == null)
 		{
-			model.setViewName(ModelUtils.MODEL_BUDGET_LIST);
+			model.setViewName(ModelUtils.REDIRECT_BUDGET_LIST);
 			model.addObject("journalNotFound", true);
 			return model;
 		}
@@ -261,11 +261,110 @@ public class BudgetController
 		if (form.getCategoryTaskUuid() != null)
 			categoryTask = categoryService.retrieveCategoryTask(form.getCategoryTaskUuid());
 
-		Budget budget = budgetService.createBudget(form.getDescription(), form.getBudgetTotal(), journal,
-				form.getMonth(), categoryTask);
+		budgetService.createBudget(form.getDescription(), form.getBudgetTotal(), journal, form.getMonth(),
+				categoryTask);
 
 		model.setViewName(ModelUtils.REDIRECT_BUDGET_LIST + "?uuid=" + journal.getUuid() + "&month=" + form.getMonth());
 
+		return model;
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+	// BUDGET - UPDATE
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@RequestMapping(value = "/update", method = { RequestMethod.GET })
+	public ModelAndView budgetUpdateGet(ModelAndView model, @RequestParam(value = "uuid", required = true) UUID uuid)
+	{
+		model.setViewName(ModelUtils.REDIRECT_LOGIN);
+		String result = LoginUtils.login();
+		if (result != null)
+			return model;
+
+		Account account = SecurityContext.getInstance().getCurrentUser();
+		model.addObject("account", account);
+
+		Collection<CategoryTask> categoryTasks = categoryService.retrieveAllCategoryTasksByAccount(account);
+		model.addObject("categoryTasks", categoryTasks);
+
+		Budget budget = budgetService.retrieveBudget(uuid);
+		if (budget == null)
+		{
+			model.setViewName(ModelUtils.REDIRECT_BUDGET_LIST);
+			model.addObject("budgetNotFound", true);
+			return model;
+		}
+
+		model.addObject("form", new BudgetCreationForm(budget));
+		model.setViewName(ModelUtils.MODEL_BUDGET_UPDATE);
+		return model;
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@RequestMapping(value = { "/update" }, method = { RequestMethod.POST })
+	public ModelAndView budgetUpdatePost(HttpServletRequest request, ModelAndView model,
+			@Valid @ModelAttribute("form") BudgetCreationForm form, BindingResult validationResult)
+	{
+		model.setViewName(ModelUtils.REDIRECT_LOGIN);
+		String result = LoginUtils.login();
+		if (result != null)
+			return model;
+
+		if (validationResult.hasErrors())
+		{
+			model.setViewName(ModelUtils.MODEL_BUDGET_UPDATE);
+			return model;
+		}
+
+		Account account = SecurityContext.getInstance().getCurrentUser();
+		if (account == null)
+		{
+			model.setViewName(ModelUtils.MODEL_LOGIN);
+			model.addObject("accountNotFound", true);
+			return model;
+		}
+
+		Budget budget = budgetService.retrieveBudget(form.getBudgetUuid());
+		if (budget == null)
+		{
+			model.setViewName(ModelUtils.REDIRECT_BUDGET_LIST);
+			model.addObject("budgetNotFound", true);
+			return model;
+		}
+
+		budgetService.updateBudget(budget, form.getDescription(), form.getBudgetTotal());
+
+		model.setViewName(ModelUtils.REDIRECT_BUDGET_LIST + "?uuid=" + budget.getJournal().getUuid() + "&month="
+				+ budget.getMonth());
+
+		return model;
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+
+	@RequestMapping(value = "/delete", method = { RequestMethod.GET })
+	public ModelAndView objectiveDeleteGet(ModelAndView model, @RequestParam("uuid") UUID budgetUuid)
+	{
+		model.setViewName(ModelUtils.REDIRECT_LOGIN);
+		String result = LoginUtils.login();
+		if (result != null)
+			return model;
+
+		Account account = SecurityContext.getInstance().getCurrentUser();
+		model.addObject("account", account);
+
+		Budget budget = budgetService.retrieveBudget(budgetUuid);
+		if (budget == null)
+		{
+			model.clear();
+			model.setViewName(ModelUtils.REDIRECT_BUDGET_JOURNAL_LIST);
+		}
+
+		budgetService.removeBudget(budget);
+
+		model.setViewName(ModelUtils.REDIRECT_BUDGET_LIST + "?uuid=" + budget.getJournal().getUuid() + "&month="
+				+ budget.getMonth());
 		return model;
 	}
 }

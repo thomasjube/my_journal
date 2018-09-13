@@ -40,10 +40,6 @@ BDD:
 	
 	
 	Reste à faire : 
-		- show detail journal ( journal_event (create,update,remove))
-		- pouvoir update & delete budget
-		- monthly_task --> lorsqu'on reporte ne plus pouvoir cocher DONE
-		- pouvoir créer ses propres catégories
 		- dashboard
 		- revoir un peu l'affichage(css) dans toutes les pages
 	

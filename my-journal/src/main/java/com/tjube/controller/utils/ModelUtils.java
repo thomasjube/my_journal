@@ -10,6 +10,8 @@ public class ModelUtils
 
 	public static final String REDIRECT_OBJECTIVE = "redirect:/objective";
 
+	public static final String REDIRECT_CATEGORY_LIST = "redirect:/category";
+
 	public static final String REDIRECT_WISH_LIST = "redirect:/wish/list";
 	public static final String REDIRECT_WISH_LIST_SHOW = "redirect:/wish/list/show?uuid=";
 
@@ -46,6 +48,10 @@ public class ModelUtils
 	public static final String MODEL_JOURNAL_UPDATE = "journal/update";
 	public static final String MODEL_JOURNAL_SHOW = "journal/show";
 
+	public static final String MODEL_CATEGORY_LIST = "category/list";
+	public static final String MODEL_CATEGORY_CREATION = "category/creation";
+	public static final String MODEL_CATEGORY_UPDATE = "category/update";
+
 	public static final String MODEL_JOURNAL_EVENT_CREATION = "journal/event/creation";
 	public static final String MODEL_JOURNAL_EVENT_UPDATE = "journal/event/update";
 
@@ -59,6 +65,7 @@ public class ModelUtils
 
 	public static final String MODEL_BUDGET_LIST = "budget/list";
 	public static final String MODEL_BUDGET_CREATION = "budget/creation";
+	public static final String MODEL_BUDGET_UPDATE = "budget/update";
 	public static final String MODEL_BUDGET_SHOW = "budget/show";
 
 	public static final String MODEL_OBJECTIVE_LIST = "objective/list";

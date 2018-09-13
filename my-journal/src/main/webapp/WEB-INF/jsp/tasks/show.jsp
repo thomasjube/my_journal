@@ -62,7 +62,11 @@
                     <div class="container-fluid">
                     	<div class="row">
                     		<div class="jzdbox1 jzdbasf jzdcal">
-								<div class="jzdcalt"><fmt:message key="label.${month}.month" bundle="${lang}"/> ${year}</div>
+								<div class="jzdcalt">
+									<c:if test="${not empty previousMonth }"><span onclick="onPreviousMonth(this)" style="cursor:pointer;height:21px;top:7px;position:relative;float:left;line-height:50%;">&lt;</span></c:if>
+									<fmt:message key="label.${month}.month" bundle="${lang}"/> ${year}
+									<c:if test="${not empty nextMonth}"><span onclick="onNextMonth(this)" style="cursor:pointer;height:22px;top:7px;position:relative;float:right;line-height:50%;">&gt;</span></c:if>
+								</div>
 								
 									<span>Lun</span>
 									<span>Mar</span>
@@ -116,6 +120,9 @@
 			                                                    <c:when test="${task.state == 'DONE'}">
 			                                                    	<input onchange="updateState(this)" type="checkbox" class="status--process_${task.state }" style="position:relative;top:0%;" checked/>
 			                                                    </c:when>
+			                                                    <c:when test="${task.state == 'POSTPONE'}">
+			                                                    	<input onchange="updateState(this)" type="checkbox" class="status--process_${task.state }" style="position:relative;top:0%;" disabled="disabled"/>
+			                                                    </c:when>
 			                                                    <c:otherwise>
 			                                                    	<input onchange="updateState(this)" type="checkbox" class="status--process_${task.state }" style="position:relative;top:0%;" />
 			                                                    </c:otherwise>
@@ -124,9 +131,20 @@
 	                                                        
 	                                                    </h5>
 	                                                 <div class="table-data-feature" style="float:right;width:50%;">
-		                                                 <button class="item" data-toggle="tooltip" data-placement="top" title="Reporter" onclick="updateState(this,'POSTPONE')">
-		                                                 	<i class="zmdi zmdi-mail-send"></i>
-		                                                 </button>
+		                                                 <c:choose>
+		                                                 	<c:when test="${task.state == 'POSTPONE'}">
+		                                                 		<img alt="postponed" src="<%=request.getContextPath()%>/resources/images/icon/postponed.png" style="height:30px !important;width:30px;">
+		                                                 	</c:when>
+		                                                 	<c:when test="${task.state == 'DONE'}">
+		                                                 		<img alt="postponed" src="<%=request.getContextPath()%>/resources/images/icon/check.png" style="height:30px !important;width:30px;">
+		                                                 	</c:when>
+		                                                 	<c:otherwise>
+		                                                 		<button class="item" data-toggle="tooltip" data-placement="top" title="Reporter" onclick="updateState(this,'POSTPONE')">
+		                                                 			<i class="zmdi zmdi-mail-send"></i>
+		                                                 		</button>
+		                                                 	</c:otherwise>
+		                                                 </c:choose>
+		                                                 
 	                                                 </div>
 	                                                </div>
 	                                            </div>
@@ -242,13 +260,28 @@
 
 	});
 
+	var journalUuid = "${journal.uuid}";
+	var previousMonth = "${previousMonth}";
+	var nextMonth = "${nextMonth}";
+	
+	function onNextMonth(e)
+	{
+		window.location.replace("show?uuid="+journalUuid + "&month=" + nextMonth);
+	}
+
+	function onPreviousMonth(e)
+	{
+		window.location.replace("show?uuid="+journalUuid + "&month=" + previousMonth);
+	}
+
 	function updateState(task,state){
 		var uuid = $(task).parent().siblings().attr("id");
 		if(state == null)
 		{
 			state = $(task).is(':checked') ? "DONE" : "TO_DO";
 			uuid = $(task).closest("h5").attr("id");
-		} 
+		}
+		
 		var urlAjax = 'updateState?uuid=' + uuid;
 		var dataAjax = {'state' : state};
 		
@@ -263,8 +296,10 @@
 	   		dataType: "json",
 	   		data: JSON.stringify(dataAjax),
 	   		success: function(data, status, jqXHR) {
+	   			location.reload();
 	  	    },
 			error: function(jqXHR, status, errorThrown) {
+				location.reload();
 			}
 		});
 	}

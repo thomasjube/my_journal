@@ -206,11 +206,33 @@ public class TaskController
 		model.addObject("month", month);
 		model.addObject("year", journal.getYear(month));
 		model.addObject("journal", journal);
+		model.addObject("previousMonth", previousMonth(journal, month));
+		model.addObject("nextMonth", nextMonth(journal, month));
 		model.addObject("mapEvents", mapEvents);
 		model.addObject(ModelUtils.MODEL_ACCOUNT, account);
 		model.setViewName(ModelUtils.MODEL_TASKS_SHOW);
 
 		return model;
+	}
+
+	private Month previousMonth(Journal journal, Month month)
+	{
+		LocalDate date = LocalDate.of(journal.getYear(month).getValue(), month, 1);
+		date = date.minusMonths(1);
+		if (journal.getBeginDate().isBefore(date) || journal.getBeginDate().isEqual(date))
+			return month.minus(1);
+		else
+			return null;
+	}
+
+	private Month nextMonth(Journal journal, Month month)
+	{
+		LocalDate date = LocalDate.of(journal.getYear(month).getValue(), month, 1);
+		date = date.plusMonths(1);
+		if (journal.getEndDate().isAfter(date) || journal.getEndDate().isEqual(date))
+			return month.plus(1);
+		else
+			return null;
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
